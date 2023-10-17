@@ -1,0 +1,402 @@
+1. J Clin Med. 2023 Sep 25;12(19):6190. doi: 10.3390/jcm12196190.
+
+Repetitive Transcranial Magnetic Stimulation (rTMS) in Mild Cognitive 
+Impairment: Effects on Cognitive Functions-A Systematic Review.
+
+Sharbafshaaer M(1), Gigi I(1), Lavorgna L(2), Esposito S(2), Bonavita S(1)(2), 
+Tedeschi G(1)(2), Esposito F(1), Trojsi F(1)(2).
+
+Author information:
+(1)MRI Research Center, Department of Advanced Medical and Surgical Sciences, 
+Università degli Studi della Campania "Luigi Vanvitelli", 80138 Naples, Italy.
+(2)First Division of Neurology, Università degli Studi della Campania "Luigi 
+Vanvitelli", 80138 Naples, Italy.
+
+Repetitive transcranial magnetic stimulation (rTMS) is a non-invasive brain 
+stimulation technique also used as a non-pharmacological intervention against 
+cognitive impairment. The purpose of the present review was to summarize what is 
+currently known about the effectiveness of rTMS intervention on different 
+cognitive domains in patients with mild cognitive impairment (MCI) and to 
+address potential neuromodulation approaches in combination with 
+electroencephalography (EEG) and neuroimaging, especially functional magnetic 
+resonance imaging (fMRI). In this systematic review, we consulted three main 
+databases (PubMed, Science Direct, and Scopus), and Google Scholar was selected 
+for the gray literature search. The PRISMA flowchart drove the studies' 
+inclusion. The selection process ensured that only high-quality studies were 
+included; after removing duplicate papers, explicit ratings were given based on 
+the quality classification as high (A), moderate (B), or low (C), considering 
+factors such as risks of bias, inaccuracies, inconsistencies, lack of direction, 
+and publication bias. Seven full-text articles fulfilled the stated inclusion, 
+reporting five double-blind, randomized, sham-controlled studies, a case study, 
+and a randomized crossover trial. The results of the reviewed studies suggested 
+that rTMS in MCI patients is safe and effective for enhancing cognitive 
+functions, thus making it a potential therapeutic approach for MCI patients. 
+Changes in functional connectivity within the default mode network (DMN) after 
+targeted rTMS could represent a valuable indicator of treatment response. 
+Finally, high-frequency rTMS over the dorsolateral prefrontal cortex (DLPFC) has 
+been shown to significantly enhance cognitive functions, such as executive 
+performance, together with the increase of functional connectivity within 
+frontoparietal networks. The main limitations were the number of included 
+studies and the exclusion of studies using intermittent theta-burst stimulation, 
+used in studies on Alzheimer's disease. Therefore, neuroimaging techniques in 
+combination with rTMS have been shown to be useful for future network-based, 
+fMRI-guided therapeutic approaches.
+
+DOI: 10.3390/jcm12196190
+PMID: 37834834
+
+
+2. Int J Mol Sci. 2023 Oct 9;24(19):15023. doi: 10.3390/ijms241915023.
+
+Aggregation, Transmission, and Toxicity of the Microtubule-Associated Protein 
+Tau: A Complex Comprehension.
+
+Hu J(1), Sha W(1), Yuan S(1), Wu J(1)(2), Huang Y(1)(2).
+
+Author information:
+(1)Key Laboratory of Systems Health Science of Zhejiang Province, School of Life 
+Science, Hangzhou Institute for Advanced Study, University of Chinese Academy of 
+Sciences, Hangzhou 310024, China.
+(2)Key Laboratory of Systems Biology, Hangzhou Institute for Advanced Study, 
+University of Chinese Academy of Sciences, Chinese Academy of Sciences, Hangzhou 
+310024, China.
+
+The microtubule-associated protein tau is an intrinsically disordered protein 
+containing a few short and transient secondary structures. Tau physiologically 
+associates with microtubules (MTs) for its stabilization and detaches from MTs 
+to regulate its dynamics. Under pathological conditions, tau is abnormally 
+modified, detaches from MTs, and forms protein aggregates in neuronal and glial 
+cells. Tau protein aggregates can be found in a number of devastating 
+neurodegenerative diseases known as "tauopathies", such as Alzheimer's disease 
+(AD), frontotemporal dementia (FTD), corticobasal degeneration (CBD), etc. 
+However, it is still unclear how the tau protein is compacted into ordered 
+protein aggregates, and the toxicity of the aggregates is still debated. 
+Fortunately, there has been considerable progress in the study of tau in recent 
+years, particularly in the understanding of the intercellular transmission of 
+pathological tau species, the structure of tau aggregates, and the 
+conformational change events in the tau polymerization process. In this review, 
+we summarize the concepts of tau protein aggregation and discuss the views on 
+tau protein transmission and toxicity.
+
+DOI: 10.3390/ijms241915023
+PMID: 37834471
+
+
+3. Int J Mol Sci. 2023 Oct 6;24(19):14959. doi: 10.3390/ijms241914959.
+
+Consequences of Disturbing Manganese Homeostasis.
+
+Baj J(1), Flieger W(1), Barbachowska A(2), Kowalska B(3), Flieger M(4), Forma 
+A(1), Teresiński G(4), Portincasa P(5), Buszewicz G(4), Radzikowska-Büchner 
+E(6), Flieger J(7).
+
+Author information:
+(1)Chair and Department of Anatomy, Medical University of Lublin, 20-090 Lublin, 
+Poland.
+(2)Department of Plastic, Reconstructive and Burn Surgery, Medical University of 
+Lublin, 21-010 Łęczna, Poland.
+(3)Department of Water Supply and Wastewater Disposal, Lublin University of 
+Technology, 20-618 Lublin, Poland.
+(4)Chair and Department of Forensic Medicine, Medical University of Lublin, 
+20-090 Lublin, Poland.
+(5)Clinica Medica A. Murri, Department of Biomedical Sciences & Human Oncology, 
+Medical School, University of Bari, 70124 Bari, Italy.
+(6)Department of Plastic, Reconstructive and Maxillary Surgery, CSK MSWiA, 
+02-507 Warszawa, Poland.
+(7)Department of Analytical Chemistry, Medical University of Lublin, 20-093 
+Lublin, Poland.
+
+Manganese (Mn) is an essential trace element with unique functions in the body; 
+it acts as a cofactor for many enzymes involved in energy metabolism, the 
+endogenous antioxidant enzyme systems, neurotransmitter production, and the 
+regulation of reproductive hormones. However, overexposure to Mn is toxic, 
+particularly to the central nervous system (CNS) due to it causing the 
+progressive destruction of nerve cells. Exposure to manganese is widespread and 
+occurs by inhalation, ingestion, or dermal contact. Associations have been 
+observed between Mn accumulation and neurodegenerative diseases such as 
+manganism, Alzheimer's disease, Parkinson's disease, Huntington's disease, and 
+amyotrophic lateral sclerosis. People with genetic diseases associated with a 
+mutation in the gene associated with impaired Mn excretion, kidney disease, iron 
+deficiency, or a vegetarian diet are at particular risk of excessive exposure to 
+Mn. This review has collected data on the current knowledge of the source of Mn 
+exposure, the experimental data supporting the dispersive accumulation of Mn in 
+the brain, the controversies surrounding the reference values of biomarkers 
+related to Mn status in different matrices, and the competitiveness of Mn with 
+other metals, such as iron (Fe), magnesium (Mg), zinc (Zn), copper (Cu), lead 
+(Pb), calcium (Ca). The disturbed homeostasis of Mn in the body has been 
+connected with susceptibility to neurodegenerative diseases, fertility, and 
+infectious diseases. The current evidence on the involvement of Mn in metabolic 
+diseases, such as type 2 diabetes mellitus/insulin resistance, osteoporosis, 
+obesity, atherosclerosis, and non-alcoholic fatty liver disease, was collected 
+and discussed.
+
+DOI: 10.3390/ijms241914959
+PMID: 37834407
+
+
+4. Int J Mol Sci. 2023 Oct 5;24(19):14932. doi: 10.3390/ijms241914932.
+
+MRI and Clinical Biomarkers Overlap between Glaucoma and Alzheimer's Disease.
+
+Martucci A(1), Di Giuliano F(2), Minosse S(3), Pocobelli G(1), Nucci C(1), 
+Garaci F(3)(4).
+
+Author information:
+(1)Ophthalmology Unit, Department of Experimental Medicine, University of Rome 
+"Tor Vergata", 00133 Rome, Italy.
+(2)Neuroradiology Unit, Department of Biomedicine and Prevention, University of 
+Rome "Tor Vergata", 00133 Rome, Italy.
+(3)Diagnostic Imaging Unit, Department of Biomedicine and Prevention, University 
+of Rome "Tor Vergata", 00133 Rome, Italy.
+(4)San Raffaele Cassino, 03043 Frosinone, Italy.
+
+Glaucoma is the leading cause of blindness worldwide. It is classically 
+associated with structural and functional changes in the optic nerve head and 
+retinal nerve fiber layer, but the damage is not limited to the eye. The 
+involvement of the central visual pathways and disruption of brain network 
+organization have been reported using advanced neuroimaging techniques. The 
+brain structural changes at the level of the areas implied in processing visual 
+information could justify the discrepancy between signs and symptoms and 
+underlie the analogy of this disease with neurodegenerative dementias, such as 
+Alzheimer's disease, and with the complex group of pathologies commonly referred 
+to as "disconnection syndromes." This review aims to summarize the current state 
+of the art on the use of advanced neuroimaging techniques in glaucoma and 
+Alzheimer's disease, highlighting the emerging biomarkers shared by both 
+diseases.
+
+DOI: 10.3390/ijms241914932
+PMID: 37834380
+
+Conflict of interest statement: The authors declare no conflicts of interest.
+
+
+5. Int J Mol Sci. 2023 Oct 5;24(19):14925. doi: 10.3390/ijms241914925.
+
+Impact of Microbiome-Brain Communication on Neuroinflammation and 
+Neurodegeneration.
+
+Stolzer I(1), Scherer E(1), Süß P(2), Rothhammer V(3), Winner B(4)(5)(6), 
+Neurath MF(1)(6), Günther C(1)(6).
+
+Author information:
+(1)Department of Medicine 1, Universitätsklinikum Erlangen, 
+Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU), 91054 Erlangen, 
+Germany.
+(2)Department of Molecular Neurology, Universitätsklinikum Erlangen, 
+Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU), 91054 Erlangen, 
+Germany.
+(3)Department of Neurology, Universitätsklinikum Erlangen, 
+Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU), 91054 Erlangen, 
+Germany.
+(4)Department of Stem Cell Biology, Universitätsklinikum Erlangen, 
+Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU), 91054 Erlangen, 
+Germany.
+(5)Center of Rare Diseases Erlangen (ZSEER), Universitätsklinikum Erlangen, 
+Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU), 91054 Erlangen, 
+Germany.
+(6)Deutsches Zentrum Immuntherapie (DZI), Universitätsklinikum Erlangen, 91054 
+Erlangen, Germany.
+
+The gut microbiome plays a pivotal role in maintaining human health, with 
+numerous studies demonstrating that alterations in microbial compositions can 
+significantly affect the development and progression of various immune-mediated 
+diseases affecting both the digestive tract and the central nervous system 
+(CNS). This complex interplay between the microbiota, the gut, and the CNS is 
+referred to as the gut-brain axis. The role of the gut microbiota in the 
+pathogenesis of neurodegenerative diseases has gained increasing attention in 
+recent years, and evidence suggests that gut dysbiosis may contribute to disease 
+development and progression. Clinical studies have shown alterations in the 
+composition of the gut microbiota in multiple sclerosis patients, with a 
+decrease in beneficial bacteria and an increase in pro-inflammatory bacteria. 
+Furthermore, changes within the microbial community have been linked to the 
+pathogenesis of Parkinson's disease and Alzheimer's disease. 
+Microbiota-gut-brain communication can impact neurodegenerative diseases through 
+various mechanisms, including the regulation of immune function, the production 
+of microbial metabolites, as well as modulation of host-derived soluble factors. 
+This review describes the current literature on the gut-brain axis and 
+highlights novel communication systems that allow cross-talk between the gut 
+microbiota and the host that might influence the pathogenesis of 
+neuroinflammation and neurodegeneration.
+
+DOI: 10.3390/ijms241914925
+PMID: 37834373
+
+
+6. Int J Mol Sci. 2023 Oct 4;24(19):14898. doi: 10.3390/ijms241914898.
+
+Assessing Drug Administration Techniques in Zebrafish Models of Neurological 
+Disease.
+
+Chaoul V(1), Dib EY(2), Bedran J(1), Khoury C(2), Shmoury O(1), Harb F(2), 
+Soueid J(1).
+
+Author information:
+(1)Department of Biochemistry and Molecular Genetics, Faculty of Medicine, 
+American University of Beirut, Beirut P.O. Box 11-0236, Lebanon.
+(2)Department of Biomedical Sciences, Faculty of Medicine and Medical Sciences, 
+University of Balamand, Kalhat P.O. Box 100, Lebanon.
+
+Neurological diseases, including neurodegenerative and neurodevelopmental 
+disorders, affect nearly one in six of the world's population. The burden of the 
+resulting deaths and disability is set to rise during the next few decades as a 
+consequence of an aging population. To address this, zebrafish have become 
+increasingly prominent as a model for studying human neurological diseases and 
+exploring potential therapies. Zebrafish offer numerous benefits, such as 
+genetic homology and brain similarities, complementing traditional mammalian 
+models and serving as a valuable tool for genetic screening and drug discovery. 
+In this comprehensive review, we highlight various drug delivery techniques and 
+systems employed for therapeutic interventions of neurological diseases in 
+zebrafish, and evaluate their suitability. We also discuss the challenges 
+encountered during this process and present potential advancements in innovative 
+techniques.
+
+DOI: 10.3390/ijms241914898
+PMID: 37834345
+
+
+7. Int J Mol Sci. 2023 Sep 30;24(19):14795. doi: 10.3390/ijms241914795.
+
+Neutrophil-Mediated Progression of Mild Cognitive Impairment to Dementia.
+
+Cho K(1).
+
+Author information:
+(1)Department of Life Science, Kyonggi University, Suwon 16227, Republic of 
+Korea.
+
+Cognitive impairment is a serious condition that begins with amnesia and 
+progresses to cognitive decline, behavioral dysfunction, and neuropsychiatric 
+impairment. In the final stage, dysphagia and incontinence occur. There are 
+numerous studies and developed drugs for cognitive dysfunction in 
+neurodegenerative diseases, such as Alzheimer's disease (AD); however, their 
+clinical effectiveness remains equivocal. To date, attempts have been made to 
+overcome cognitive dysfunction and understand and delay the aging processes that 
+lead to degenerative and chronic diseases. Cognitive dysfunction is involved in 
+aging and the disruption of inflammation and innate immunity. Recent reports 
+have indicated that the innate immune system is prevalent in patients with AD, 
+and that peripheral neutrophil markers can predict a decline in executive 
+function in patients with mild cognitive impairment (MCI). Furthermore, altered 
+levels of pro-inflammatory interleukins have been reported in MCI, which have 
+been suggested to play a role in the peripheral immune system during the process 
+from early MCI to dementia. Neutrophils are the first responders of the innate 
+immune system. Neutrophils eliminate harmful cellular debris via phagocytosis, 
+secrete inflammatory factors to activate host defense systems, stimulate 
+cytokine production, kill pathogens, and regulate extracellular proteases and 
+inhibitors. This review investigated and summarized the regulation of neutrophil 
+function during cognitive impairment caused by various degenerative diseases. In 
+addition, this work elucidates the cellular mechanism of neutrophils in 
+cognitive impairment and what is currently known about the effects of activated 
+neutrophils on cognitive decline.
+
+DOI: 10.3390/ijms241914795
+PMID: 37834242
+
+
+8. Int J Mol Sci. 2023 Sep 30;24(19):14794. doi: 10.3390/ijms241914794.
+
+Amyloid Precursor Protein and Alzheimer's Disease.
+
+Orobets KS(1), Karamyshev AL(1).
+
+Author information:
+(1)Department of Cell Biology and Biochemistry, Texas Tech University Health 
+Sciences Center, Lubbock, TX 79430, USA.
+
+Alzheimer's disease (AD) is one of the most common neurodegenerative disorders 
+associated with age or inherited mutations. It is characterized by severe 
+dementia in the late stages that affect memory, cognitive functions, and daily 
+life overall. AD progression is linked to the accumulation of cytotoxic amyloid 
+beta (Aβ) and hyperphosphorylated tau protein combined with other pathological 
+features such as synaptic loss, defective energy metabolism, imbalances in 
+protein, and metal homeostasis. Several treatment options for AD are under 
+investigation, including antibody-based therapy and stem cell transplantation. 
+Amyloid precursor protein (APP) is a membrane protein considered to play a main 
+role in AD pathology. It is known that APP in physiological conditions follows a 
+non-amyloidogenic pathway; however, it can proceed to an amyloidogenic scenario, 
+which leads to the generation of extracellular deleterious Aβ plaques. Not all 
+steps of APP biogenesis are clear so far, and these questions should be 
+addressed in future studies. AD is a complex chronic disease with many factors 
+that contribute to disease progression.
+
+DOI: 10.3390/ijms241914794
+PMID: 37834241
+
+
+9. Int J Mol Sci. 2023 Sep 29;24(19):14766. doi: 10.3390/ijms241914766.
+
+Deciphering the Mysterious Relationship between the Cross-Pathogenetic 
+Mechanisms of Neurodegenerative and Oncological Diseases.
+
+Aleksandrova Y(1), Neganova M(1)(2).
+
+Author information:
+(1)Institute of Physiologically Active Compounds at Federal Research Center of 
+Problems of Chemical Physics and Medicinal Chemistry, Russian Academy of 
+Sciences, 142432 Chernogolovka, Russia.
+(2)Arbuzov Institute of Organic and Physical Chemistry, FRC Kazan Scientific 
+Center, Russian Academy of Sciences, 420088 Kazan, Russia.
+
+The relationship between oncological pathologies and neurodegenerative disorders 
+is extremely complex and is a topic of concern among a growing number of 
+researchers around the world. In recent years, convincing scientific evidence 
+has accumulated that indicates the contribution of a number of etiological 
+factors and pathophysiological processes to the pathogenesis of these two 
+fundamentally different diseases, thus demonstrating an intriguing relationship 
+between oncology and neurodegeneration. In this review, we establish the general 
+links between three intersecting aspects of oncological pathologies and 
+neurodegenerative disorders, i.e., oxidative stress, epigenetic dysregulation, 
+and metabolic dysfunction, examining each process in detail to establish an 
+unusual epidemiological relationship. We also focus on reviewing the current 
+trends in the research and the clinical application of the most promising 
+chemical structures and therapeutic platforms that have a modulating effect on 
+the above processes. Thus, our comprehensive analysis of the set of molecular 
+determinants that have obvious cross-functional pathways in the pathogenesis of 
+oncological and neurodegenerative diseases can help in the creation of advanced 
+diagnostic tools and in the development of innovative pharmacological 
+strategies.
+
+DOI: 10.3390/ijms241914766
+PMID: 37834214
+
+
+10. Int J Mol Sci. 2023 Sep 28;24(19):14686. doi: 10.3390/ijms241914686.
+
+Physical Exercise as Disease-Modifying Alternative against Alzheimer's Disease: 
+A Gut-Muscle-Brain Partnership.
+
+Cutuli D(1)(2), Decandia D(1)(2), Giacovazzo G(2)(3), Coccurello R(2)(4).
+
+Author information:
+(1)Department of Psychology, University of Rome La Sapienza, 00185 Rome, Italy.
+(2)European Center for Brain Research, Santa Lucia Foundation IRCCS, 00143 Rome, 
+Italy.
+(3)Facoltà di Medicina Veterinaria, Università degli Studi di Teramo (UniTE), 
+64100 Teramo, Italy.
+(4)Institute for Complex Systems (ISC), National Council of Research (CNR), 
+00185 Rome, Italy.
+
+Alzheimer's disease (AD) is a common cause of dementia characterized by 
+neurodegenerative dysregulations, cognitive impairments, and neuropsychiatric 
+symptoms. Physical exercise (PE) has emerged as a powerful tool for reducing 
+chronic inflammation, improving overall health, and preventing cognitive 
+decline. The connection between the immune system, gut microbiota (GM), and 
+neuroinflammation highlights the role of the gut-brain axis in maintaining brain 
+health and preventing neurodegenerative diseases. Neglected so far, PE has 
+beneficial effects on microbial composition and diversity, thus providing the 
+potential to alleviate neurological symptoms. There is bidirectional 
+communication between the gut and muscle, with GM diversity modulation and 
+short-chain fatty acid (SCFA) production affecting muscle metabolism and 
+preservation, and muscle activity/exercise in turn inducing significant changes 
+in GM composition, functionality, diversity, and SCFA production. This 
+gut-muscle and muscle-gut interplay can then modulate cognition. For instance, 
+irisin, an exercise-induced myokine, promotes neuroplasticity and cognitive 
+function through BDNF signaling. Irisin and muscle-generated BDNF may mediate 
+the positive effects of physical activity against some aspects of AD 
+pathophysiology through the interaction of exercise with the gut microbial 
+ecosystem, neural plasticity, anti-inflammatory signaling pathways, and 
+neurogenesis. Understanding gut-muscle-brain interconnections hold promise for 
+developing strategies to promote brain health, fight age-associated cognitive 
+decline, and improve muscle health and longevity.
+
+DOI: 10.3390/ijms241914686
+PMID: 37834132
