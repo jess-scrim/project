@@ -1,4 +1,5 @@
 # Get search terms from pubmed https://pubmed.ncbi.nlm.nih.gov/advanced/ 
+# Search query: Books and Documents, Case Reports, Clinical Study, Clinical Trial, Controlled Clinical Trial, Meta-Analysis, Randomized Controlled Trial, Review, Systematic Review, English, from 2022/1/2 - 2023/10/10, 'alzheimer', 'alzheimer's disease'
 naive_results <- import_results(file="data/pubmed-alzheimerA-set.nbib")
 
 nrow(naive_results)
@@ -26,18 +27,21 @@ keywords
 
 
 ## Title ##
-# Not all papers provide keywords
+# As not all papers provide keywords
 
 # First title: [1] "Local and long-range GABAergic circuits in hippocampal area CA1 and their link to Alzheimer's disease."
 naive_results[1, "title"]
 
 # Remove stop-words from titles
+clin_stopwords <- read_lines("data/clin_stopwords.txt")
+all_stopwords <- c(get_stopwords("English"), clin_stopwords)
+
 title_terms <- extract_terms(
   text = naive_results[, "title"],
   method = "fakerake",
   min_freq = 10, 
   min_n = 2,
-  stopwords = get_stopwords("English")
+  stopwords = all_stopwords
 )
 
 title_terms
@@ -112,6 +116,9 @@ cutoff_change
 cutoff_fig +
   geom_hline(yintercept=cutoff_change, linetype="dashed")
 
+# Extra -------------------------------------------------------------------
+
+
 # Reduce search-terms
 get_keywords(reduce_graph(g, cutoff_cum))
 
@@ -150,21 +157,21 @@ new_results <- import_results(file=) #"pubmed-pharmacoth-set.nbib")
 nrow(new_results)
 # 
 
-## Check naive results were included ##
-naive_results %>%
-  mutate(in_new_results=title %in% new_results[, "title"]) ->
-  naive_results
-
-naive_results %>%
-  filter(!in_new_results) %>%
-  select(title, keywords)
-
-## Gold standard test ##
-# Check important texts were included
-important_titles <- c(
-  "Efficacy of treatments for anxiety disorder: A meta-analysis",
-  "Cognitive behaviour therapy for health anxiety: A systematic review and meta-analysis",
-  "A systematic review and meta-analysis of treatments for agrophobia"
-)
-
-data.frame(check_recall(important_titles, new_results[, "title"]))
+# ## Check naive results were included ##
+# naive_results %>%
+#   mutate(in_new_results=title %in% new_results[, "title"]) ->
+#   naive_results
+# 
+# naive_results %>%
+#   filter(!in_new_results) %>%
+#   select(title, keywords)
+# 
+# ## Gold standard test ##
+# # Check important texts were included
+# important_titles <- c(
+#   "Efficacy of treatments for anxiety disorder: A meta-analysis",
+#   "Cognitive behaviour therapy for health anxiety: A systematic review and meta-analysis",
+#   "A systematic review and meta-analysis of treatments for agrophobia"
+# )
+# 
+# data.frame(check_recall(important_titles, new_results[, "title"]))

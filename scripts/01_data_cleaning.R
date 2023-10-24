@@ -1,9 +1,9 @@
 source("scripts/00_setting_up.R")
-# load data
+# load data, n = 28,601
 res <- EUtilsSummary(query,
                      type = type, 
                      db = db, 
-                     datetype = 'pdat',
+                     datetype = datetype,
                      mindate = mindate,
                      maxdate = maxdate,
                      retmax = retmax)
@@ -16,9 +16,9 @@ month <- MonthPubmed(EUtilsGet(res))
 day <- DayPubmed(EUtilsGet(res))
 
 # convert to data frame
-abstracts <- tibble(abstract = 1:100, 
+abstracts <- tibble(abstract = 1:6199, 
                        title = title,
                        text = abstracts, 
-                       date = paste0(day, "/", month, "/", year),
+                       date = dmy(paste0(day, "/", month, "/", year)),
                        author = authors
                        )

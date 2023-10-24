@@ -7,18 +7,18 @@ abstract_bigrams <- abstracts %>%
 # Count most common bigrams
 abstract_bigrams %>%
   count(bigram, sort = TRUE)
-#   bigram                  n
-#
-#  1 in the                152
-#  2 of the                114
-#  3 alzheimer's disease    98
-#  4 to the                 44
-#  5 associated with        43
-#  6 disease ad             42
-#  7 and the                38
-#  8 of ad                  32
-#  9 on the                 30
-# 10 with the               30
+# bigram                  n
+# 
+#   1 in the               8671
+# 2 of the               7268
+# 3 alzheimer's disease  6015
+#  4 such as              2821
+#  5 this review          2797
+#  6 disease ad           2774
+#  7 of ad                2670
+#  8 and the              2654
+#  9 to the               2543
+# 10 on the               2492
 
 # Remove stop words in bigrams
 bigrams_separated <- abstract_bigrams %>%
@@ -33,24 +33,23 @@ bigrams_separated <- bigrams_separated %>%
 bigram_counts <- bigrams_separated %>% 
   count(word1, word2, sort = TRUE)
 bigram_counts
-#     word1             word2          n
-# 
-# 1 cognitive         impairment    23
-# 2 apoe              <U+025B>4     22
-# 3 neurodegenerative diseases      19
-# 4 spinal            cord          18
-# 5 ic                50            16
-# 6 95                ci            15
-# 7 2                 diabetes      13
-# 8 amyloid           beta          13
-# 9 oxidative         stress        13
-# 10 type              2            13
+# word1             word2          n
+#
+#  1 neurodegenerative diseases    2004
+#  2 parkinson's       disease     1393
+#  3 cognitive         impairment  1257
+#  4 95                ci          1045
+#  5 nervous           system      1029
+#  6 cognitive         decline      819
+#  7 oxidative         stress       775
+#  8 central           nervous      774
+#  9 meta              analysis     757
+# 10 clinical          trials       735
 
 
 # join word1 and word2 back together into bigram
-bigrams_united <- bigrams_separated %>%
+bigrams_united <- bigram_counts %>%
   unite(bigram, word1, word2, sep = " ") # 'bigram' name of new column
-
 bigrams_united
 
 ### Analysing bigrams ###
@@ -60,28 +59,55 @@ bigrams_separated %>%
   count(word1, sort = TRUE)
 # word1                 n
 # 
-# 1 parkinson's          12
-# 2 neurodegenerative     5
-# 3 huntington's          2
-# 4 alzheimer             1
-# 5 amyloid               1
-# 6 availability          1
-# 7 brain                 1
-# 8 chronic               1
-# 9 determined            1
-# 10 disability            1
-# 11 immune                1
-# 12 kidney                1
-# 13 liver                 1
-# 14 subclinical           1
-# 15 subsequent            1
-# 16 vessel                1
+# 1 parkinson's        1393
+# 2 neurodegenerative   544
+# 3 huntington's        325
+# 4 alzheimer           309
+# 5 cardiovascular      131
+# 6 parkinson            59
+# 7 vessel               55
+# 8 coronavirus          49
+# 9 neurological         48
+# 10 cerebrovascular      43
+
+# Common phrases with 'neuro'
+bigrams_separated %>%
+  filter(grepl("^neuro", word1)) %>%
+  count(word2, sort = TRUE)
+# word2          n
+# 
+# 1 diseases     171
+# 2 disorders     96
+# 3 disease       43
+# 4 disorder      33
+# 5 initiative    25
+# 6 conditions    24
+# 7 cells         21
+# 8 effects       20
+# 9 loss          20
+# 10 tangles       20
+
+bigrams_separated %>%
+  filter(grepl("^neuro", word2)) %>%
+  count(word1, sort = TRUE)
+# word1            n
+# 
+# 1 disease         30
+# 2 hippocampal     18
+# 3 progressive     15
+# 4 related         14
+# 5 common          13
+# 6 including       13
+# 7 induced         13
+# 8 excitatory      10
+# 9 derived          9
+# 10 dopaminergic     8
 
 #### Visualise network of bigrams ####
 bigram_counts
 # filter for only relatively common combinations
 bigram_graph <- bigram_counts %>%
-  filter(n > 10) %>%
+  filter(n > 300) %>%
   graph_from_data_frame() # most common word1->word2
 
 bigram_graph
@@ -94,11 +120,11 @@ ggraph(bigram_graph, layout = "fr") +
   geom_node_point() +
   geom_node_text(aes(label = name), vjust = 1, hjust = 1)
 
-# visualise differently - shows direction of relationship
+# visualise - thickness of line determines how strong the relationship is
 set.seed(2020)
 
 bigram_counts %>% 
-  filter(n > 10) %>%
+  filter(n > 300) %>%
   graph_from_data_frame() %>%
   ggraph(layout = "fr") +
   geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +

@@ -1,7 +1,8 @@
-# Viualise when abstracts were published
+# Visualise when abstracts were published
 
-abstracts %>% 
+abstracts %>%  
   ggplot(aes(date)) +
-  geom_bar() +
+  geom_histogram(bins = 100) +
   xlab("Date of Publication") +
   ylab("Number of Abstracts") 
+  
