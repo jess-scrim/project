@@ -1,3 +1,488 @@
+PMID- 37907353
+OWN - NLM
+STAT- Publisher
+LR  - 20231031
+IS  - 1521-0111 (Electronic)
+IS  - 0026-895X (Linking)
+DP  - 2023 Oct 31
+TI  - Passive Immunotherapies Targeting Amyloid-β in Alzheimer's Disease: A 
+      Quantitative Systems Pharmacology Perspective.
+LID - MOLPHARM-MR-2023-000726 [pii]
+LID - 10.1124/molpharm.123.000726 [doi]
+AB  - Alzheimer's disease (AD) is a neurodegenerative disorder characterized by 
+      amyloid-β (Aβ) protein accumulation in the brain. Passive immunotherapies using 
+      monoclonal antibodies for targeting Aβ have shown promise for AD treatment. 
+      Indeed, recent US FDA approval of aducanumab and lecanemab, alongside positive 
+      donanemab Phase III results demonstrated clinical efficacy after decades of 
+      failed clinical trials for AD. However, the pharmacological basis distinguishing 
+      clinically effective from ineffective therapies remains unclear, impeding 
+      development of potent therapeutics. This study aimed to provide a quantitative 
+      perspective for effectively targeting Aβ with antibodies. We first reviewed the 
+      contradicting results associated with amyloid hypothesis and the pharmacological 
+      basis of Aβ immunotherapy. Subsequently, we developed a quantitative systems 
+      pharmacology (QSP) model that describes the non-linear progression of Aβ 
+      pathology and the pharmacologic actions of the Aβ-targeting antibodies. Using the 
+      QSP model, we analyzed various scenarios for effective passive immunotherapy for 
+      AD. The model revealed that binding exclusively to the Aβ monomer has minimal 
+      effect on Aβ aggregation and plaque reduction, therefore antibody affinity 
+      towards Aβ monomer is unwanted, as it could become a distractive mechanism for 
+      plaque reduction. Neither early intervention, high brain penetration, nor 
+      increased dose alone could yield significant improvement of clinical efficacy for 
+      antibodies targeting solely monomers. Antibodies that bind all Aβ species but 
+      lack effector function exhibited moderate effects in plaque reduction. Our model 
+      highlights the importance of binding aggregate Aβ species and incorporating 
+      effector functions for efficient and early plaque reduction, guiding the 
+      development of more effective therapies for this devastating disease. 
+      Significance Statement Despite previous unsuccessful attempts spanning several 
+      decades, passive immunotherapies utilizing monoclonal antibodies for targeting 
+      amyloid-beta (Aβ) have demonstrated promise with two recent FDA approvals. 
+      However, the pharmacological basis that differentiates clinically effective 
+      therapies from ineffective ones remains elusive. Our study offers a Quantitative 
+      Systems Pharmacology (QSP) perspective, emphasizing the significance of 
+      selectively targeting specific Aβ species and importance of antibody effector 
+      functions. This perspective sheds light on the development of more effective 
+      therapies for this devastating disease.
+CI  - Copyright © 2023 American Society for Pharmacology and Experimental Therapeutics.
+FAU - Markovic, Milica
+AU  - Markovic M
+AUID- ORCID: 0000-0002-3998-1833
+AD  - the University of North Carolina at Chapel Hill, United States.
+FAU - Milošević, Jelica
+AU  - Milošević J
+AD  - University of Belgrade, Serbia.
+FAU - Wang, Weirong
+AU  - Wang W
+AD  - Janssen Research & Development, LLC, United States.
+FAU - Cao, Yanguang
+AU  - Cao Y
+AUID- ORCID: 0000-0002-3974-9073
+AD  - THE UNIVERSITY OF NORTH CAROLINA AT CHAPEL HILL, United States yanguang@unc.edu.
+LA  - eng
+PT  - Journal Article
+DEP - 20231031
+PL  - United States
+TA  - Mol Pharmacol
+JT  - Molecular pharmacology
+JID - 0035623
+SB  - IM
+OTO - NOTNLM
+OT  - Alzheimer's Disease
+OT  - pharmacokinetic / pharmacodynamic modeling
+OT  - systems pharmacology
+EDAT- 2023/11/01 00:42
+MHDA- 2023/11/01 00:42
+CRDT- 2023/10/31 21:41
+PHST- 2023/10/10 00:00 [accepted]
+PHST- 2023/05/24 00:00 [received]
+PHST- 2023/10/04 00:00 [revised]
+PHST- 2023/11/01 00:42 [medline]
+PHST- 2023/11/01 00:42 [pubmed]
+PHST- 2023/10/31 21:41 [entrez]
+AID - molpharm.123.000726 [pii]
+AID - 10.1124/molpharm.123.000726 [doi]
+PST - aheadofprint
+SO  - Mol Pharmacol. 2023 Oct 31:MOLPHARM-MR-2023-000726. doi: 
+      10.1124/molpharm.123.000726.
+
+PMID- 37906049
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20231101
+LR  - 20231101
+IS  - 0098-9134 (Print)
+IS  - 0098-9134 (Linking)
+VI  - 49
+IP  - 11
+DP  - 2023 Nov
+TI  - Lecanemab: Shared Decision Making.
+PG  - 54-56
+LID - 10.3928/00989134-20231011-03 [doi]
+FAU - Fick, Donna M
+AU  - Fick DM
+AD  - American Geriatrics Society.
+LA  - eng
+PT  - Journal Article
+DEP - 20231101
+PL  - United States
+TA  - J Gerontol Nurs
+JT  - Journal of gerontological nursing
+JID - 7510258
+RN  - 12PYH0FTU9 (lecanemab)
+MH  - Humans
+MH  - *Decision Making, Shared
+EDAT- 2023/10/31 12:42
+MHDA- 2023/11/01 12:45
+CRDT- 2023/10/31 10:23
+PHST- 2023/11/01 12:45 [medline]
+PHST- 2023/10/31 12:42 [pubmed]
+PHST- 2023/10/31 10:23 [entrez]
+AID - 10.3928/00989134-20231011-03 [doi]
+PST - ppublish
+SO  - J Gerontol Nurs. 2023 Nov;49(11):54-56. doi: 10.3928/00989134-20231011-03. Epub 
+      2023 Nov 1.
+
+PMID- 37902139
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20231102
+LR  - 20231102
+IS  - 2058-7384 (Electronic)
+IS  - 0394-6320 (Print)
+IS  - 0394-6320 (Linking)
+VI  - 37
+DP  - 2023 Jan-Dec
+TI  - Novel anti-amyloid-beta (Aβ) monoclonal antibody lecanemab for Alzheimer's 
+      disease: A systematic review.
+PG  - 3946320231209839
+LID - 10.1177/03946320231209839 [doi]
+LID - 03946320231209839
+AB  - BACKGROUND: Lecanemab is the latest monoclonal antibody that targets beta-amyloid 
+      approved exclusively for treatment of Alzheimer's disease with mild cognitive 
+      impairment or mild dementia. This article aims to provide a systematic review of 
+      the efficacy, and safety of lecanemab in slowing clinical decline in Alzheimer's 
+      disease. METHODS: A comprehensive search of various databases, including the 
+      National Institute of Health clinical trials registry, PubMed, and the Cochrane 
+      library, was conducted until July 2023 using the keywords lecanemab, BAN2401, and 
+      Alzheimer's disease. Additionally, conference abstracts listed in the Cochrane 
+      database (including Embase) and drug information from the US Food and Drug 
+      Administration (FDA) label were examined. Only clinical trials published in the 
+      English language were considered. In total, 107 articles were retrieved, and 
+      after thorough evaluation, three randomized, double-blind, multicenter clinical 
+      trials involving 2729 participants were included in the analysis. RESULTS: The 
+      FDA approved lecanemab for Alzheimer's disease in January 2023 which acts as a 
+      novel disease-modifying anti-amyloid-beta (Aβ) human monoclonal antibody and is 
+      administered intravenously. Based on the clinical trials included in this review, 
+      lecanemab was found efficacious in reducing the accumulation of beta-amyloid and 
+      slowing down the cognitive decline and it was well tolerated. Lecanemab had a 
+      statistically significant change from baseline in Clinical Dementia Rating-Sum of 
+      Boxes (CDR-SB), Alzheimer's Disease Composite Score (ADCOMS), Alzheimer's Disease 
+      Assessment Scale (ADAScog14), Alzheimer's Disease Cooperative Study-Activities of 
+      Daily Living Scale for Mild Cognitive Impairment (ADCS-MCI-ADL), and reductions 
+      in brain amyloid burden. The most common treatment-emergent adverse events were 
+      headache, infusion-related reactions, and Amyloid related imaging 
+      abnormalities-edema. CONCLUSIONS: Lecanemab therapy led to a substantial decrease 
+      in amyloid plaques and a noticeable slowing of clinical decline. The findings 
+      suggest a meaningful connection between the reduction in amyloid and the positive 
+      impact on patients' clinical outcomes, hinting at potential disease-modifying 
+      effects.
+FAU - Chowdhury, Selia
+AU  - Chowdhury S
+AUID- ORCID: 0000-0002-4228-9784
+AD  - Dhaka Medical College, Dhaka, Bangladesh. RINGGOLD: 468779
+FAU - Chowdhury, Nurjahan Shipa
+AU  - Chowdhury NS
+AD  - Dinajpur Medical College, Dinajpur, Bangladesh. RINGGOLD: 468817
+LA  - eng
+PT  - Journal Article
+PT  - Systematic Review
+PL  - England
+TA  - Int J Immunopathol Pharmacol
+JT  - International journal of immunopathology and pharmacology
+JID - 8911335
+RN  - 12PYH0FTU9 (lecanemab)
+RN  - 0 (Amyloid beta-Peptides)
+RN  - 0 (Antibodies, Monoclonal)
+SB  - IM
+MH  - Humans
+MH  - *Alzheimer Disease/drug therapy
+MH  - Activities of Daily Living
+MH  - Amyloid beta-Peptides/therapeutic use
+MH  - Antibodies, Monoclonal/adverse effects
+MH  - Randomized Controlled Trials as Topic
+MH  - Multicenter Studies as Topic
+PMC - PMC10617290
+OTO - NOTNLM
+OT  - Alzheimer's disease
+OT  - amyloid-beta antagonist
+OT  - dementia
+OT  - lecanemab
+COIS- Declaration of conflicting interestsThe author(s) declared no potential conflicts 
+      of interest with respect to the research, authorship, and/or publication of this 
+      article.
+EDAT- 2023/10/30 12:42
+MHDA- 2023/10/30 12:43
+CRDT- 2023/10/30 07:33
+PHST- 2023/10/30 12:43 [medline]
+PHST- 2023/10/30 12:42 [pubmed]
+PHST- 2023/10/30 07:33 [entrez]
+AID - 10.1177_03946320231209839 [pii]
+AID - 10.1177/03946320231209839 [doi]
+PST - ppublish
+SO  - Int J Immunopathol Pharmacol. 2023 Jan-Dec;37:3946320231209839. doi: 
+      10.1177/03946320231209839.
+
+PMID- 37881360
+OWN - NLM
+STAT- PubMed-not-MEDLINE
+LR  - 20231027
+IS  - 1663-4365 (Print)
+IS  - 1663-4365 (Electronic)
+IS  - 1663-4365 (Linking)
+VI  - 15
+DP  - 2023
+TI  - Patients with geriatric syndromes and anti-amyloid therapies: lack of 
+      consideration? An exploratory analysis of the literature.
+PG  - 1256968
+LID - 10.3389/fnagi.2023.1256968 [doi]
+LID - 1256968
+AB  - INTRODUCTION: Patients who should benefit from anti-amyloid therapies (AAT) are 
+      found across all geriatric settings. Yet, it remains unclear how the use of AAT 
+      in patients with geriatric syndromes, such as frailty and polypharmacy, has so 
+      far been discussed in the literature. METHODS: Articles on aducanumab, 
+      gantenerumab, lecanemab, donanemab, crenezumab, solanezumab were retrieved in 
+      MEDLINE from inception to July 2023. For each article, identified geriatric 
+      relevant terms were assigned to five discussion contexts (eligibility of AAT 
+      study population, safety, prescription, patient clinical profile, alternative 
+      outcomes measurement). Article type and the involvement of geriatric healthcare 
+      professionals as an author were further extracted. RESULTS: Out of 538 articles, 
+      23 (4.27%) were published in journals from the geriatric category, 44 (8.18%) 
+      included an author affiliated with a geriatric institution. One hundred and 
+      sixteen (21.56%) articles included at least one geriatric relevant term, which 
+      were mostly discussed in the context of safety and eligibility. Articles 
+      mentioning geriatric syndromes were more frequently authored by a geriatric 
+      healthcare professional (p = 0.044). DISCUSSION: The use of AAT in patients with 
+      geriatric syndromes has so far received poor attention in the literature raising 
+      concerns on their use in this patient group. The involvement of geriatric 
+      healthcare professionals in future studies may increase the relevance of AAT 
+      research in patients with geriatric syndromes.
+CI  - Copyright © 2023 Sadlon, Ott and Kressig.
+FAU - Sadlon, Angélique
+AU  - Sadlon A
+AD  - Department of Clinical Chemistry, Inselspital, Bern University Hospital & 
+      University of Bern, Bern, Switzerland.
+AD  - Ageing Epidemiology Research Unit, School of Public Health, Imperial College 
+      London, London, United Kingdom.
+FAU - Ott, Martin
+AU  - Ott M
+AD  - Memory Clinic Entlisberg, Geriatric Department City of Zurich, Zurich, 
+      Switzerland.
+FAU - Kressig, Reto W
+AU  - Kressig RW
+AD  - University Department of Geriatric Medicine FELIX PLATTER & University of Basel, 
+      Basel, Switzerland.
+LA  - eng
+PT  - Journal Article
+DEP - 20231010
+PL  - Switzerland
+TA  - Front Aging Neurosci
+JT  - Frontiers in aging neuroscience
+JID - 101525824
+PMC - PMC10595147
+OTO - NOTNLM
+OT  - Alzheimer’s disease
+OT  - anti-amyloid
+OT  - disease-modifying therapies
+OT  - geriatric
+OT  - geriatric syndrome
+OT  - inclusion
+COIS- The authors declare that the research was conducted in the absence of any 
+      commercial or financial relationships that could be construed as a potential 
+      conflict of interest.
+EDAT- 2023/10/26 06:42
+MHDA- 2023/10/26 06:43
+CRDT- 2023/10/26 04:07
+PHST- 2023/07/11 00:00 [received]
+PHST- 2023/09/05 00:00 [accepted]
+PHST- 2023/10/26 06:43 [medline]
+PHST- 2023/10/26 06:42 [pubmed]
+PHST- 2023/10/26 04:07 [entrez]
+AID - 10.3389/fnagi.2023.1256968 [doi]
+PST - epublish
+SO  - Front Aging Neurosci. 2023 Oct 10;15:1256968. doi: 10.3389/fnagi.2023.1256968. 
+      eCollection 2023.
+
+PMID- 37874099
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20231101
+LR  - 20231101
+IS  - 2426-0266 (Electronic)
+IS  - 2274-5807 (Linking)
+VI  - 10
+IP  - 4
+DP  - 2023
+TI  - Lecanemab Clarity AD: Quality-of-Life Results from a Randomized, Double-Blind 
+      Phase 3 Trial in Early Alzheimer's Disease.
+PG  - 771-777
+LID - 10.14283/jpad.2023.123 [doi]
+AB  - BACKGROUND: Lecanemab is a humanized IgG1 monoclonal antibody binding with high 
+      affinity to amyloid-beta protein protofibrils. In phase 3 development, lecanemab 
+      has been shown to reduce markers of amyloid in early Alzheimer's disease and 
+      reduce decline on clinical endpoints of cognition and function at 18 months. 
+      OBJECTIVES: To describe the health-related quality-of-life (HRQoL) results from 
+      Clarity AD which were exploratory outcomes in this trial. DESIGN: Clarity AD was 
+      an 18-month, multi-center, double-blind, phase 3 trial. SETTING: Early 
+      Alzheimer's disease. PARTICIPANTS: Individuals 50-90 years of age with a 
+      diagnosis of mild cognitive impairment or mild dementia due to Alzheimer's 
+      disease and positron emission tomography or cerebrospinal fluid evidence of 
+      cerebral amyloid accumulation. INTERVENTION: Placebo or lecanemab 10-mg/kg IV 
+      biweekly. MEASUREMENTS: HRQoL was measured at baseline and every 6 months using 
+      the European Quality of Life-5 Dimensions (EQ-5D-5L; by subject) and Quality of 
+      Life in AD (QOL-AD; by subject and proxy). Study partner burden was measured 
+      using the Zarit Burden Interview (ZBI). RESULTS: A total of 1795 participants 
+      were enrolled (lecanemab:898; placebo:897). At month 18, adjusted mean change 
+      from baseline in EQ-5D-5L and QOL-AD by subject showed 49% and 56% less decline, 
+      respectively. QOL-AD rated by study partner as proxy resulted in 23% less 
+      decline. ZBI adjusted mean change from baseline at 18 months resulted in 38% less 
+      increase of care partner burden. Individual HRQoL test items and dimensions also 
+      showed lecanemab benefit. CONCLUSIONS: Lecanemab was associated with a relative 
+      preservation of HRQoL and less increase in caregiver burden, with consistent 
+      benefits seen across different quality of life scales and within scale 
+      subdomains. These benefits provide valuable patient reported outcomes which, 
+      together with previously reported benefits of lecanemab across multiple measures 
+      of cognition, function, disease progression, and biomarkers, demonstrate that 
+      lecanemab treatment may offer meaningful benefits to patients, care partners, and 
+      society.
+FAU - Cohen, S
+AU  - Cohen S
+AD  - Sharon Cohen, MD, FRCPC, Medical Director and Site Principal Investigator, 1 
+      Valleybrook Drive, Suite 400, Toronto, Canada M3B 2S7, Tel: 416-386-9761; Fax: 
+      416-386-0458, cohen@memorydisorders.ca.
+FAU - van Dyck, C H
+AU  - van Dyck CH
+FAU - Gee, M
+AU  - Gee M
+FAU - Doherty, T
+AU  - Doherty T
+FAU - Kanekiyo, M
+AU  - Kanekiyo M
+FAU - Dhadda, S
+AU  - Dhadda S
+FAU - Li, D
+AU  - Li D
+FAU - Hersch, S
+AU  - Hersch S
+FAU - Irizarry, M
+AU  - Irizarry M
+FAU - Kramer, L D
+AU  - Kramer LD
+LA  - eng
+PT  - Clinical Trial, Phase III
+PT  - Journal Article
+PT  - Randomized Controlled Trial
+PL  - Switzerland
+TA  - J Prev Alzheimers Dis
+JT  - The journal of prevention of Alzheimer's disease
+JID - 101638820
+RN  - 12PYH0FTU9 (lecanemab)
+RN  - 0 (Antibodies, Monoclonal, Humanized)
+SB  - IM
+MH  - Humans
+MH  - *Alzheimer Disease/diagnosis
+MH  - Quality of Life/psychology
+MH  - Caregivers
+MH  - Antibodies, Monoclonal, Humanized/therapeutic use
+OTO - NOTNLM
+OT  - Health-related quality of life
+OT  - early Alzheimer’s disease
+OT  - lecanemab
+COIS- SC is a consultant (no personal fees received) to Alnylam, Biogen, Cassava 
+      Sciences, Cognivue, Cogstate, Eisai, Eli Lily, INmune Bio, ProMIS Neuroscience, 
+      Roche, and RetiSpec and receives research support (paid to institution) from 
+      AbbVie, AgeneBio, Alnylam, Anavex, Biogen, Cassava, Eisai, Eli Lilly, Genentech, 
+      Green Valley, Janssen, RetiSpec, Roche, and Vielight. CvD is a consultant for 
+      Roche, Eisai, Cerevel, and Ono and receives research support from Biogen, Eisai, 
+      Roche, Genentech, Eli Lilly, Janssen, UCB, Cerevel, and Biohaven. MG, TD, MK, SD, 
+      DL, SH, MI, AND LDK are employees of Eisai.
+EDAT- 2023/10/24 12:43
+MHDA- 2023/11/01 12:43
+CRDT- 2023/10/24 08:43
+PHST- 2023/11/01 12:43 [medline]
+PHST- 2023/10/24 12:43 [pubmed]
+PHST- 2023/10/24 08:43 [entrez]
+AID - 10.14283/jpad.2023.123 [doi]
+PST - ppublish
+SO  - J Prev Alzheimers Dis. 2023;10(4):771-777. doi: 10.14283/jpad.2023.123.
+
+PMID- 37874098
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20231101
+LR  - 20231101
+IS  - 2426-0266 (Electronic)
+IS  - 2274-5807 (Linking)
+VI  - 10
+IP  - 4
+DP  - 2023
+TI  - Initial Experiences with Amyloid-Related Imaging Abnormalities in Patients 
+      Receiving Aducanumab Following Accelerated Approval.
+PG  - 765-770
+LID - 10.14283/jpad.2023.96 [doi]
+AB  - Aducanumab is the first FDA-approved amyloid-lowering immunotherapy for 
+      Alzheimer's disease. There is little real-world data to guide management of 
+      amyloid-related imaging abnormalities (ARIA), a potentially serious side-effect 
+      which requires surveillance with magnetic resonance imaging. We report our 
+      experiences in managing ARIA in patients receiving aducanumab at the Butler 
+      Hospital Memory and Aging Program during the year following FDA approval. We 
+      followed the Appropriate Use Recommendations for aducanumab to guide patient 
+      selection, detection, and management of ARIA (1). ARIA-E occurred in 6 out of 24 
+      participants treated; all APOE-ε4 carriers. Treatment was discontinued in 4 cases 
+      of moderate-severe ARIA-E, temporarily held in 1 moderate case, and dosed through 
+      in 1 mild case (mean duration = 3 months, range, 1-6 months). No participants 
+      required hospitalization or high dose corticosteroids. Participants on 
+      anticoagulation were excluded and no macrohemorrhages occurred. These data 
+      support the measured approaches to treatment outlined in the Appropriate Use 
+      Recommendations.
+FAU - Howe, M D
+AU  - Howe MD
+AD  - Dr. Matthew Howe, Butler Hospital Memory and Aging Program, 345 Blackstone 
+      Boulevard, Providence, RI 02906, USA, Phone: 401-455-6403, Fax: 401-455-6405, 
+      Email: matthew_howe@brown.edu.
+FAU - Britton, K J
+AU  - Britton KJ
+FAU - Joyce, H E
+AU  - Joyce HE
+FAU - Pappas, G J
+AU  - Pappas GJ
+FAU - Faust, M A
+AU  - Faust MA
+FAU - Dawson, B C
+AU  - Dawson BC
+FAU - Riddle, M C
+AU  - Riddle MC
+FAU - Salloway, S P
+AU  - Salloway SP
+LA  - eng
+PT  - Journal Article
+PL  - Switzerland
+TA  - J Prev Alzheimers Dis
+JT  - The journal of prevention of Alzheimer's disease
+JID - 101638820
+RN  - 105J35OE21 (aducanumab)
+RN  - 0 (Antibodies, Monoclonal, Humanized)
+RN  - 0 (Amyloid)
+SB  - IM
+MH  - Humans
+MH  - *Alzheimer Disease/diagnostic imaging/drug therapy
+MH  - Antibodies, Monoclonal, Humanized/adverse effects
+MH  - Amyloid
+MH  - Magnetic Resonance Imaging
+OTO - NOTNLM
+OT  - Alzheimer’s disease
+OT  - amyloid-β
+OT  - clinical practice
+OT  - neuroimaging
+OT  - neurology
+COIS- M. Howe: None to disclose. K. Britton: None to disclose. H. Joyce: None to 
+      disclose. G. Pappas: None to disclose. M. Faust: None to disclose. B. Dawson: 
+      None to disclose. M. Riddle: None to disclose. S. Salloway: Dr. Salloway has 
+      provided consultation to Biogen, Eisai, Avid, Lilly, Genentech, and Roche; he was 
+      a site principal investigator on the PRIME and ENGAGE studies and co-chair of the 
+      Investigator Steering Committee for the ENGAGE study. Dr. Salloway is an author 
+      on the AUR for Aducanumab (1) and Lecanemab (15) and is the first author on the 
+      report of ARIA in the aducanumab phase 3 program (5). Butler Hospital has 
+      received research grants from Biogen, Eisai, Avid, Roche, Genentech, Janssen and 
+      Lilly.
+EDAT- 2023/10/24 12:42
+MHDA- 2023/11/01 12:43
+CRDT- 2023/10/24 08:43
+PHST- 2023/11/01 12:43 [medline]
+PHST- 2023/10/24 12:42 [pubmed]
+PHST- 2023/10/24 08:43 [entrez]
+AID - 10.14283/jpad.2023.96 [doi]
+PST - ppublish
+SO  - J Prev Alzheimers Dis. 2023;10(4):765-770. doi: 10.14283/jpad.2023.96.
+
 PMID- 37849639
 OWN - NLM
 STAT- PubMed-not-MEDLINE
@@ -86,13 +571,18 @@ SO  - J Alzheimers Dis Rep. 2023 Aug 28;7(1):921-955. doi: 10.3233/ADR-230037.
 
 PMID- 37848035
 OWN - NLM
-STAT- Publisher
-LR  - 20231017
+STAT- MEDLINE
+DCOM- 20231031
+LR  - 20231105
 IS  - 1097-4172 (Electronic)
+IS  - 0092-8674 (Print)
 IS  - 0092-8674 (Linking)
-DP  - 2023 Oct 13
+VI  - 186
+IP  - 22
+DP  - 2023 Oct 26
 TI  - Accelerating Alzheimer's therapeutic development: The past and future of clinical 
       trials.
+PG  - 4757-4772
 LID - S0092-8674(23)01077-2 [pii]
 LID - 10.1016/j.cell.2023.09.023 [doi]
 AB  - Alzheimer's disease (AD) research has entered a new era with the recent positive 
@@ -121,14 +611,33 @@ AU  - Sperling R
 AD  - Center for Alzheimer Research and Treatment, Department of Neurology, MassGeneral 
       Brigham, Harvard Medical School, Boston, MA, USA.
 LA  - eng
+GR  - R01 AG073482/AG/NIA NIH HHS/United States
+GR  - U19 AG063911/AG/NIA NIH HHS/United States
+GR  - R56 AG075744/AG/NIA NIH HHS/United States
+GR  - R01 AG078457/AG/NIA NIH HHS/United States
+GR  - R01 AG038791/AG/NIA NIH HHS/United States
 PT  - Journal Article
 PT  - Review
-DEP - 20231013
+DEP - 20231016
 PL  - United States
 TA  - Cell
 JT  - Cell
 JID - 0413066
+RN  - 0 (Amyloid beta-Peptides)
+RN  - 0 (Amyloidogenic Proteins)
+RN  - 0 (Antibodies, Monoclonal)
+RN  - 0 (Biomarkers)
 SB  - IM
+MH  - Humans
+MH  - *Alzheimer Disease/diagnosis/drug therapy/pathology
+MH  - Amyloid beta-Peptides
+MH  - Amyloidogenic Proteins
+MH  - Antibodies, Monoclonal/therapeutic use
+MH  - Biomarkers
+MH  - Clinical Trials as Topic
+MH  - *Drug Development
+PMC - PMC10625460
+MID - NIHMS1937977
 COIS- Declaration of interests Adam Boxer has served as a consultant to AGTC, Alector, 
       Alzprotect, Amylyx, Arkuda, Arrowhead, Arvinas, Aviado, Boehringer Ingelheim, 
       Denali, Eli Lilly, GSK, Humana, Life Edit, Merck, Modalis, Oligomerix, Oscotec, 
@@ -149,18 +658,21 @@ COIS- Declaration of interests Adam Boxer has served as a consultant to AGTC, Al
       Accelerating Medicines Partnership FNIH, and public partnership trial funding 
       from Eli Lilly, and Eisai.
 EDAT- 2023/10/18 00:42
-MHDA- 2023/10/18 00:42
+MHDA- 2023/10/30 06:46
+PMCR- 2024/10/26
 CRDT- 2023/10/17 18:42
 PHST- 2023/05/28 00:00 [received]
 PHST- 2023/08/03 00:00 [revised]
 PHST- 2023/09/22 00:00 [accepted]
-PHST- 2023/10/18 00:42 [medline]
+PHST- 2024/10/26 00:00 [pmc-release]
+PHST- 2023/10/30 06:46 [medline]
 PHST- 2023/10/18 00:42 [pubmed]
 PHST- 2023/10/17 18:42 [entrez]
 AID - S0092-8674(23)01077-2 [pii]
 AID - 10.1016/j.cell.2023.09.023 [doi]
-PST - aheadofprint
-SO  - Cell. 2023 Oct 13:S0092-8674(23)01077-2. doi: 10.1016/j.cell.2023.09.023.
+PST - ppublish
+SO  - Cell. 2023 Oct 26;186(22):4757-4772. doi: 10.1016/j.cell.2023.09.023. Epub 2023 
+      Oct 16.
 
 PMID- 37833948
 OWN - NLM
@@ -241,12 +753,16 @@ SO  - Int J Mol Sci. 2023 Sep 24;24(19):14499. doi: 10.3390/ijms241914499.
 
 PMID- 37831471
 OWN - NLM
-STAT- Publisher
-LR  - 20231013
+STAT- MEDLINE
+DCOM- 20231030
+LR  - 20231030
 IS  - 1899-5276 (Print)
 IS  - 1899-5276 (Linking)
-DP  - 2023 Oct 13
+VI  - 32
+IP  - 10
+DP  - 2023 Oct
 TI  - Donanemab: Not two without a third.
+PG  - 1085-1087
 LID - 10.17219/acem/172673 [doi]
 AB  - Recently, the U.S. Food and Drug Administration (FDA) approved 2 anti-amyloid 
       monoclonal antibodies, aducanumab (June 7, 2021) and lecanemab (July 6, 2023), 
@@ -269,109 +785,110 @@ AU  - Kurkinen M
 AD  - NeuroActiva, Inc., San Jose, USA.
 LA  - eng
 PT  - Editorial
-DEP - 20231013
 PL  - Poland
 TA  - Adv Clin Exp Med
 JT  - Advances in clinical and experimental medicine : official organ Wroclaw Medical 
       University
 JID - 101138582
+RN  - 0 (Antibodies, Monoclonal)
 SB  - IM
+MH  - United States
+MH  - Humans
+MH  - *Alzheimer Disease/drug therapy/pathology
+MH  - Antibodies, Monoclonal/therapeutic use
 OTO - NOTNLM
 OT  - Alzheimer
 OT  - amyloid
 OT  - clinical trial
 OT  - donanemab
 EDAT- 2023/10/13 12:42
-MHDA- 2023/10/13 12:42
+MHDA- 2023/10/30 06:46
 CRDT- 2023/10/13 11:42
-PHST- 2023/07/26 00:00 [received]
-PHST- 2023/09/10 00:00 [revised]
-PHST- 2023/10/21 00:00 [accepted]
-PHST- 2023/10/13 12:42 [medline]
+PHST- 2023/10/30 06:46 [medline]
 PHST- 2023/10/13 12:42 [pubmed]
 PHST- 2023/10/13 11:42 [entrez]
 AID - 10.17219/acem/172673 [doi]
-PST - aheadofprint
-SO  - Adv Clin Exp Med. 2023 Oct 13. doi: 10.17219/acem/172673.
+PST - ppublish
+SO  - Adv Clin Exp Med. 2023 Oct;32(10):1085-1087. doi: 10.17219/acem/172673.
 
 PMID- 37830926
 OWN - NLM
 STAT- Publisher
-LR  - 20231013
+LR  - 20231025
 IS  - 1531-8249 (Electronic)
 IS  - 0364-5134 (Linking)
 DP  - 2023 Oct 13
-TI  - Eligibility rates among racially and ethnically diverse US participants in Phase 
-      2 and Phase 3 placebo-controlled, double-blind, randomized trials of lecanemab 
-      and elenbecestat in early Alzheimer's disease.
+TI  - Eligibility Rates among Racially and Ethnically Diverse US Participants in Phase 
+      2 and Phase 3 Placebo-Controlled, Double-Blind, Randomized Trials of Lecanemab 
+      and Elenbecestat in Early Alzheimer Disease.
 LID - 10.1002/ana.26819 [doi]
-AB  - OBJECTIVES: Many factors contribute to inadequate diversity in Alzheimer's 
-      disease (AD) clinical trials. We evaluated eligibility rates among racial and 
-      ethnic groups at US sites in large global multisite trials in early AD. METHODS: 
-      Using screening data from four randomized, double-blind, placebo-controlled 
-      clinical trials in early AD, we assessed rates of eligibility among racial and 
-      ethnic groups controlling for other demographic covariates. Each trial 
-      incorporated PET and/or CSF to evaluate brain amyloid pathology, as well as 
-      typical eligibility criteria used in early AD trials. RESULTS: Across the trials, 
-      10,804 US participants were screened: 193 (2%) were of Hispanic ethnicity and 
-      Black race, 2,624 (25%) were of Hispanic ethnicity and White race, 118 (1%) were 
-      of non-Hispanic ethnicity (NH) and Asian race, 696 (7%) were of NH ethnicity and 
-      Black race, and 7,017 (65%) were of NH ethnicity and White race. Data from 156 
-      participants who did not fit into these categories were excluded. Accounting for 
-      age, sex, and trial and using NH White participants as a reference group, we 
-      observed higher probabilities of ineligibility for amyloid biomarker criteria 
-      among Hispanic Black (OR=3.20, 95%CI: 2.11, 4.88), Hispanic White (OR=4.15, 
-      95%CI: 3.58, 4.83), NH Asian (OR=2.35, 95%CI: 1.23, 4.55), and NH Black (OR=3.75, 
-      95%CI: 2.80, 5.06) participants. CONCLUSION: Differential eligibility may 
+AB  - OBJECTIVE: Many factors contribute to inadequate diversity in Alzheimer disease 
+      (AD) clinical trials. We evaluated eligibility rates among racial and ethnic 
+      groups at US sites in large global multisite trials in early AD. METHODS: Using 
+      screening data from 4 randomized, double-blind, placebo-controlled clinical 
+      trials in early AD, we assessed rates of eligibility among racial and ethnic 
+      groups controlling for other demographic covariates. Each trial incorporated 
+      positron emission tomography and/or cerebrospinal fluid to evaluate brain amyloid 
+      pathology, as well as typical eligibility criteria used in early AD trials. 
+      RESULTS: Across the trials, 10,804 US participants were screened: 193 (2%) were 
+      of Hispanic ethnicity and Black race, 2,624 (25%) were of Hispanic ethnicity and 
+      White race, 118 (1%) were of non-Hispanic ethnicity (NH) and Asian race, 696 (7%) 
+      were of NH ethnicity and Black race, and 7,017 (65%) were of NH ethnicity and 
+      White race. Data from 156 participants who did not fit into these categories were 
+      excluded. Accounting for age, sex, and trial and using NH White participants as a 
+      reference group, we observed higher probabilities of ineligibility for amyloid 
+      biomarker criteria among Hispanic Black (odds ratio [OR] = 3.20, 95% confidence 
+      interval [CI] = 2.11-4.88), Hispanic White (OR = 4.15, 95% CI = 3.58-4.83), NH 
+      Asian (OR = 2.35, 95% CI = 1.23-4.55), and NH Black (OR = 3.75, 95% 
+      CI = 2.80-5.06) participants. INTERPRETATION: Differential eligibility may 
       contribute to underrepresentation of some minoritized racial and ethnic groups in 
       early AD trials. Amyloid biomarker eligibility is a requirement to confirm the 
-      diagnosis of AD and for treatment with amyloid lowering drugs and differed among 
-      racial and ethnic groups. This article is protected by copyright. All rights 
-      reserved.
-CI  - This article is protected by copyright. All rights reserved.
+      diagnosis of AD and for treatment with amyloid-lowering drugs and differed among 
+      racial and ethnic groups. ANN NEUROL 2023.
+CI  - © 2023 The Authors. Annals of Neurology published by Wiley Periodicals LLC on 
+      behalf of American Neurological Association.
 FAU - Grill, Joshua D
 AU  - Grill JD
 AUID- ORCID: 0000-0002-4215-7589
 AD  - Institute for Memory Impairments and Neurological Disorders, Departments of 
       Psychiatry and Human Behavior and Neurobiology and Behavior, University of 
-      California Irvine, Irvine, CA, USA.
+      California, Irvine, Irvine, CA, USA.
 FAU - Flournoy, Charlene
 AU  - Flournoy C
 AD  - Alzheimer's Therapeutic Research Institute, University of Southern California, 
       San Diego, CA, USA.
 FAU - Dhadda, Shobha
 AU  - Dhadda S
-AD  - Eisai Inc., Nutley, NJ, USA.
+AD  - Eisai Inc, Nutley, NJ, USA.
 FAU - Ernstrom, Karin
 AU  - Ernstrom K
 AD  - Alzheimer's Therapeutic Research Institute, University of Southern California, 
       San Diego, CA, USA.
 FAU - Sperling, Reisa
 AU  - Sperling R
-AD  - Massachusetts General Hospital, Boston, MA, USA, Brigham and Women's Hospital, 
-      Boston, MA, USA.
-FAU - Henry, Doris Molina
-AU  - Henry DM
+AD  - Brigham and Women's Hospital, Massachusetts General Hospital, Boston, MA, USA.
+FAU - Molina-Henry, Doris
+AU  - Molina-Henry D
 AD  - Alzheimer's Therapeutic Research Institute, University of Southern California, 
       San Diego, CA, USA.
 FAU - Tranotti, Kate
 AU  - Tranotti K
-AD  - Eisai Inc., Nutley, NJ, USA.
+AD  - Eisai Inc, Nutley, NJ, USA.
 FAU - Harris, Russell
 AU  - Harris R
-AD  - Eisai Inc., Nutley, NJ, USA.
+AD  - Eisai Inc, Nutley, NJ, USA.
 FAU - Kanekiyo, Michio
 AU  - Kanekiyo M
-AD  - Eisai Inc., Nutley, NJ, USA.
+AD  - Eisai Inc, Nutley, NJ, USA.
 FAU - Gee, Michelle
 AU  - Gee M
-AD  - Eisai Co., Ltd, Hatfield, UK.
+AD  - Eisai Co Ltd, Hatfield, UK.
 FAU - Irizarry, Michael
 AU  - Irizarry M
-AD  - Eisai Inc., Nutley, NJ, USA.
+AD  - Eisai Inc, Nutley, NJ, USA.
 FAU - Kramer, Lynn
 AU  - Kramer L
-AD  - Eisai Inc., Nutley, NJ, USA.
+AD  - Eisai Inc, Nutley, NJ, USA.
 FAU - Aisen, Paul
 AU  - Aisen P
 AD  - Alzheimer's Therapeutic Research Institute, University of Southern California, 
@@ -394,8 +911,8 @@ CRDT- 2023/10/13 09:54
 PHST- 2023/10/08 00:00 [revised]
 PHST- 2023/07/22 00:00 [received]
 PHST- 2023/10/09 00:00 [accepted]
-PHST- 2023/10/13 12:42 [medline]
 PHST- 2023/10/13 12:42 [pubmed]
+PHST- 2023/10/13 12:42 [medline]
 PHST- 2023/10/13 09:54 [entrez]
 AID - 10.1002/ana.26819 [doi]
 PST - aheadofprint
@@ -500,9 +1017,11 @@ SO  - Neurol Ther. 2023 Oct 9. doi: 10.1007/s40120-023-00541-1.
 
 PMID- 37800375
 OWN - NLM
-STAT- Publisher
-LR  - 20231023
+STAT- MEDLINE
+DCOM- 20231101
+LR  - 20231101
 IS  - 1524-4628 (Electronic)
+IS  - 0039-2499 (Print)
 IS  - 0039-2499 (Linking)
 VI  - 54
 IP  - 11
@@ -521,6 +1040,8 @@ AUID- ORCID: 0000-0002-1047-9225
 AD  - Memory Aging and Cognition Centre, National University Health System, Yong Loo 
       Lin School of Medicine, National University of Singapore (C.L.H.C.).
 LA  - eng
+GR  - K12 TR004555/TR/NCATS NIH HHS/United States
+GR  - R56 NS029993/NS/NINDS NIH HHS/United States
 PT  - Journal Article
 DEP - 20231006
 PL  - United States
@@ -528,6 +1049,12 @@ TA  - Stroke
 JT  - Stroke
 JID - 0235266
 SB  - IM
+MH  - Humans
+MH  - *Stroke/therapy
+MH  - Brain
+MH  - *Brain Edema
+PMC - PMC10615734
+MID - NIHMS1932877
 OTO - NOTNLM
 OT  - anticoagulants
 OT  - edema
@@ -539,10 +1066,12 @@ COIS- Disclosures Dr Chen is a site principal investigator for the CLARITY and A
       investigator for the ATHENE and MAESTOSO studies funded by Moleac. He serves on 
       advisory boards for Actinogen and Eisai. The other authors report no conflicts.
 EDAT- 2023/10/06 06:43
-MHDA- 2023/10/06 06:43
+MHDA- 2023/11/01 12:42
+PMCR- 2024/11/01
 CRDT- 2023/10/06 05:28
+PHST- 2024/11/01 00:00 [pmc-release]
+PHST- 2023/11/01 12:42 [medline]
 PHST- 2023/10/06 06:43 [pubmed]
-PHST- 2023/10/06 06:43 [medline]
 PHST- 2023/10/06 05:28 [entrez]
 AID - 10.1161/STROKEAHA.123.043019 [doi]
 PST - ppublish
@@ -762,8 +1291,8 @@ SO  - Int J Mol Sci. 2023 Sep 9;24(18):13900. doi: 10.3390/ijms241813900.
 PMID- 37755935
 OWN - NLM
 STAT- MEDLINE
-DCOM- 20231023
-LR  - 20231023
+DCOM- 20231030
+LR  - 20231030
 IS  - 1538-3598 (Electronic)
 IS  - 0098-7484 (Linking)
 VI  - 330
@@ -780,12 +1309,14 @@ PL  - United States
 TA  - JAMA
 JT  - JAMA
 JID - 7501160
-RN  - 12PYH0FTU9 (lecanemab)
 RN  - 0 (Amyloid beta-Peptides)
+RN  - 12PYH0FTU9 (lecanemab)
+RN  - 0 (Antibodies, Monoclonal, Humanized)
 SB  - IM
 MH  - Humans
 MH  - *Alzheimer Disease/drug therapy
 MH  - Amyloid beta-Peptides
+MH  - *Antibodies, Monoclonal, Humanized/therapeutic use
 OAB - This Medical News story examines the complexity of determining who to treat with 
       lecanemab, the new Alzheimer disease drug.
 OABL- eng
@@ -3046,7 +3577,7 @@ PMID- 37479527
 OWN - NLM
 STAT- MEDLINE
 DCOM- 20231011
-LR  - 20231021
+LR  - 20231030
 IS  - 1526-632X (Electronic)
 IS  - 0028-3878 (Print)
 IS  - 0028-3878 (Linking)
@@ -3863,7 +4394,7 @@ PMID- 37419629
 OWN - NLM
 STAT- MEDLINE
 DCOM- 20230710
-LR  - 20230718
+LR  - 20231101
 IS  - 1756-1833 (Electronic)
 IS  - 0959-8138 (Linking)
 VI  - 382
@@ -4974,7 +5505,7 @@ SO  - J Alzheimers Dis. 2023;94(2):497-507. doi: 10.3233/JAD-230099.
 PMID- 37332353
 OWN - NLM
 STAT- PubMed-not-MEDLINE
-LR  - 20230620
+LR  - 20231102
 IS  - 1663-9812 (Print)
 IS  - 1663-9812 (Electronic)
 IS  - 1663-9812 (Linking)
@@ -6062,7 +6593,7 @@ PMID- 37167969
 OWN - NLM
 STAT- MEDLINE
 DCOM- 20230710
-LR  - 20230718
+LR  - 20231101
 IS  - 1097-4199 (Electronic)
 IS  - 0896-6273 (Print)
 IS  - 0896-6273 (Linking)
@@ -10320,7 +10851,7 @@ PMID- 36681438
 OWN - NLM
 STAT- MEDLINE
 DCOM- 20230124
-LR  - 20230308
+LR  - 20231101
 IS  - 1474-4465 (Electronic)
 IS  - 1474-4422 (Linking)
 VI  - 22
@@ -11374,7 +11905,7 @@ SO  - Lancet. 2022 Dec 3;400(10367):1899. doi: 10.1016/S0140-6736(22)02480-1.
 PMID- 36457865
 OWN - NLM
 STAT- PubMed-not-MEDLINE
-LR  - 20230918
+LR  - 20231102
 IS  - 1664-2295 (Print)
 IS  - 1664-2295 (Electronic)
 IS  - 1664-2295 (Linking)
