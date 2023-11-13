@@ -1,6 +1,13 @@
 # Get search terms from pubmed https://pubmed.ncbi.nlm.nih.gov/advanced/ 
 # Search query: Books and Documents, Case Reports, Clinical Study, Clinical Trial, Controlled Clinical Trial, Meta-Analysis, Randomized Controlled Trial, Review, Systematic Review, English, from 2022/1/2 - 2023/10/10, 'alzheimer', 'alzheimer's disease'
 naive_results <- import_results(file="data/pubmed-alzheimerA-set.nbib")
+## Other ##
+# Using (((lecanemab) OR (leqembi)) OR (BAN2401)) OR (mAb158)
+naive_results <- import_results(file="data/pubmed-lecanemabO-set.nbib")
+# Using "lecanemab"
+naive_results <- import_results(file="data/pubmed-lecanemab-set.nbib")
+# Using BAN2401
+naive_results <- import_results(file="data/pubmed-BAN2401-set.nbib")
 
 nrow(naive_results)
 # 6606
@@ -39,8 +46,8 @@ all_stopwords <- c(get_stopwords("English"), clin_stopwords)
 title_terms <- extract_terms(
   text = naive_results[, "title"],
   method = "fakerake",
-  min_freq = 10, 
-  min_n = 2,
+  min_freq = 5, 
+  min_n = 1,
   stopwords = all_stopwords
 )
 

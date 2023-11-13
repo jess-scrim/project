@@ -19,5 +19,5 @@ type <- 'esearch'
 db <- 'pubmed'
 mindate <- '2022/01/01'
 maxdate <- '2023/10/10'
-retmax <- 10000
+retmax <- 100
 datetype <- 'edat' # date of publication
