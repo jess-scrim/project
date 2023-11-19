@@ -1,24 +1,8 @@
 #### Undersanding relationships between words: n-grams & correlations ####
 
-abstract_bigrams <- abstracts %>%
+abstract_bigrams <- tidy_abstracts %>%
   unnest_tokens(bigram, text, token = "ngrams", n = 2) %>%
   filter(!is.na(bigram)) # remove NA
-
-# Count most common bigrams
-abstract_bigrams %>%
-  count(bigram, sort = TRUE)
-# bigram                  n
-# 
-#   1 in the               8671
-# 2 of the               7268
-# 3 alzheimer's disease  6015
-#  4 such as              2821
-#  5 this review          2797
-#  6 disease ad           2774
-#  7 of ad                2670
-#  8 and the              2654
-#  9 to the               2543
-# 10 on the               2492
 
 # Remove stop words in bigrams
 bigrams_separated <- abstract_bigrams %>%
@@ -29,7 +13,9 @@ bigrams_separated <- bigrams_separated %>%
   filter(!word2 %in% stop_words$word &
          !word2 %in% my_stopwords$word) # remove word2 if stopword
 
-# Count bigrams
+## Count bigrams ##
+
+# All abstracts
 bigram_counts <- bigrams_separated %>% 
   count(word1, word2, sort = TRUE)
 bigram_counts
@@ -46,11 +32,43 @@ bigram_counts
 #  9 meta              analysis     757
 # 10 clinical          trials       735
 
+# Pre-leca
+bigrams_separated %>% 
+  filter(type == "pre-leca") %>% 
+  count(word1, word2, sort = TRUE)
+# word1             word2          n
+# 
+#  1 neurodegenerative diseases    1153
+#  2 parkinson's       disease      790
+#  3 cognitive         impairment   651
+#  4 nervous           system       562
+#  5 95                ci           527
+#  6 cognitive         decline      458
+#  7 central           nervous      433
+#  8 oxidative         stress       417
+#  9 meta              analysis     412
+# 10 neurodegenerative disorders    412
+
+# Post-leca
+bigrams_separated %>% 
+  filter(type == "post-leca") %>% 
+  count(word1, word2, sort = TRUE)
+# word1             word2          n
+# 
+#  1 neurodegenerative diseases     851
+#  2 cognitive         impairment   606
+#  3 parkinson's       disease      603
+#  4 95                ci           518
+#  5 nervous           system       467
+#  6 cognitive         decline      361
+#  7 oxidative         stress       358
+#  8 meta              analysis     345
+#  9 central           nervous      341
+# 10 clinical          trials       332
 
 # join word1 and word2 back together into bigram
 bigrams_united <- bigram_counts %>%
   unite(bigram, word1, word2, sep = " ") # 'bigram' name of new column
-bigrams_united
 
 ### Analysing bigrams ###
 # Most common disease
@@ -75,37 +93,36 @@ bigrams_separated %>%
   filter(grepl("^neuro", word1)) %>%
   count(word2, sort = TRUE)
 # word2          n
-# 
-# 1 diseases     171
-# 2 disorders     96
-# 3 disease       43
-# 4 disorder      33
-# 5 initiative    25
-# 6 conditions    24
-# 7 cells         21
-# 8 effects       20
-# 9 loss          20
-# 10 tangles       20
+# 1 diseases    2483
+# 2 disorders   1423
+# 3 disease      633
+# 4 disorder     338
+# 5 tangles      293
+# 6 effects      239
+# 7 conditions   194
+# 8 symptoms     140
+# 9 loss         133
+# 10 death        108
 
 bigrams_separated %>%
   filter(grepl("^neuro", word2)) %>%
   count(word1, sort = TRUE)
-# word1            n
+# word1           n
 # 
-# 1 disease         30
-# 2 hippocampal     18
-# 3 progressive     15
-# 4 related         14
-# 5 common          13
-# 6 including       13
-# 7 induced         13
-# 8 excitatory      10
-# 9 derived          9
-# 10 dopaminergic     8
+# 1 common        215
+# 2 progressive   184
+# 3 related       168
+# 4 including     106
+# 5 chronic        82
+# 6 derived        72
+# 7 induced        61
+# 8 prevalent      58
+# 9 treating       55
+# 10 disease        54
 
 #### Visualise network of bigrams ####
-bigram_counts
-# filter for only relatively common combinations
+
+# Filter for only relatively common combinations
 bigram_graph <- bigram_counts %>%
   filter(n > 300) %>%
   graph_from_data_frame() # most common word1->word2
@@ -118,17 +135,66 @@ set.seed(2017) # set random 2017
 ggraph(bigram_graph, layout = "fr") +
   geom_edge_link() +
   geom_node_point() +
-  geom_node_text(aes(label = name), vjust = 1, hjust = 1)
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
+  ggtitle("Bigram Relations")
 
-# visualise - thickness of line determines how strong the relationship is
+# Pre-leca
+pre_leca_graph <- bigrams_separated %>%
+  filter(type == "pre-leca") %>% 
+  count(word1, word2, sort = TRUE) %>% 
+  filter(n > 200) %>%
+  graph_from_data_frame()
+pre_leca_graph
+ggraph(pre_leca_graph, layout = "fr") +
+  geom_edge_link() +
+  geom_node_point() +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
+  ggtitle("Pre-leca Bigram Relations")
+
+# Post-leca
+post_leca_graph <- bigrams_separated %>%
+  filter(type == "post-leca") %>% 
+  count(word1, word2, sort = TRUE) %>% 
+  filter(n > 200) %>%
+  graph_from_data_frame()
+post_leca_graph
+ggraph(pre_leca_graph, layout = "fr") +
+  geom_edge_link() +
+  geom_node_point() +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
+  ggtitle("Post-leca Bigram Relations")
+
+# Visualise - thickness of line determines how strong the relationship is
 set.seed(2020)
 
 bigram_counts %>% 
-  filter(n > 300) %>%
+  filter(n > 400) %>%
   graph_from_data_frame() %>%
   ggraph(layout = "fr") +
   geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
   geom_node_point(size = 5) +
   geom_node_text(aes(label = name), repel = TRUE, 
                  point.padding = unit(0.2, "lines")) +
-  theme_void()
+  theme_void() +
+  ggtitle("Bigram Relations")
+
+# Pre-leca
+pre_leca_graph %>% 
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
+  geom_node_point(size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, 
+                 point.padding = unit(0.2, "lines")) +
+  theme_void() +
+  ggtitle("Pre-leca Bigram Relations")
+
+
+# Pre-leca
+post_leca_graph %>% 
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
+  geom_node_point(size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, 
+                 point.padding = unit(0.2, "lines")) +
+  theme_void() +
+  ggtitle("Post-leca Bigram Relations")

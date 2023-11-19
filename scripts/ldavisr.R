@@ -1,10 +1,11 @@
 # Compute some statistics related to the data set
 
-D <- length(tidy_abstracts_clean)  # number of documents (2,000)
+D <- tidy_abstracts_clean %>% select(-author) %>% length()  # number of documents (2,000)
 W <- length(tidy_abstracts_clean$word)  # number of terms in the vocab (14,568)
-doc.length <- sapply(tidy_abstracts_clean, function(x) sum(x[100, ]))  # number of tokens per document [312, 288, 170, 436, 291, ...]
+
 N <- sum(doc.length)  # total number of tokens in the data (546,827)
-term.frequency <- as.integer(term.table)  # frequencies of terms in the corpus [8939, 5544, 2411, 2410, 2143, ...]
+term.frequency <- tidy_abstracts_clean %>%  
+                               count(word, sort = TRUE)  # frequencies of terms in the corpus [8939, 5544, 2411, 2410, 2143, ...]
 
 
 # MCMC and model tuning parameters:
@@ -18,9 +19,14 @@ library(lda)
 
 set.seed(357)
 t1 <- Sys.time()
-fit <- lda.collapsed.gibbs.sampler(documents = documents, K = K, vocab = vocab, 
-                                   num.iterations = G, alpha = alpha, 
-                                   eta = eta, initial = NULL, burnin = 0,
+fit <- lda.collapsed.gibbs.sampler(documents = , 
+                                   K = K, 
+                                   vocab = vocab, 
+                                   num.iterations = G, 
+                                   alpha = alpha, 
+                                   eta = eta, 
+                                   initial = NULL, 
+                                   burnin = 0,
                                    compute.log.likelihood = TRUE)
 t2 <- Sys.time()
 t2 - t1  # about 24 minutes on laptop

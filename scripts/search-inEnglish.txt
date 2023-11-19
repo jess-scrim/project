@@ -1,1 +1,0 @@
-\(\(alzheimer\) AND \(aging OR als OR "amyotrophic lateral sclerosis" OR "huntington's disease" OR parkin\)\)

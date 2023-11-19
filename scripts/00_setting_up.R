@@ -18,6 +18,7 @@ query <- '("alzheimer disease"[MeSH Terms] OR ("alzheimer"[All Fields] AND "dise
 type <- 'esearch'
 db <- 'pubmed'
 mindate <- '2022/01/01'
-maxdate <- '2023/10/10'
+maxdate <- '2024/01/01'
 retmax <- 100
 datetype <- 'edat' # date of publication
+leca_approv <- '2023-01-06'

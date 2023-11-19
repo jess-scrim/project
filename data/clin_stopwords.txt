@@ -44,6 +44,7 @@ control
 controlled
 controlling
 controls
+current
 design
 designed
 designing
@@ -58,6 +59,7 @@ follow
 followed
 following
 follows
+future
 group
 groups
 impact
@@ -70,12 +72,15 @@ moderates
 moderating
 moderator
 moderators
+narrative
 outcome
 outcomes
 patient
 patients
+pathway
 people
 pilot
+potential
 practice
 predict
 predicted
@@ -85,6 +90,7 @@ predictors
 predicts
 preliminary
 primary
+promising
 protocol
 quality
 random
@@ -104,6 +110,7 @@ report
 reported
 reporting
 reports
+research
 response
 responses
 result
@@ -116,6 +123,8 @@ studies
 study
 studying
 systematic
+target
+targets
 treat
 treated
 treating
