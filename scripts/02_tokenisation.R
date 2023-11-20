@@ -4,8 +4,8 @@ source("scripts/00_setting_up.R")
 # tidy text
 tidy_abstracts <- abstracts %>% 
   filter(!text == "NA") %>% 
-  mutate(type = case_when(date <= "2023-01-06" ~ "pre-leca",
-                          date > "2023-01-06" ~ "post-leca")) 
+  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
+                          date > leca_approv ~ "post-leca")) 
 
 # remove stopwords
 data(stop_words)
