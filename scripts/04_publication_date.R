@@ -29,14 +29,14 @@ naive_drug_results$date_published <- as.Date(naive_drug_results$date_published,
                                              format = "%Y %b %d")
 
 ggplot() +
-  geom_histogram(aes(x = naive_drug_results$date_published),
-                 bins = 30,
-                 binwidth = 100,
-                 fill = "red") +
   geom_histogram(aes(x = abstracts$date),
                  bins = 50,
                  binwidth = 20,
                  fill = "blue") +
+  geom_histogram(aes(x = naive_drug_results$date_published),
+                 bins = 30,
+                 binwidth = 20,
+                 fill = "red") +
   xlab("Date of Publication") +
   ylab("Number of Abstracts") +
   scale_x_date(date_breaks = "6 month", date_labels = "%m/%Y") + 
