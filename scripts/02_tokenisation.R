@@ -9,11 +9,11 @@ tidy_abstracts <- abstracts %>%
 
 # remove stopwords
 data(stop_words)
-my_stopwords <- tibble(word = c("alzheimer's", "ad"))
+my_stopwords <- tibble(word = c("alzheimer's", "ad", "95", "ci"))
 
 tidy_abstracts_clean <- tidy_abstracts %>% 
   unnest_tokens(word, text)
-tidy_abstracts_clean <- tidy_abstracts %>%
+tidy_abstracts_clean <- tidy_abstracts_clean %>%
   anti_join(stop_words)
 tidy_abstracts_clean <- tidy_abstracts_clean %>%
   anti_join(my_stopwords)

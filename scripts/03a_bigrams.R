@@ -1,8 +1,10 @@
-#### Undersanding relationships between words: n-grams & correlations ####
+#### Understanding relationships between words: n-grams & correlations ####
 
 abstract_bigrams <- tidy_abstracts %>%
   unnest_tokens(bigram, text, token = "ngrams", n = 2) %>%
   filter(!is.na(bigram)) # remove NA
+
+# abstract_bigrams <- read_csv("results/abstract_bigrams")
 
 # Remove stop words in bigrams
 bigrams_separated <- abstract_bigrams %>%
@@ -17,6 +19,7 @@ bigrams_separated <- bigrams_separated %>%
 
 # All abstracts
 bigram_counts <- bigrams_separated %>% 
+  group_by(type) %>% 
   count(word1, word2, sort = TRUE)
 bigram_counts
 # word1             word2          n
@@ -33,9 +36,8 @@ bigram_counts
 # 10 clinical          trials       735
 
 # Pre-leca
-bigrams_separated %>% 
-  filter(type == "pre-leca") %>% 
-  count(word1, word2, sort = TRUE)
+bigram_counts %>% 
+  filter(type == "pre-leca")
 # word1             word2          n
 # 
 #  1 neurodegenerative diseases    1153
@@ -50,9 +52,8 @@ bigrams_separated %>%
 # 10 neurodegenerative disorders    412
 
 # Post-leca
-bigrams_separated %>% 
-  filter(type == "post-leca") %>% 
-  count(word1, word2, sort = TRUE)
+bigram_counts %>% 
+  filter(type == "post-leca")
 # word1             word2          n
 # 
 #  1 neurodegenerative diseases     851
@@ -68,6 +69,7 @@ bigrams_separated %>%
 
 # join word1 and word2 back together into bigram
 bigrams_united <- bigram_counts %>%
+  group_by(type) %>% 
   unite(bigram, word1, word2, sep = " ") # 'bigram' name of new column
 
 ### Analysing bigrams ###
@@ -123,7 +125,7 @@ bigrams_separated %>%
 #### Visualise network of bigrams ####
 
 # Filter for only relatively common combinations
-bigram_graph <- bigram_counts %>%
+bigram_graph <- bigrams_united %>%
   filter(n > 300) %>%
   graph_from_data_frame() # most common word1->word2
 
