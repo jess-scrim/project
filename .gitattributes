@@ -1,1 +1,16 @@
 results/*.* filter=lfs diff=lfs merge=lfs -text
+bigrams_separated filter=lfs diff=lfs merge=lfs -text
+bigram_count filter=lfs diff=lfs merge=lfs -text
+bigrams_united filter=lfs diff=lfs merge=lfs -text
+trigrams_united filter=lfs diff=lfs merge=lfs -text
+trigrams_separated filter=lfs diff=lfs merge=lfs -text
+tidy_abstracts_clean filter=lfs diff=lfs merge=lfs -text
+tidy_abstracts_clean.csv filter=lfs diff=lfs merge=lfs -text
+trigrams_separated.csv filter=lfs diff=lfs merge=lfs -text
+trigrams_united.csv filter=lfs diff=lfs merge=lfs -text
+bigrams_united.csv filter=lfs diff=lfs merge=lfs -text
+bigram_count.csv filter=lfs diff=lfs merge=lfs -text
+bigrams_separated.csv filter=lfs diff=lfs merge=lfs -text
+abstract_bigrams.csv filter=lfs diff=lfs merge=lfs -text
+abstract_triigrams.csv filter=lfs diff=lfs merge=lfs -text
+abstract_trigrams.csv filter=lfs diff=lfs merge=lfs -text

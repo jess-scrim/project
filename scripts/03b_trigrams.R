@@ -2,6 +2,8 @@ abstract_trigrams <- tidy_abstracts %>%
   unnest_tokens(trigram, text, token = "ngrams", n = 3) %>%
   filter(!is.na(trigram)) # remove NA
 
+# abstract_bigrams <- read_csv("results/abstract_bigrams")
+
 # Remove stop words in trigrams
 trigrams_separated <- abstract_trigrams %>%
   separate(trigram, c("word1", "word2", "word3"), sep = " ")
@@ -17,6 +19,7 @@ trigrams_separated <- trigrams_separated %>%
 
 # All abstracts
 trigram_counts <- trigrams_separated %>% 
+  group_by(type) %>% 
   count(word1, word2, word3, sort = TRUE)
 trigram_counts
 # word1       word2       word3          n
@@ -33,9 +36,8 @@ trigram_counts
 # 10 sars        cov         2            204
 
 # Pre-leca
-trigrams_separated %>% 
-  filter(type == "pre-leca") %>% 
-  count(word1, word2, word3, sort = TRUE)
+trigram_counts %>% 
+  filter(type == "pre-leca")
 # word1       word2       word3          n
 #
 #  1 central     nervous     system       420
@@ -50,9 +52,8 @@ trigrams_separated %>%
 # 10 type        2           diabetes     121
 
 # Post-leca
-trigrams_separated %>% 
-  filter(type == "post-leca") %>% 
-  count(word1, word2, word3, sort = TRUE)
+trigram_counts %>% 
+  filter(type == "post-leca")
 # word1       word2       word3          n
 #  1 central     nervous     system       337
 #  2 parkinson's disease     pd           213
@@ -68,12 +69,14 @@ trigrams_separated %>%
 
 # join word1, word2 and word3 back together into trigram
 trigrams_united <- trigram_counts %>%
+  group_by(type) %>% 
   unite(trigram, word1, word2, word3, sep = " ") # 'bigram' name of new column
 
 #### Visualise network of trigrams ####
 
 # filter for only relatively common combinations
 trigram_graph <- trigram_counts %>%
+  select(-type) %>% 
   filter(n > 100) %>%
   graph_from_data_frame() # most common word1->word2
 
