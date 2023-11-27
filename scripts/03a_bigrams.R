@@ -4,7 +4,7 @@ abstract_bigrams <- tidy_abstracts %>%
   unnest_tokens(bigram, text, token = "ngrams", n = 2) %>%
   filter(!is.na(bigram)) # remove NA
 
-# abstract_bigrams <- read_csv("results/abstract_bigrams")
+# abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
 
 # Remove stop words in bigrams
 bigrams_separated <- abstract_bigrams %>%
@@ -20,57 +20,47 @@ bigrams_separated <- bigrams_separated %>%
 # All abstracts
 bigram_counts <- bigrams_separated %>% 
   group_by(type) %>% 
-  count(word1, word2, sort = TRUE)
-bigram_counts
-# word1             word2          n
-#
-#  1 neurodegenerative diseases    2004
-#  2 parkinson's       disease     1393
-#  3 cognitive         impairment  1257
-#  4 95                ci          1045
-#  5 nervous           system      1029
-#  6 cognitive         decline      819
-#  7 oxidative         stress       775
-#  8 central           nervous      774
-#  9 meta              analysis     757
-# 10 clinical          trials       735
+  count(word1, word2, sort = TRUE) %>% 
+  ungroup()
 
 # Pre-leca
 bigram_counts %>% 
-  filter(type == "pre-leca")
+  filter(type == "pre-leca") %>% 
+  select(-type)
 # word1             word2          n
-# 
-#  1 neurodegenerative diseases    1153
+#   1 neurodegenerative diseases    1153
 #  2 parkinson's       disease      790
 #  3 cognitive         impairment   651
 #  4 nervous           system       562
-#  5 95                ci           527
-#  6 cognitive         decline      458
-#  7 central           nervous      433
-#  8 oxidative         stress       417
-#  9 meta              analysis     412
-# 10 neurodegenerative disorders    412
+#  5 cognitive         decline      458
+#  6 central           nervous      433
+#  7 oxidative         stress       417
+#  8 meta              analysis     412
+#  9 neurodegenerative disorders    412
+# 10 clinical          trials       403
 
 # Post-leca
 bigram_counts %>% 
-  filter(type == "post-leca")
+  filter(type == "post-leca") %>% 
+  select(-type)
 # word1             word2          n
-# 
-#  1 neurodegenerative diseases     851
-#  2 cognitive         impairment   606
-#  3 parkinson's       disease      603
-#  4 95                ci           518
-#  5 nervous           system       467
-#  6 cognitive         decline      361
-#  7 oxidative         stress       358
-#  8 meta              analysis     345
-#  9 central           nervous      341
-# 10 clinical          trials       332
+#
+#   1 neurodegenerative diseases     851
+# 2 cognitive         impairment   606
+# 3 parkinson's       disease      603
+#  4 nervous           system       467
+#  5 cognitive         decline      361
+#  6 oxidative         stress       358
+#  7 meta              analysis     345
+#  8 central           nervous      341
+#  9 clinical          trials       332
+# 10 neurodegenerative disorders    281
 
 # join word1 and word2 back together into bigram
 bigrams_united <- bigram_counts %>%
   group_by(type) %>% 
-  unite(bigram, word1, word2, sep = " ") # 'bigram' name of new column
+  unite(bigram, word1, word2, sep = " ") %>%  # 'bigram' name of new column
+  ungroup()
 
 ### Analysing bigrams ###
 # Most common disease
@@ -125,7 +115,8 @@ bigrams_separated %>%
 #### Visualise network of bigrams ####
 
 # Filter for only relatively common combinations
-bigram_graph <- bigrams_united %>%
+bigram_graph <- bigram_counts %>%
+  select(-type) %>% 
   filter(n > 300) %>%
   graph_from_data_frame() # most common word1->word2
 
@@ -141,9 +132,9 @@ ggraph(bigram_graph, layout = "fr") +
   ggtitle("Bigram Relations")
 
 # Pre-leca
-pre_leca_graph <- bigrams_separated %>%
-  filter(type == "pre-leca") %>% 
-  count(word1, word2, sort = TRUE) %>% 
+pre_leca_graph <- bigram_counts %>%
+  filter(type == "pre-leca") %>%
+  select(-type) %>% 
   filter(n > 200) %>%
   graph_from_data_frame()
 pre_leca_graph
@@ -154,13 +145,13 @@ ggraph(pre_leca_graph, layout = "fr") +
   ggtitle("Pre-leca Bigram Relations")
 
 # Post-leca
-post_leca_graph <- bigrams_separated %>%
+post_leca_graph <- bigram_counts %>%
   filter(type == "post-leca") %>% 
-  count(word1, word2, sort = TRUE) %>% 
+  select(-type) %>% 
   filter(n > 200) %>%
   graph_from_data_frame()
 post_leca_graph
-ggraph(pre_leca_graph, layout = "fr") +
+ggraph(post_leca_graph, layout = "fr") +
   geom_edge_link() +
   geom_node_point() +
   geom_node_text(aes(label = name), vjust = 1, hjust = 1) +

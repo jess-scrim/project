@@ -1,5 +1,5 @@
 source("scripts/00_setting_up.R")
-#source("scripts/01_data_cleaning.R")
+# tidy_abstracts_clean <- read_csv("results/tidy_abstracts_clean.csv)
 
 # tidy text
 tidy_abstracts <- abstracts %>% 
