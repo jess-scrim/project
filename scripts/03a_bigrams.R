@@ -15,13 +15,40 @@ bigrams_separated <- bigrams_separated %>%
   filter(!word2 %in% stop_words$word &
          !word2 %in% my_stopwords$word) # remove word2 if stopword
 
+# join word1 and word2 back together into bigram
+bigrams_united <- bigrams_separated %>%
+  unite(bigram, word1, word2, sep = " ")  # 'bigram' name of new column
+  
+## Map words and remove abbreviations ##
+bigrams_united <- bigrams_united %>% 
+ # filter(grepl("alzheimer*\\b*disease*", bigram)) %>% 
+  mutate(bigram = str_replace_all(bigram, 
+                              "\\b(neurodegenerative dis(?:ease|eases|order|orders)?)\\b|\\b(neurological dis(?:ease|eases|order|orders)?)\\b", 
+                              "neurodegenerative disease"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(central nervous)\\b|\\b(system cns)\\b",
+                                  "cns"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(parkinson's disease)\\b|\\b(disease pd)\\b",
+                                  "parkinson's disease"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(blood brain)\\b|\\b(brain barrier)\\b",
+                                  "blood brain"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(amyloid\\s*\\p{Greek})\\b|\\b(amyloid beta)\\b|\\b(amyloid a\\p{Greek})\\b|\\b(beta amyloid)\\b|\\b(\\p{Greek} amyloid)\\b",
+                                   "amyloid beta"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(2019 covid)\\b|\\b(covid 19)\\b",
+                                  "covid 19"))
+
 ## Count bigrams ##
 
 # All abstracts
-bigram_counts <- bigrams_separated %>% 
+bigram_counts <- bigrams_united %>% 
   group_by(type) %>% 
-  count(word1, word2, sort = TRUE) %>% 
+  count(bigram, sort = TRUE) %>% 
   ungroup()
+bigram_counts %>% View()
 
 # Pre-leca
 bigram_counts %>% 
@@ -55,12 +82,6 @@ bigram_counts %>%
 #  8 central           nervous      341
 #  9 clinical          trials       332
 # 10 neurodegenerative disorders    281
-
-# join word1 and word2 back together into bigram
-bigrams_united <- bigram_counts %>%
-  group_by(type) %>% 
-  unite(bigram, word1, word2, sep = " ") %>%  # 'bigram' name of new column
-  ungroup()
 
 ### Analysing bigrams ###
 # Most common disease
@@ -115,9 +136,12 @@ bigrams_separated %>%
 #### Visualise network of bigrams ####
 
 # Filter for only relatively common combinations
-bigram_graph <- bigram_counts %>%
-  select(-type) %>% 
-  filter(n > 300) %>%
+bigram_graph <- bigrams_united %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+  
+bigram_graph <- bigram_graph %>%
   graph_from_data_frame() # most common word1->word2
 
 bigram_graph
@@ -132,10 +156,13 @@ ggraph(bigram_graph, layout = "fr") +
   ggtitle("Bigram Relations")
 
 # Pre-leca
-pre_leca_graph <- bigram_counts %>%
+pre_leca_graph <- bigrams_united %>%
   filter(type == "pre-leca") %>%
-  select(-type) %>% 
-  filter(n > 200) %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+pre_leca_graph <- pre_leca_graph %>%
   graph_from_data_frame()
 pre_leca_graph
 ggraph(pre_leca_graph, layout = "fr") +
@@ -145,12 +172,15 @@ ggraph(pre_leca_graph, layout = "fr") +
   ggtitle("Pre-leca Bigram Relations")
 
 # Post-leca
-post_leca_graph <- bigram_counts %>%
-  filter(type == "post-leca") %>% 
-  select(-type) %>% 
-  filter(n > 200) %>%
+post_leca_graph <- bigrams_united %>%
+  filter(type == "post-leca") %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+post_leca_graph <- post_leca_graph %>%
   graph_from_data_frame()
 post_leca_graph
+
 ggraph(post_leca_graph, layout = "fr") +
   geom_edge_link() +
   geom_node_point() +
@@ -160,9 +190,7 @@ ggraph(post_leca_graph, layout = "fr") +
 # Visualise - thickness of line determines how strong the relationship is
 set.seed(2020)
 
-bigram_counts %>% 
-  filter(n > 400) %>%
-  graph_from_data_frame() %>%
+bigram_graph %>% 
   ggraph(layout = "fr") +
   geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
   geom_node_point(size = 5) +
@@ -180,7 +208,6 @@ pre_leca_graph %>%
                  point.padding = unit(0.2, "lines")) +
   theme_void() +
   ggtitle("Pre-leca Bigram Relations")
-
 
 # Pre-leca
 post_leca_graph %>% 

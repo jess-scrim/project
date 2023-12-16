@@ -1,0 +1,26 @@
+---
+title: "references"
+format: html
+editor: visual
+bibliography: ../references.bib
+---
+
+[@tidyverse]
+
+[@tidytext]
+
+[@RISmed]
+
+[@litsearchr]
+
+[@remotes]
+
+[@igraph]
+
+[@ggraph]
+
+[@remotes]
+
+[@lubridate]
+
+[@topicmodels]
