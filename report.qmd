@@ -23,6 +23,7 @@ source("scripts/00_setting_up.R")
 
 ```{r}
 #| label: data
+#| include: false
 load("project.RData")
 tidy_abstracts_clean <- read_csv("results/tidy_abstracts_clean.csv")
 abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
@@ -41,6 +42,201 @@ Currently, there are a number of new immunotherapies undergoing clinical trials 
 
 # Methods
 
+## *litsearchR*
+
+The `litsearchR` package was used to search PubMed for abstracts containing the MeSH term 'Alzheimer's Disease' and show the most frequent words in the keywords and titles to ensure all papers are captured . See @ad-search-terms.
+
+```{r}
+#| label: search-terms
+#| include: false
+#| cache: true
+
+naive_results <- import_results(file="data/pubmed-alzheimerd-set.nbib")
+
+nrow(naive_results)
+
+keywords <- extract_terms(keywords=naive_results[, "keywords"], 
+                          method="tagged", 
+                          min_n = 1, # allows single words
+                          min_freq = 50) # only words that appear at least 10 times in keyword search 
+
+# Remove stop-words from titles
+clin_stopwords <- read_lines("data/clin_stopwords.txt")
+all_stopwords <- c(get_stopwords("English"), clin_stopwords)
+
+title_terms <- extract_terms(
+  text = naive_results[, "title"],
+  method = "fakerake",
+  min_freq = 75, 
+  min_n = 1,
+  stopwords = all_stopwords
+)
+
+search_terms <- c(keywords, title_terms) %>% unique()
+
+
+### Network analysis ###
+
+# Combine title with abstract
+docs <- paste(naive_results[, "title"], naive_results[, "abstract"])
+
+# Create matrix of which term appears in which article
+dfm <- create_dfm(elements = docs, 
+                  features = search_terms)
+
+# Create network of linked terms
+g <- create_network(dfm, 
+                    min_studies = 3)
+ggraph(g, layout="stress") +
+  coord_fixed() +
+  expand_limits(x=c(-3, 3)) +
+  geom_edge_link(aes(alpha=weight)) +
+  geom_node_point(shape="circle filled", fill="white") +
+  geom_node_text(aes(label=name), 
+                 hjust="outward", 
+                 check_overlap=TRUE) 
+
+## Pruning ##
+
+# Remove terms that are not connected to other terms - strength
+strengths <- strength(g)
+
+term_strengths <- data.frame(term=names(strengths), strength=strengths, row.names=NULL) %>%
+  mutate(rank = rank(strength, 
+                   ties.method="min")) %>%
+  arrange(strength)
+
+# Visualise to determine cutoff
+cutoff_fig <- ggplot(term_strengths, aes(x=rank, 
+                                         y=strength, 
+                                         label=term)) +
+  geom_line() +
+  geom_point() +
+  geom_text(data=filter(term_strengths, rank>5), hjust="right", nudge_y=20, check_overlap=TRUE)
+
+cutoff_fig
+
+# Find 80% cutoff
+cutoff_cum <- find_cutoff(g, 
+                          method="cumulative", 
+                          percent=0.8)
+
+# Add to figure
+cutoff_fig +
+  geom_hline(yintercept = cutoff_cum, 
+             linetype = "dashed")
+
+# Add cutoffs for changes
+cutoff_change <- find_cutoff(g, 
+                             method = "changepoint", 
+                             knot_num = 3)
+
+```
+
+```{r}
+#| label: ad-search-terms
+#| include: true
+#| fig-cap: "Search term network for Alzheimer's Disease"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
+
+cutoff_fig +
+  geom_hline(yintercept = cutoff_change, 
+             linetype="dashed")
+
+```
+
+```{r}
+#| label: drug-search-terms
+#| include: false 
+#| cache: true
+
+naive_drug_results <- import_results(file="data/pubmed-lecanemabO-set.nbib")
+
+keywords <- extract_terms(keywords=naive_drug_results[, "keywords"], 
+                          method="tagged", 
+                          min_n = 1, # allows single words
+                          min_freq = 2) # only words that appear at least 2 times in keyword search 
+
+# Remove stop-words from titles
+clin_stopwords <- read_lines("data/clin_stopwords.txt")
+all_stopwords <- c(get_stopwords("English"), clin_stopwords)
+
+title_terms <- extract_terms(
+  text = naive_drug_results[, "title"],
+  method = "fakerake",
+  min_freq = 2, 
+  min_n = 1,
+  stopwords = all_stopwords
+)
+
+# Combine search terms & remove duplicates
+search_terms <- c(keywords, title_terms) %>% unique()
+
+## Network analysis ###
+
+# Combine title with abstract
+docs <- paste(naive_drug_results[, "title"], naive_drug_results[, "abstract"])
+
+# Create matrix of which term appears in which article
+dfm <- create_dfm(elements = docs, 
+                  features = search_terms)
+
+# Create network of linked terms
+g <- create_network(dfm, 
+                    min_studies = 3)
+ggraph(g, layout="stress") +
+  coord_fixed() +
+  expand_limits(x=c(-3, 3)) +
+  geom_edge_link(aes(alpha=weight)) +
+  geom_node_point(shape="circle filled", fill="white") +
+  geom_node_text(aes(label=name), 
+                 hjust="outward", 
+                 check_overlap=TRUE) 
+
+## Pruning ##
+
+# Remove terms that are not connected to other terms - strength
+strengths <- strength(g)
+
+term_strengths <- data.frame(term=names(strengths), strength=strengths, row.names=NULL) %>%
+  mutate(rank=rank(strength, ties.method="min")) %>%
+  arrange(strength)
+
+# Visualise to determine cutoff
+cutoff_fig <- ggplot(term_strengths, aes(x=rank, y=strength, label=term)) +
+  geom_line() +
+  geom_point() +
+  geom_text(data=filter(term_strengths, rank>5), hjust="right", nudge_y=20, check_overlap=TRUE)
+
+# Find 80% cutoff
+cutoff_cum <- find_cutoff(g, 
+                          method="cumulative", 
+                          percent=0.8)
+
+# Add to figure
+cutoff_fig +
+  geom_hline(yintercept=cutoff_cum, linetype="dashed")
+
+# Add cutoffs for changes
+cutoff_change <- find_cutoff(g, method="changepoint", knot_num=3)
+
+```
+
+```{r}
+#| label: ad-drug-search-terms
+#| include: true
+#| fig-cap: "AD drug search term network"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
+
+cutoff_fig +
+  geom_hline(yintercept=cutoff_change, linetype="dashed")
+
+```
+
 ```{r}
 #| label: data-import
 #| include: false
@@ -48,16 +244,22 @@ tidy_abstracts_clean <- tidy_abstracts_clean %>%
   anti_join(stop_words)
 tidy_abstracts_clean <- tidy_abstracts_clean %>%
   anti_join(my_stopwords)
+
 ```
 
 # Results
 
 This study found `r nrow(abstracts)` papers that were published between `r min(tidy_abstracts_clean$date)` and `r max(tidy_abstracts_clean$date)` that contained the identified terms.
 
-The distribution of publications is shown in @publication-date
+The distribution of publications is shown in @publication-date.
 
 ```{r}
 #| label: publication-date
+#| include: true
+#| fig-cap: "Publication date distribution of abstracts"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 abstracts %>%  
   ggplot(aes(date)) +
@@ -68,15 +270,18 @@ abstracts %>%
   scale_x_date(date_breaks = "4 month", date_labels = "%m/%Y") +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-scale_y_continuous(breaks = seq(0, 1400, by = 200)) 
 
 ```
 
-The distribution of publications containing the terms associated with 'lecanemab' is shown below:
+The distribution of publications containing the terms associated with 'lecanemab' is shown in @
 
 ```{r}
-# Results from Lecanemab PubMed search
-naive_drug_results <- import_results(file="data/pubmed-lecanemabO-set.nbib")
+#| label: lecanemab-publication-date
+#| include: true
+#| fig-cap: "Publication date distribution of abstracts containing lecanemab terms"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 ## Visualise abstracts published with all lena terms
 naive_drug_results %>% 
@@ -95,6 +300,11 @@ naive_drug_results %>%
 
 ```{r}
 #| label: tokenisation
+#| include: true
+#| fig-cap: "Most Common Unigram"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 tidy_abstracts_clean %>% 
   group_by(type) %>%
@@ -117,6 +327,11 @@ The distribution of the top frequent words per month is shown below. The top wor
 
 ```{r}
 #| label: GLM
+#| include: true
+#| fig-cap: "Most Frequent Words per Month"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 ## Create Generalised linear model
 
@@ -189,11 +404,45 @@ bigram_counts <- bigrams_united %>%
   group_by(type) %>% 
   count(bigram, sort = TRUE) %>% 
   ungroup()
+
+# Filter for only relatively common combinations
+bigram_graph <- bigrams_united %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+  
+bigram_graph <- bigram_graph %>%
+  graph_from_data_frame() # most common word1->word2
+
+set.seed(2017) # set random 2017
+
+# Pre-leca
+pre_leca_graph <- bigrams_united %>%
+  filter(type == "pre-leca") %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+pre_leca_graph <- pre_leca_graph %>%
+  graph_from_data_frame()
+
+# Post-leca
+post_leca_graph <- bigrams_united %>%
+  filter(type == "post-leca") %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+post_leca_graph <- post_leca_graph %>%
+  graph_from_data_frame()
 ```
 
-Most common bigrams ending in 'disease'
-
 ```{r}
+#| label: bigram-plot
+#| include: true
+#| fig-cap: "Bigrams in abstracts"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 bigrams_separated %>%
   filter(word2 == "disease") %>%
@@ -221,16 +470,11 @@ Relations of Bigrams
 
 ```{r}
 #| label: bigram visualisation
-# Filter for only relatively common combinations
-bigram_graph <- bigrams_united %>%
-  count(bigram) %>% 
-  filter(n > 200) %>% 
-  separate(bigram, c("word1", "word2"), sep = " ")
-  
-bigram_graph <- bigram_graph %>%
-  graph_from_data_frame() # most common word1->word2
-
-set.seed(2017) # set random 2017
+#| include: true
+#| fig-cap: "Bigram networks"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 # Visualise how word1 relates to word2
 ggraph(bigram_graph, layout = "fr") +
@@ -239,31 +483,11 @@ ggraph(bigram_graph, layout = "fr") +
   geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
   ggtitle("Bigram Relations")
 
-# Pre-leca
-pre_leca_graph <- bigrams_united %>%
-  filter(type == "pre-leca") %>%
-  count(bigram) %>% 
-  filter(n > 200) %>% 
-  separate(bigram, c("word1", "word2"), sep = " ")
-
-pre_leca_graph <- pre_leca_graph %>%
-  graph_from_data_frame()
-pre_leca_graph
 ggraph(pre_leca_graph, layout = "fr") +
   geom_edge_link() +
   geom_node_point() +
   geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
   ggtitle("Pre-leca Bigram Relations")
-
-# Post-leca
-post_leca_graph <- bigrams_united %>%
-  filter(type == "post-leca") %>%
-  count(bigram) %>% 
-  filter(n > 200) %>% 
-  separate(bigram, c("word1", "word2"), sep = " ")
-post_leca_graph <- post_leca_graph %>%
-  graph_from_data_frame()
-post_leca_graph
 
 ggraph(post_leca_graph, layout = "fr") +
   geom_edge_link() +
@@ -363,6 +587,7 @@ Most common trigrams in pre- or post-leca text corpuses
 
 ```{r}
 #|label: trigram-counts
+#| include: true
 
 trigram_counts %>% 
   group_by(type) %>%
@@ -383,7 +608,7 @@ trigram_counts %>%
 #| label: LDA Topic Modelling
 #| include: false
 #| cache: true
-#| 
+
 
 word_count_pre <- tidy_abstracts_clean %>%
   filter(type == "pre-leca") %>% 
@@ -458,6 +683,10 @@ top_terms_pre <- top_terms_pre %>%
 ```{r}
 #| label: LDA Topic Modelling Visualise
 #| include: true
+#| fig-cap: "LDA Topic Modelling"
+#| fig-width: 10
+#| fig-height: 10
+#| fig-align: left
 
 # Visualise - top 10 terms per topic
 top_terms_pre
@@ -546,6 +775,10 @@ Pre-leca LDA Topic Model Bigrams
 ```{r}
 #| label: LDA Topic Models Bigrams Pre
 #| include: true
+#| fig-cap: "Bigram Pre-leca LDA Topic Modelling"
+#| fig-width: 10
+#| fig-height: 10
+#| fig-align: left
 
 # Pre-leca
 top_bigram_terms_pre
@@ -556,6 +789,10 @@ Post-leca LDA Topic Model Bigrams
 ```{r}
 #| label: LDA Topic Models Bigrams Post
 #| include: true
+#| fig-cap: "Bigram Post-leca LDA Topic Modelling"
+#| fig-width: 10
+#| fig-height: 10
+#| fig-align: left
 
 # Pre-leca
 top_bigram_terms_post

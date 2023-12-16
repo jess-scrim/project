@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jess Scrimshire">
-<meta name="dcterms.date" content="2023-12-15">
+<meta name="dcterms.date" content="2023-12-16">
 
 <title>Impact of novel Alzheimer’s disease drug discovery on the research field using text mining and topic models</title>
 <style>
@@ -64,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 15, 2023</p>
+      <p class="date">December 16, 2023</p>
     </div>
   </div>
   
@@ -87,43 +87,78 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
+<section id="litsearchr" class="level2">
+<h2 class="anchored" data-anchor-id="litsearchr"><em>litsearchR</em></h2>
+<p>The <code>litsearchR</code> package was used to search PubMed for abstracts containing the MeSH term ‘Alzheimer’s Disease’ and show the most frequent words in the keywords and titles to ensure all papers are captured . See <span class="citation" data-cites="ad-search-terms">(<a href="#ref-ad-search-terms" role="doc-biblioref"><strong>ad-search-terms?</strong></a>)</span>.</p>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/ad-search-terms_399c66a523b623645a832471745fedc7">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/ad-search-terms-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Search term network for Alzheimer’s Disease</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/ad-drug-search-terms_ad31f34a378544f014ec6086128b6480">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/ad-drug-search-terms-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">AD drug search term network</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
 <p>This study found 6199 papers that were published between 2022-01-01 and 2023-10-10 that contained the identified terms.</p>
-<p>The distribution of publications is shown below:</p>
-<div class="cell" data-hash="report_cache/html/publication date_1d08e8f8366cd583a7cddcef05af8b64">
+<p>The distribution of publications is shown in <span class="citation" data-cites="publication-date">(<a href="#ref-publication-date" role="doc-biblioref"><strong>publication-date?</strong></a>)</span>.</p>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/publication-date_c036b4a4b1538802c7d1ea58e9b3f709">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/publication%20date-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/publication-date-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Publication date distribution of abstracts</figcaption>
+</figure>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;ScaleContinuousPosition&gt;
- Range:  
- Limits:    0 --    1</code></pre>
 </div>
 </div>
-<p>The distribution of publications containing the terms associated with ‘lecanemab’ is shown below:</p>
-<div class="cell" data-hash="report_cache/html/unnamed-chunk-5_f82d6966be4379cb227dc73f6f4c7dc8">
-<div class="cell-output cell-output-stdout">
-<pre><code>Reading file data/pubmed-lecanemabO-set.nbib ... done</code></pre>
-</div>
+<p>The distribution of publications containing the terms associated with ‘lecanemab’ is shown in @</p>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/lecanemab-publication-date_d528fc736bac05bbe7e6a7183dfc43f5">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/lecanemab-publication-date-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Publication date distribution of abstracts containing lecanemab terms</figcaption>
+</figure>
 </div>
 </div>
-<div class="cell" data-hash="report_cache/html/tokenisation_3325b8a8540a9eef84b916da7a7c4eea">
+</div>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/tokenisation_f72e9d364d7d89fdd8b1fd1b5f1401f5">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/tokenisation-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/tokenisation-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Most Common Unigram</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>The distribution of the top frequent words per month is shown below. The top words are shown in the legend.</p>
-<div class="cell" data-hash="report_cache/html/GLM_ba14a5ae6616f8a54bd8cbb91e556b36">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/GLM_2d974468f78377347e4575ef7b6782f1">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/GLM-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/GLM-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Most Frequent Words per Month</figcaption>
+</figure>
 </div>
 </div>
-<p>Most common bigrams ending in ‘disease’</p>
-<div class="cell" data-hash="report_cache/html/unnamed-chunk-9_c985da07f8b6f5272a450f7f07cd6561">
+</div>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/bigram-plot_88fae582e1e065267b3277df345f9067">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <caption>Most common bigrams ending in ‘disease’</caption>
@@ -196,6 +231,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p>Bigrams in abstracts</p>
 </div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -269,6 +305,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p>Bigrams in abstracts</p>
 </div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -342,94 +379,104 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p>Bigrams in abstracts</p>
 </div>
 </div>
 <p>Relations of Bigrams</p>
-<div class="cell" data-hash="report_cache/html/bigram visualisation_aeba503821da461c3e3c92c4d554a24c">
-<div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH 15f8f2f DN-- 79 51 -- 
-+ attr: name (v/c), n (e/n)
-+ edges from 15f8f2f (vertex names):
- [1] age          -&gt;related      alzheimer    -&gt;disease     
- [3] amyloid      -&gt;beta         amyotrophic  -&gt;lateral     
- [5] animal       -&gt;models       anti         -&gt;inflammatory
- [7] blood        -&gt;brain        brain        -&gt;injury      
- [9] cell         -&gt;death        cerebrospinal-&gt;fluid       
-[11] clinical     -&gt;studies      clinical     -&gt;trials      
-[13] cns          -&gt;NA           cognitive    -&gt;decline     
-[15] cognitive    -&gt;function     cognitive    -&gt;impairment  
-+ ... omitted several edges</code></pre>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/bigram visualisation_b8823d712060e147f08f0d1bcc311286">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/bigram%20visualisation-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram networks</figcaption>
+</figure>
+</div>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/bigram%20visualisation-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/bigram%20visualisation-2.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram networks</figcaption>
+</figure>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH 169aa3e DN-- 38 22 -- 
-+ attr: name (v/c), n (e/n)
-+ edges from 169aa3e (vertex names):
- [1] age              -&gt;related      amyloid          -&gt;beta        
- [3] amyotrophic      -&gt;lateral      animal           -&gt;models      
- [5] anti             -&gt;inflammatory blood            -&gt;brain       
- [7] clinical         -&gt;trials       cns              -&gt;NA          
- [9] cognitive        -&gt;decline      cognitive        -&gt;function    
-[11] cognitive        -&gt;impairment   covid            -&gt;19          
-[13] lateral          -&gt;sclerosis    meta             -&gt;analysis    
-[15] mild             -&gt;cognitive    multiple         -&gt;sclerosis   
-+ ... omitted several edges</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/bigram%20visualisation-2.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/bigram%20visualisation-3.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram networks</figcaption>
+</figure>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH 171f1c3 DN-- 29 16 -- 
-+ attr: name (v/c), n (e/n)
-+ edges from 171f1c3 (vertex names):
- [1] age              -&gt;related    amyloid          -&gt;beta      
- [3] blood            -&gt;brain      clinical         -&gt;trials    
- [5] cns              -&gt;NA         cognitive        -&gt;decline   
- [7] cognitive        -&gt;function   cognitive        -&gt;impairment
- [9] covid            -&gt;19         meta             -&gt;analysis  
-[11] nervous          -&gt;system     neurodegenerative-&gt;disease   
-[13] oxidative        -&gt;stress     parkinson's      -&gt;disease   
-[15] risk             -&gt;factors    systematic       -&gt;review    </code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/bigram%20visualisation-3.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/bigram%20visualisation-4.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram networks</figcaption>
+</figure>
+</div>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/bigram%20visualisation-4.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/bigram%20visualisation-5.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram networks</figcaption>
+</figure>
+</div>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/bigram%20visualisation-5.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/bigram%20visualisation-6.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram networks</figcaption>
+</figure>
 </div>
-<div class="cell-output-display">
-<p><img src="report_files/figure-html/bigram%20visualisation-6.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Most common trigrams in pre- or post-leca text corpuses</p>
-<div class="cell" data-hash="report_cache/html/unnamed-chunk-12_8d0599473967ec7e50b2cf4e98173f77">
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-16_2aa400738515daa4bd0500dbfe8a04b6">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="report_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell" data-hash="report_cache/html/LDA Topic Modelling Visualise_26ec8b33dc1517a48e9e7fc81421a1c0">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/LDA Topic Modelling Visualise_e1b93bac69fa1615af18a78b021cc1dc">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/LDA%20Topic%20Modelling%20Visualise-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/LDA%20Topic%20Modelling%20Visualise-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">LDA Topic Modelling</figcaption>
+</figure>
+</div>
 </div>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/LDA%20Topic%20Modelling%20Visualise-2.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/LDA%20Topic%20Modelling%20Visualise-2.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">LDA Topic Modelling</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Pre-leca LDA Topic Model Bigrams</p>
-<div class="cell" data-hash="report_cache/html/LDA Topic Models Bigrams Pre_b8f683772bcb42df4595f64b5aae8c61">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/LDA Topic Models Bigrams Pre_2c5d5a901542d95892b0b78ca71e5a37">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/LDA%20Topic%20Models%20Bigrams%20Pre-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/LDA%20Topic%20Models%20Bigrams%20Pre-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram Pre-leca LDA Topic Modelling</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <p>Post-leca LDA Topic Model Bigrams</p>
-<div class="cell" data-hash="report_cache/html/LDA Topic Models Bigrams Post_6fd85bdb84f1b822fe8b860a46a2d1f2">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/LDA Topic Models Bigrams Post_4437be7e9e648f5b8497151ca3641f1c">
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/LDA%20Topic%20Models%20Bigrams%20Post-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="report_files/figure-html/LDA%20Topic%20Models%20Bigrams%20Post-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Bigram Post-leca LDA Topic Modelling</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
