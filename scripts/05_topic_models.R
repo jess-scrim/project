@@ -1,168 +1,189 @@
+### Term Frequency ###
+## How likely a term is going to appear in one period over another ##
+
+# Calculate tf-idf - term frequency 
+abstract_tf_idf <- tidy_abstracts_clean %>% 
+  count(abstract, word, sort = TRUE) %>%
+  bind_tf_idf(word, abstract, n)
+
+# Highest tf-idf
+abstract_tf_idf %>% 
+  arrange(-tf_idf)
+
 ### Topic Models ###
 # LDA - Latent Dirichlet Allocation
-word_count_pre <- tidy_abstracts_clean %>%
-  filter(type == "pre-leca") %>% 
+word_count <- tidy_abstracts_clean %>%
   count(word, abstract, sort = TRUE) %>% 
   ungroup()
-word_count_pre
-# word     abstract     n
-# 1 hdl          5323    29
-# 2 medicine     5744    28
-# 3 0            3511    26
-# 4 tau          4883    26
-# 5 dementia     2793    24
-# 6 tea          5405    24
-# 7 studies      4728    22
-# 8 0            5548    21
-# 9 afs          3235    21
-# 10 2            4388    20
-
-word_count_post <- tidy_abstracts_clean %>%
-  filter(type == "post-leca") %>% 
-  count(word, abstract, sort = TRUE) %>% 
-  ungroup()
-word_count_post
+word_count
 # word      abstract     n
-# 1 mm3           2189    30
-# 2 donepezil      297    28
-# 3 disease       1974    25
-# 4 speech        1550    24
-# 5 lb             227    23
-# 6 covid         2505    22
-# 7 evidence      2544    22
-# 8 mg              46    22
-# 9 treatment     2189    22
-# 10 19            2505    21
+# 
+# 1 mg             317    22
+# 2 sleep          823    21
+# 3 aß             905    20
+# 4 aß1            338    20
+# 5 cognitive      806    20
+# 6 tau            761    20
+# 7 lt             192    19
+# 8 metal          905    19
+# 9 0.01           192    18
+# 10 mtbi          120    18
 
 
 # Cast the word counts into a document term matrix
-abstract_dtm_pre <- word_count_pre %>%
-  cast_dtm(abstract, word, n) 
-abstract_dtm_pre
-# <<DocumentTermMatrix (documents: 3437, terms: 22711)>>
-# Non-/sparse entries: 299986/77757721
-# Sparsity           : 100%
-# Maximal term length: 34
-# Weighting          : term frequency (tf)
+abstract_dtm <- word_count %>%
+  cast_dtm(abstract, word, n) # 
 
-abstract_dtm_post <- word_count_post %>%
-  cast_dtm(abstract, word, n)
-abstract_dtm_post
-# <<DocumentTermMatrix (documents: 2718, terms: 20589)>>
-# Non-/sparse entries: 241566/55719336
-# Sparsity           : 100%
-# Maximal term length: 29
+abstract_dtm
+# <<DocumentTermMatrix (documents: 1000, terms: 14604)>>
+# Non-/sparse entries: 88983/14515017
+# Sparsity           : 99%
+# Maximal term length: 27
 # Weighting          : term frequency (tf)
 
 # be aware that running this model is time intensive
-abstract_lda_pre <- LDA(abstract_dtm_pre, k = 10, control = list(seed = 1234))
-abstract_lda_pre
-# A LDA_VEM topic model with 10 topics.
-abstract_lda_post <- LDA(abstract_dtm_post, k = 10, control = list(seed = 1234))
-abstract_lda_post
+abstract_lda <- LDA(abstract_dtm, k = 10, control = list(seed = 1234))
+abstract_lda
 # A LDA_VEM topic model with 10 topics.
 
-# Interpret the model - per-topic-per-word probabilities, called β (“beta”)
-#   - Determines how likely (beta) the term is to be associated with each of the 10 topics
-tidy_lda_pre <- tidy(abstract_lda_pre,
-                     matrix = "beta") %>% 
-  mutate(type = "pre_leca")
-tidy_lda_post <- tidy(abstract_lda_post,
-                      matrix = "beta") %>% 
-  mutate(type = "post_leca")
+# Interpret the model
+tidy_lda <- tidy(abstract_lda)
 
-View(tidy_lda_pre)
-View(tidy_lda_post)
+View(tidy_lda)
 
 # Top 10 terms per topic
-#   Not including 'disease' as this was common to all topics
+top_terms <- tidy_lda %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_terms
+# topic term         beta
 #
-# 'review' is common to 6 topics
-# top_terms_pre %>% group_by(term) %>% filter(n_distinct(topic) > 5) %>% View()
+#   1     1 disease   0.00778
+# 2     1 cognitive 0.00589
+# 3     1 study     0.00586
+# 4     1 activity  0.00530
+# 5     1 potential 0.00483
+# 6     1 ache      0.00460
+# 7     1 memory    0.00419
+# 8     1 1         0.00407
+# 9     1 based     0.00407
+# 10     1 binding   0.00378
 
-# Pre-leca
-top_terms_pre <- tidy_lda_pre %>%
-  filter(term != "disease") %>% 
-  group_by(topic) %>%
-  slice_max(beta, n = 10, with_ties = FALSE) %>%
-  ungroup() %>%
-  arrange(topic, -beta)
-
-# Post-leca
-top_terms_post <- tidy_lda_post %>%
-  filter(term != "disease") %>% 
-  group_by(topic) %>%
-  slice_max(beta, n = 10, with_ties = FALSE) %>%
-  ungroup() %>%
-  arrange(topic, -beta)
-
-# Visualise - top 10 terms per topic
-top_terms_pre <- top_terms_pre %>%
-  mutate(term = reorder_within(term, beta, topic)) %>%
-  group_by(topic, term) %>%    
-  arrange(desc(beta)) %>%  
-  ungroup() %>%
-  ggplot(aes(beta, term, fill = as.factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  scale_y_reordered() +
-  labs(title = "Top 10 terms in each LDA topic: Pre-Leca",
-       x = expression(beta), y = NULL) +
-  facet_wrap(~ topic, ncol = 4, scales = "free")
-top_terms_pre
-
-top_terms_post <- top_terms_post %>%
-  mutate(term = reorder_within(term, beta, topic)) %>%
-  group_by(topic, term) %>%    
-  arrange(desc(beta)) %>%  
-  ungroup() %>%
-  ggplot(aes(beta, term, fill = as.factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  scale_y_reordered() +
-  labs(title = "Top 10 terms in each LDA topic: Post Leca",
-       x = expression(beta), y = NULL) +
-  facet_wrap(~ topic, ncol = 4, scales = "free")
-top_terms_post
-
-# top_terms <- top_terms %>%
-#   mutate(term = reorder_within(term, beta, topic)) %>%
-#   group_by(topic, term, type) %>%    
-#   arrange(desc(beta)) %>%  
-#   ungroup() %>%
-#   ggplot(aes(beta, term, fill = as.factor(topic))) +
-#   geom_col(show.legend = FALSE) +
-#   scale_y_reordered() +
-#   facet_wrap(~ topic, ncol = 4, scales = "free")
-#   labs(title = "Top 10 terms in each LDA topic: Pre-Leca",
-#        x = expression(beta), y = NULL) +
-#   facet_wrap(~ topic, ncol = 4, scales = "free")
-# top_terms
-
-
-# Determine terms with the greatest difference in beta between pre-leca and post-leca
-
-top_terms <- bind_rows(tidy_lda_pre, 
-                       tidy_lda_post)
+# Visualise
 top_terms <- top_terms %>%
-  filter(term != "disease") %>% 
-  group_by(topic, type) %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 terms in each LDA topic",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+top_terms
+
+# 
+lda_gamma <- tidy(abstract_lda, matrix = "gamma")
+
+lda_gamma
+
+ggplot(lda_gamma, aes(gamma)) +
+  geom_histogram(alpha = 0.8) +
+  scale_y_log10() +
+  labs(title = "Distribution of probabilities for all topics",
+       y = "Number of documents", x = expression(gamma))
+
+ggplot(lda_gamma, aes(gamma, fill = as.factor(topic))) +
+  geom_histogram(alpha = 0.8, show.legend = FALSE) +
+  facet_wrap(~ topic, ncol = 4) +
+  scale_y_log10() +
+  labs(title = "Distribution of probability for each topic",
+       y = "Number of documents", x = expression(gamma))
+
+
+
+## Topic modelling bi-grams ##
+bigram_tf_idf <- abstract_bigrams %>% 
+  count(abstract, bigram, sort = TRUE) %>% 
+  bind_tf_idf(bigram, abstract, n)
+
+# Highest bigram tf-idf
+bigram_tf_idf %>% 
+  arrange(-tf_idf)
+
+### Topic Models ###
+# LDA - Latent Dirichlet Allocation
+bigram_count_united <- bigrams_united %>% 
+  count(bigram, abstract, sort = T)
+
+# Cast the bigram counts into a document term matrix
+bigram_dtm <- bigrams_separated %>%
+  unite(bigram, word1, word2, sep = " ") %>% 
+  count(abstract, bigram) %>% 
+  cast_dtm(abstract, bigram, n) # 
+
+bigram_dtm
+# <<DocumentTermMatrix (documents: 943, terms: 45719)>>
+# Non-/sparse entries: 60484/43052533
+# Sparsity           : 100%
+# Maximal term length: 39
+# Weighting          : term frequency (tf)
+
+# be aware that running this model is time intensive
+bigram_lda <- LDA(bigram_dtm, k = 10, control = list(seed = 1234))
+bigram_lda
+# A LDA_VEM topic model with 10 topics.
+
+# Interpret the model
+tidy_bigram_lda <- tidy(bigram_lda)
+
+View(tidy_bigram_lda)
+
+# Top 10 terms per topic
+top_bigram_terms <- tidy_bigram_lda %>%
+  group_by(topic) %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
   arrange(topic, -beta)
+top_bigram_terms
+# topic term                          beta
+# 
+# 1     1 cognitive impairment       0.00346
+# 2     1 tau pet                    0.00271
+# 3     1 neurodegenerative diseases 0.00256
+# 4     1 ic 50                      0.00181
+# 5     1 cognitive decline          0.00165
+# 6     1 dementia care              0.00165
+# 7     1 glp 1                      0.00165
+# 8     1 parkinson's disease        0.00150
+#  9     1 brain tissue               0.00150
+# 10     1 clinical trials            0.00135
 
-beta_wide <- top_terms %>%
-  #mutate(type = paste0(type, "_topic_", topic)) %>%
-  pivot_wider(names_from = type, values_from = beta) %>% 
-  filter(pre_leca > .001 | post_leca > .001) %>%
-  mutate(log_ratio = log2(pre_leca / post_leca))
-
-beta_wide
-
-beta_wide %>%
-  group_by(direction = log_ratio > 0) %>%
-  slice_max(abs(log_ratio), n = 10) %>% 
+# Visualise
+top_bigram_terms <- top_bigram_terms %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
   ungroup() %>%
-  mutate(term = reorder(term, log_ratio)) %>%
-  ggplot(aes(log_ratio, term)) +
-  geom_col() +
-  labs(x = "Log2 ratio of beta pre-leca / post-leca", y = NULL)# +
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 terms in each LDA topic",
+       x = expression(beta), y = NULL) +
   facet_wrap(~ topic, ncol = 4, scales = "free")
+top_bigram_terms
+# 
+bigram_lda_gamma <- tidy(bigram_lda, matrix = "gamma")
+
+bigram_lda_gamma
+
+ggplot(bigram_lda_gamma, aes(gamma)) +
+  geom_histogram(alpha = 0.8, bins = 10) +
+  scale_y_log10() +
+  labs(title = "Distribution of probabilities for all topics",
+       y = "Number of documents", x = expression(gamma))
+

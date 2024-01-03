@@ -1,0 +1,205 @@
+---
+title: "Impact of novel Alzheimer’s disease drug discovery on the research field using text mining and topic models"
+author: "Jess Scrimshire"
+date: "`r Sys.Date()`"
+engine: knitr
+execute:
+  echo: false
+  include: true
+  error: false
+  message: false
+  warning: false
+  cache: true
+  freeze: true
+bibliography: references.bib
+---
+
+```{r}
+#| label: packages
+#| include: false
+library(rmarkdown)
+source("scripts/00_setting_up.R")
+```
+
+```{r}
+#| label: leca-abstracts
+#| include: false
+#| cache: true
+
+res <- EUtilsSummary(leca_query,
+                     type = type, 
+                     db = db, 
+                     datetype = datetype,
+                     mindate = mindate,
+                     maxdate = maxdate,
+                     retmax = retmax)
+
+title <- ArticleTitle(EUtilsGet(res))
+abstracts <- AbstractText(EUtilsGet(res))
+authors <- Author(EUtilsGet(res))
+year <- YearPubmed(EUtilsGet(res))
+month <- MonthPubmed(EUtilsGet(res))
+day <- DayPubmed(EUtilsGet(res))
+keyword <- Keyword(EUtilsGet(res))
+
+leca_abstracts <- tibble(abstract = 1:7000,
+                         title = title,
+                         text = abstracts, 
+                         date = dmy(paste0(day, "/", month, "/", year)),
+                         author = authors
+                         )
+```
+
+```{r}
+#| label: leca-abstracts-clean
+#| include: false
+
+leca_abstracts_clean <- leca_abstracts %>% 
+  filter(!text == "NA") %>% 
+  mutate(type = case_when(date <= leca_approv ~ "pre_lena",
+                          date > leca_approv ~ "post-lena")) %>% 
+  unnest_tokens(word, text)
+
+leca_abstracts_clean %>% 
+  group_by(type) %>%
+  count(word, sort = TRUE) %>%
+  slice_head(n = 15) %>% 
+  ggplot(aes(n, reorder(word, n), fill = type)) +
+  geom_col() +
+  labs(y = NULL) +
+  xlab("Count") +
+  facet_wrap(~factor(type, levels = c("pre-leca", "post-leca")),
+             scale = "free") +
+  theme(legend.position = "none",
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        strip.background = element_blank())
+
+```
+
+```{r}
+#| label: GLM
+#| include: true
+#| fig-cap: "Most Frequent Words per Month"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
+
+## Create Generalised linear model
+
+top_words <- c("disease", "brain", "studies", "diseases", "review", "cognitive", "dementia", "neurodegenerative", "clinical", "patients", "treatment", "disorders", "effects")
+
+# Get word frequency per month
+glm_abstracts <- leca_abstracts_clean %>%  
+  filter(word %in% top_words) %>% 
+  mutate(date = floor_date(date, "month")) %>% # round date to month
+  group_by(date) %>%
+  count(word, sort = TRUE) %>%
+  ungroup() %>%
+  group_by(word) %>%
+  mutate(freq = n / sum(n)) %>%
+  ungroup() 
+
+# Generalised linear model
+glm <- glm( freq ~ date + word, data = glm_abstracts, family = "poisson" )
+#summary(glm)
+
+# plot just months of date
+
+glm %>% ggplot(aes(x = date, y = freq)) +
+  geom_line(aes(color = word)) +
+  ylab("Frequency") +
+  xlab("Date") +
+  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
+  theme_classic()
+```
+
+```{r}
+#| label: LDA-lecanemab
+#| include: false
+#| cache: true
+
+
+word_count_pre <- leca_abstracts_clean %>%
+  filter(type == "pre-leca") %>% 
+  count(word, abstract, sort = TRUE) %>% 
+  ungroup()
+
+word_count_post <- leca_abstracts_clean %>%
+  filter(type == "post-leca") %>% 
+  count(word, abstract, sort = TRUE) %>% 
+  ungroup()
+
+# Cast the word counts into a document term matrix
+abstract_dtm_pre <- word_count_pre %>%
+  cast_dtm(abstract, word, n) 
+
+abstract_dtm_post <- word_count_post %>%
+  cast_dtm(abstract, word, n)
+
+# Running the LDA model
+abstract_lda_pre <- LDA(abstract_dtm_pre, k = 10, control = list(seed = 1234))
+
+abstract_lda_post <- LDA(abstract_dtm_post, k = 10, control = list(seed = 1234))
+
+tidy_lda_pre <- tidy(abstract_lda_pre,
+                     matrix = "beta") %>% 
+  mutate(type = "pre_leca")
+tidy_lda_post <- tidy(abstract_lda_post,
+                      matrix = "beta") %>% 
+  mutate(type = "post_leca")
+
+# Pre-leca
+top_terms_pre <- tidy_lda_pre %>%
+  filter(term != "disease") %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+# Post-leca
+top_terms_post <- tidy_lda_post %>%
+  filter(term != "disease") %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_terms_post <- top_terms_post %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 terms in each LDA topic: Post Leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+
+top_terms_pre <- top_terms_pre %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 terms in each LDA topic: Pre-Leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+```
+
+```{r}
+#| label: LDA Topic Modelling Visualise
+#| include: true
+#| fig-cap: "LDA Topic Modelling for Lecanemab Abstracts"
+#| fig-width: 10
+#| fig-height: 10
+#| fig-align: left
+
+# Visualise - top 10 terms per topic
+top_terms_pre
+
+top_terms_post
+```

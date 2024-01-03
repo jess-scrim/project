@@ -44,7 +44,7 @@ Currently, there are a number of new immunotherapies undergoing clinical trials 
 
 ## *litsearchR*
 
-The `litsearchR` package was used to search PubMed for abstracts containing the MeSH term 'Alzheimer's Disease' and show the most frequent words in the keywords and titles to ensure all papers are captured . See @ad-search-terms.
+The `litsearchR` package was used to search PubMed for abstracts containing the MeSH term 'Alzheimer's Disease' and show the most frequent words in the keywords and titles to ensure all papers are captured . See @ad-search-terms .
 
 ```{r}
 #| label: search-terms
@@ -138,7 +138,7 @@ cutoff_change <- find_cutoff(g,
 #| include: true
 #| fig-cap: "Search term network for Alzheimer's Disease"
 #| fig-width: 10
-#| fig-height: 3.5
+#| fig-height: 7
 #| fig-align: left
 
 cutoff_fig +
@@ -229,7 +229,7 @@ cutoff_change <- find_cutoff(g, method="changepoint", knot_num=3)
 #| include: true
 #| fig-cap: "AD drug search term network"
 #| fig-width: 10
-#| fig-height: 3.5
+#| fig-height: 7
 #| fig-align: left
 
 cutoff_fig +
@@ -251,7 +251,7 @@ tidy_abstracts_clean <- tidy_abstracts_clean %>%
 
 This study found `r nrow(abstracts)` papers that were published between `r min(tidy_abstracts_clean$date)` and `r max(tidy_abstracts_clean$date)` that contained the identified terms.
 
-The distribution of publications is shown in @publication-date.
+The distribution of publications is shown in .
 
 ```{r}
 #| label: publication-date
@@ -273,7 +273,7 @@ abstracts %>%
 
 ```
 
-The distribution of publications containing the terms associated with 'lecanemab' is shown in @
+The distribution of publications containing the terms associated with 'lecanemab' is shown in \@
 
 ```{r}
 #| label: lecanemab-publication-date
@@ -770,8 +770,6 @@ top_bigram_terms_post <- top_bigram_terms_post %>%
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
-Pre-leca LDA Topic Model Bigrams
-
 ```{r}
 #| label: LDA Topic Models Bigrams Pre
 #| include: true
@@ -783,8 +781,6 @@ Pre-leca LDA Topic Model Bigrams
 # Pre-leca
 top_bigram_terms_pre
 ```
-
-Post-leca LDA Topic Model Bigrams
 
 ```{r}
 #| label: LDA Topic Models Bigrams Post
