@@ -16,7 +16,7 @@ type <- 'esearch'
 db <- 'pubmed'
 mindate <- '2022/01/01'
 maxdate <- '2024/01/01'
-retmax <- 10000
+retmax <- 8000
 datetype <- 'edat' # date of publication
 leca_approv <- '2023-01-06'
 my_stopwords <- tibble(word = c("alzheimer's", "ad", "95", "ci", "including"))

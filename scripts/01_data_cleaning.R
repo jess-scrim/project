@@ -17,7 +17,7 @@ day <- DayPubmed(EUtilsGet(res))
 keyword <- Keyword(EUtilsGet(res))
 
 # convert to data frame
-abstracts <- tibble(abstract = 1:7000, 
+abstracts <- tibble(abstract = 1:6486, 
                        title = title,
                        text = abstracts, 
                        date = dmy(paste0(day, "/", month, "/", year)),

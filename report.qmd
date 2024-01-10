@@ -44,7 +44,7 @@ Currently, there are a number of new immunotherapies undergoing clinical trials 
 
 ## *litsearchR*
 
-The `litsearchR` package was used to search PubMed for abstracts containing the MeSH term 'Alzheimer's Disease' and show the most frequent words in the keywords and titles to ensure all papers are captured . See @ad-search-terms .
+The `litsearchR` package was used to search PubMed for abstracts containing the MeSH term 'Alzheimer's Disease' and show the most frequent words in the keywords and titles to ensure all papers are captured. See @fig-ad-search-terms. 
 
 ```{r}
 #| label: search-terms
@@ -134,7 +134,7 @@ cutoff_change <- find_cutoff(g,
 ```
 
 ```{r}
-#| label: ad-search-terms
+#| label: fig-ad-search-terms
 #| include: true
 #| fig-cap: "Search term network for Alzheimer's Disease"
 #| fig-width: 10
@@ -225,7 +225,7 @@ cutoff_change <- find_cutoff(g, method="changepoint", knot_num=3)
 ```
 
 ```{r}
-#| label: ad-drug-search-terms
+#| label: fig-ad-drug-search-terms
 #| include: true
 #| fig-cap: "AD drug search term network"
 #| fig-width: 10
@@ -249,12 +249,14 @@ tidy_abstracts_clean <- tidy_abstracts_clean %>%
 
 # Results
 
+## AD Research Publication
+
 This study found `r nrow(abstracts)` papers that were published between `r min(tidy_abstracts_clean$date)` and `r max(tidy_abstracts_clean$date)` that contained the identified terms.
 
-The distribution of publications is shown in .
+The distribution of publications is shown in @fig-publication-date.
 
 ```{r}
-#| label: publication-date
+#| label: fig-publication-date
 #| include: true
 #| fig-cap: "Publication date distribution of abstracts"
 #| fig-width: 10
@@ -273,10 +275,10 @@ abstracts %>%
 
 ```
 
-The distribution of publications containing the terms associated with 'lecanemab' is shown in \@
+The distribution of publications containing the terms associated with 'lecanemab' is shown in @fig-lecanemab-publication-date.
 
 ```{r}
-#| label: lecanemab-publication-date
+#| label: fig-lecanemab-publication-date
 #| include: true
 #| fig-cap: "Publication date distribution of abstracts containing lecanemab terms"
 #| fig-width: 10
@@ -298,8 +300,14 @@ naive_drug_results %>%
 
 ```
 
+## N-gram Analysis
+
+### Unnigrams
+
+The most frequent unigrams are shown in @fig-tokenisation.
+
 ```{r}
-#| label: tokenisation
+#| label: fig-tokenisation
 #| include: true
 #| fig-cap: "Most Common Unigram"
 #| fig-width: 10
@@ -323,10 +331,10 @@ tidy_abstracts_clean %>%
 
 ```
 
-The distribution of the top frequent words per month is shown below. The top words are shown in the legend.
+The distribution by month of the top frequent words, as determined from @fig-tokenisation, is shown in @fig-glm-words.
 
 ```{r}
-#| label: GLM
+#| label: fig-glm-words
 #| include: true
 #| fig-cap: "Most Frequent Words per Month"
 #| fig-width: 10
@@ -361,6 +369,8 @@ glm %>% ggplot(aes(x = date, y = freq)) +
   scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
   theme_classic()
 ```
+
+### Bigrams
 
 ```{r}
 #| label: bigram-cleaning
@@ -436,8 +446,10 @@ post_leca_graph <- post_leca_graph %>%
   graph_from_data_frame()
 ```
 
+Exploring some of the bigrams the word "disease" are shown in @tbl-tbl-bigram-plot. The most common bigrams beginning with "neuro" are shown in @tbl-tbl-bigram-plot.
+
 ```{r}
-#| label: bigram-plot
+#| label: tbl-bigram-plot
 #| include: true
 #| fig-cap: "Bigrams in abstracts"
 #| fig-width: 10
@@ -466,10 +478,10 @@ bigrams_separated %>%
 ")
 ```
 
-Relations of Bigrams
+Relations of bigram networks are shown in @fig-bigram-visualisation. Bigram networks for pre-leca and post-leca are shown in @fig-bigram-visualisation-pre and @fig-bigram-visualisation-post respectively. Strength networks for bigrams are shown in @fig-bigram-visualisation-strength and split into pre-leca and post-leca in @fig-bigram-visualisation-strength-pre and @fig-bigram-visualisation-strength-post respectively.
 
 ```{r}
-#| label: bigram visualisation
+#| label: fig-bigram-visualisation
 #| include: true
 #| fig-cap: "Bigram networks"
 #| fig-width: 10
@@ -483,18 +495,45 @@ ggraph(bigram_graph, layout = "fr") +
   geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
   ggtitle("Bigram Relations")
 
+```
+
+```{r}
+#| label: fig-bigram-visualisation-pre
+#| include: true
+#| fig-cap: "Bigram networks Pre"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 ggraph(pre_leca_graph, layout = "fr") +
   geom_edge_link() +
   geom_node_point() +
   geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
   ggtitle("Pre-leca Bigram Relations")
 
+```
+
+```{r}
+#| label: fig-bigram-visualisation-post
+#| include: true
+#| fig-cap: "Bigram networks Post"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 ggraph(post_leca_graph, layout = "fr") +
   geom_edge_link() +
   geom_node_point() +
   geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
   ggtitle("Post-leca Bigram Relations")
 
+```
+
+```{r}
+#| label: fig-bigram-visualisation-strength
+#| include: true
+#| fig-cap: "Bigram networks strength"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 # Visualise - thickness of line determines how strong the relationship is
 set.seed(2020)
 
@@ -507,6 +546,16 @@ bigram_graph %>%
   theme_void() +
   ggtitle("Bigram Relations")
 
+```
+
+```{r}
+#| label: fig-bigram-visualisation-strength-pre
+#| include: true
+#| fig-cap: "Bigram networks Strength Pre"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
+
 # Pre-leca
 pre_leca_graph %>% 
   ggraph(layout = "fr") +
@@ -516,6 +565,16 @@ pre_leca_graph %>%
                  point.padding = unit(0.2, "lines")) +
   theme_void() +
   ggtitle("Pre-leca Bigram Relations")
+
+```
+
+```{r}
+#| label: fig-bigram-visualisation-strength-post
+#| include: true
+#| fig-cap: "Bigram networks Strength Post"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 # Pre-leca
 post_leca_graph %>% 
@@ -527,6 +586,8 @@ post_leca_graph %>%
   theme_void() +
   ggtitle("Post-leca Bigram Relations")
 ```
+
+### Trigrams
 
 ```{r}
 #|label: trigram clean
@@ -583,10 +644,10 @@ trigram_counts <- trigrams_united %>%
   ungroup()
 ```
 
-Most common trigrams in pre- or post-leca text corpuses
+Most common trigrams in pre- or post-leca text corpuses are shown in @fig-trigram-counts
 
 ```{r}
-#|label: trigram-counts
+#| label: fig-trigram-counts
 #| include: true
 
 trigram_counts %>% 
@@ -604,11 +665,14 @@ trigram_counts %>%
         strip.background = element_blank())
 ```
 
+## Topic Modelling
+
+### Unigrams
+
 ```{r}
 #| label: LDA Topic Modelling
 #| include: false
 #| cache: true
-
 
 word_count_pre <- tidy_abstracts_clean %>%
   filter(type == "pre-leca") %>% 
@@ -680,8 +744,10 @@ top_terms_pre <- top_terms_pre %>%
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
+The top 10 terms in each pre- and post- leca corpus are shown in @fig-topic-model-pre and @fig-topic-model-post respectively.
+
 ```{r}
-#| label: LDA Topic Modelling Visualise
+#| label: fig-topic-model-pre
 #| include: true
 #| fig-cap: "LDA Topic Modelling"
 #| fig-width: 10
@@ -691,8 +757,19 @@ top_terms_pre <- top_terms_pre %>%
 # Visualise - top 10 terms per topic
 top_terms_pre
 
+```
+
+```{r}
+#| label: fig-topic-model-post
+#| include: true
+#| fig-cap: "LDA Topic Modelling"
+#| fig-width: 10
+#| fig-height: 10
+#| fig-align: left
 top_terms_post
 ```
+
+### Bigrams
 
 ```{r}
 #| label: LDA Topic Model Bigrams
@@ -770,8 +847,10 @@ top_bigram_terms_post <- top_bigram_terms_post %>%
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
+The top 10 bigrams in topic models for pre- and post- leca corpuses are shown in @fig-topic-model-bigrams-pre and @fig-topic-model-bigrams-post respectively.
+
 ```{r}
-#| label: LDA Topic Models Bigrams Pre
+#| label: fig-topic-model-bigrams-pre
 #| include: true
 #| fig-cap: "Bigram Pre-leca LDA Topic Modelling"
 #| fig-width: 10
@@ -783,7 +862,7 @@ top_bigram_terms_pre
 ```
 
 ```{r}
-#| label: LDA Topic Models Bigrams Post
+#| label: fig-topic-model-bigrams-post
 #| include: true
 #| fig-cap: "Bigram Post-leca LDA Topic Modelling"
 #| fig-width: 10
