@@ -28,23 +28,105 @@ load("project.RData")
 tidy_abstracts_clean <- read_csv("results/tidy_abstracts_clean.csv")
 abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
 abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
+
+abstract_na_n <- nrow(filter(abstracts, is.na(title)))
+abstract_n <- nrow(filter(abstracts, !is.na(title)))
 ```
 
 # Introduction
 
 ## Alzheimer's Disease
 
-Alzheimer's Disease is a neurodegenerative disease that is the most common cause of dementia and affects over 40 million people worldwide. It is a progressive disease that affects memory, thinking and behaviour. The disease is characterised by the build up of amyloid plaques and neurofibrillary tangles in the brain. There are currently no cures for AD, with most treatments aiming to alleviate the symptoms of AD.
+Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties [@noauthor_2023-ek]. 
+
+The underlying aetiology of sporadic AD, as opposed to genetically caused familial AD, is largely unknown, however research consensus suggests the accumulation of abnormal proteins, amyloid-beta and tau, disrupt cellular pathways and lead to 
+
+AD is progressive and neuronal damage accumulates over a patient’s lifetime leading to hippocampal atrophy. As well as the degeneration of neurons, AD is associated with the build up of abnormal proteins, amyloid-beta and tau [@Villemagne2013-xk]. 
 
 ## Treatments for AD
 
-Currently, there are a number of new immunotherapies undergoing clinical trials which aim to target the beta-amyloid protein and treat AD. Aducanumab was approved by the FDA in June 2021, and lecanemab was granted accelerated approval by the FDA in January 2023. Furthermore, there are two AD treatments which are in Phase III clinical trials; donanemab and remternetug.
+Although there are currently no therapies or interventions that can cure AD, several disease-modifying treatments exist that can alter the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. A recent comprehensive review by [@Huang2023-vq], identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively [@Gustavsson2023-qr], therefore increasing research focus on these patient populations is imperative to slow the progression of the disease. 
+
+There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab ([@Center_for_Drug_Evaluation2023-gy]; [@Office_of_the_Commissioner2023-hu]). These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials [@Cummings2023-lo]. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023. 
+
+## Topic Modelling and Text Mining in AD Research
+
+Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research literature [@Higgins2019-kn]. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words [@Blei2003-lh]. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.
+
+In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. [@Martinelli2022-ic], identifying novel biomarkers [@Greco2012-pv], and drug repurposing [@Nian2022-xw]. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, as well as a topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved  immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against [@Grames2019-as].
+
 
 # Methods
 
-## *litsearchR*
+A full summary of the methodology is provided in Appendix 1. All data analysis and visualisations were done in R version 4.3.2 using *tidyverse* packages [@Wickham2019-rj] unless otherwise stated.
 
-The `litsearchR` package was used to search PubMed for abstracts containing the MeSH term 'Alzheimer's Disease' and show the most frequent words in the keywords and titles to ensure all papers are captured. See @fig-ad-search-terms. 
+## Data Acquisition
+
+Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, author list, and publication date were obtained from PubMed using the inclusion criteria described in @tbl-inclusion-criteria and *EUTils*, accessed through *Rismed* [@Kovalchik2021-xq]. After excluding publications without abstracts (n = `r abstract_na_n`), `r abstract_n` manuscripts comprised the final dataset (data cut accessed on 10th October 2023). PubMed is a large, online search engine containing over 36 million citations for biomedical literature, and is maintained by the United States National Library of Medicine (NLM) at the National Institutes of Health (NIH). The diversity of entries into the database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias. 
+
+```{r}
+#| label: tbl-inclusion-criteria
+#| include: true
+#| tbl-cap: "Inclusion Criteria"
+#| tbl-width: 10
+#| tbl-height: 3.5
+#| tbl-align: left
+
+criteria <- data.frame(x = c("**Criteria:**",
+"MeSH term",
+"Article Type",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"Publication Date",
+"Language"),
+y = c("**Filter applied:**",
+"‘Alzheimer’s Disease’",
+"Books",
+"Case Reports",
+"Clinical Study",
+"Clinical Trial",
+"Controlled Clinical Trial",
+"Meta-analysis",
+"Randomised Controlled Trial",
+"Review",
+"Systematic Review",
+"1st January 2022 to 1st January 2024 inclusive",
+"English")
+)
+
+# make dataframe filter and criteria
+
+knitr::kable(criteria, col.names = NULL)
+
+```
+
+```{r}
+#| label: fig-preprocess
+#| include: true
+#| fig-cap: "Data Preprocessing"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
+
+knitr::include_graphics("data/preprocess1.png")
+knitr::include_graphics("data/preprocess2.png")
+```
+
+## Data Preprocessing
+
+Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the unnest_tokens function of the tidytext package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the tidytext package [@Silge2016-jf] combined with personalised words (@tbl-appendix2) were then removed @fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’  were all mapped to ‘*amyloid beta*’.
+
+## Data Analysis
+
+### *litsearchR*
+
+To reassure us that the PubMed search query encapsulated all literature, *litsearchr* package was used to expand the search terms [@Grames2019-as]. Citations from PubMed results using the previous search criteria were read into R. The combined unique keyword and titles, as not all articles have keywords,  for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and strength [@Barrat2004-hm] from the igraph package [@Csardi2006-gb]. The 80% cutoffs were determined to find only the most important terms to the articles; all others were discarded (@fig-ad-search-terms).
 
 ```{r}
 #| label: search-terms
@@ -247,6 +329,27 @@ tidy_abstracts_clean <- tidy_abstracts_clean %>%
 
 ```
 
+### Publication Frequency
+
+Number of abstracts published per month were visualised as well as the frequency of dates of publications for papers containing the AD drug lecanemab and associated terminology were also obtained.
+
+### Term Frequency
+
+#### N-gram Frequency Analysis
+
+After tokenisation, the top 20 most frequent unigrams were determined for each dataset. The top 20 most frequent bigrams and trigrams were also determined due to many unigrams being associated with pairs or triplets of words. For example, “mild cognitive impairment” relates to a neurological condition, whereas the words “mild”, “cognitive” and “impairment” have ambiguous connotations individually. The most frequent bigrams were also visualised as networks.
+
+#### Term Usage Over Time
+
+The distribution of terms used over 1000 times from the unigram analysis was visualised. Generalised linear model (GLM) was used to determine whether there was a significant change in word usage over the months.
+
+### Topic Modelling
+
+A document term matrix (dtm) was constructed for each dataset, indicating each word’s term frequency (tf), which is a measure of how often a word appears in a document. To determine if a statistical model could distinguish between pre-leca and post-leca corpuses, a two-topic Latent Dirich Allocation (LDA) model [@Blei2003-lh] was applied to the dtm using the topicmodels package [@Grun2011-do]. The per-document-per-topic probabilities (γ) is extracted to show the proportion of words generated in each topic and how often these words appear in either the pre-leca or post-leca corpuses.
+
+Furthermore, two ten-topic LDA models were created, one for each of the pre-leca and post-leca text corpuses, to determine the most frequent topics, where an arbitrary topic number (k) of ten was chosen. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most commonly found in each topic were visualised. As a lot of the most common words appear as bigrams in the text corpuses, the per-topic-per-bigram probabilities with the top 10 most common bigrams were also visualised with two more ten-topic LDA models. In each model the abstracts are considered mixtures of topics and each topic is considered a mixture of words.
+
+
 # Results
 
 ## AD Research Publication
@@ -258,7 +361,7 @@ The distribution of publications is shown in @fig-publication-date.
 ```{r}
 #| label: fig-publication-date
 #| include: true
-#| fig-cap: "Publication date distribution of abstracts"
+#| fig-cap: "**Publication date distribution of abstracts**: yayady"
 #| fig-width: 10
 #| fig-height: 3.5
 #| fig-align: left
@@ -322,12 +425,13 @@ tidy_abstracts_clean %>%
   geom_col() +
   labs(y = NULL) +
   xlab("Count") +
-  facet_wrap(~factor(type, levels = c("pre-leca", "post-leca")),
-             scale = "free") +
+  facet_wrap(~type, scale = "free") +
   theme(legend.position = "none",
         panel.background = element_blank(),
         axis.line = element_line(colour = "black"),
         strip.background = element_blank())
+
+# most common word facet by type: pre-leca, post-leca
 
 ```
 
@@ -343,7 +447,7 @@ The distribution by month of the top frequent words, as determined from @fig-tok
 
 ## Create Generalised linear model
 
-top_words <- c("disease", "brain", "studies", "diseases", "review", "cognitive", "dementia", "neurodegenerative", "clinical", "patients", "treatment", "disorders", "effects")
+top_words <- c("disease", "brain", "studies", "diseases", "review", "cognitive", "dementia", "neurodegenerative", "clinical", "patients", "treatment", "disorders", "risk", "effects")
 
 # Get word frequency per month
 glm_abstracts <- tidy_abstracts_clean %>%  
@@ -590,7 +694,7 @@ post_leca_graph %>%
 ### Trigrams
 
 ```{r}
-#|label: trigram clean
+#| label: trigram clean
 #| include: false
 trigrams_separated <- abstract_trigrams %>%
   separate(trigram, c("word1", "word2", "word3"), sep = " ")
@@ -649,6 +753,10 @@ Most common trigrams in pre- or post-leca text corpuses are shown in @fig-trigra
 ```{r}
 #| label: fig-trigram-counts
 #| include: true
+#| fig-cap: "Most common trigrams in pre- or post-leca text corpuses"
+#| fig-width: 10
+#| fig-height: 3.5
+#| fig-align: left
 
 trigram_counts %>% 
   group_by(type) %>%
@@ -871,4 +979,18 @@ top_bigram_terms_pre
 
 # Pre-leca
 top_bigram_terms_post
+```
+
+# Appendix
+
+```{r}
+#| label: tbl-appendix2
+#| include: true
+#| tbl-cap: "Personalised Stop Words"
+#| tbl-width: 10
+#| tbl-height: 3.5
+#| tbl-align: left
+my_stopwords %>%
+  rename("Stop Word" = word) %>%
+    knitr::kable()
 ```
