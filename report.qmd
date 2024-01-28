@@ -12,6 +12,7 @@ execute:
   cache: true
   freeze: true
 bibliography: references.bib
+csl: university-of-york-harvard-environment.csl
 ---
 
 ```{r}
@@ -120,7 +121,7 @@ knitr::include_graphics("data/preprocess2.png")
 
 ## Data Preprocessing
 
-Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the unnest_tokens function of the tidytext package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the tidytext package [@Silge2016-jf] combined with personalised words (@tbl-appendix2) were then removed @fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’  were all mapped to ‘*amyloid beta*’.
+Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the unnest_tokens function of the tidytext package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the tidytext package [@Silge2016-jf] combined with personalised words (@tbl-appendix2) were then removed fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’  were all mapped to ‘*amyloid beta*’.
 
 ## Data Analysis
 
@@ -550,7 +551,7 @@ post_leca_graph <- post_leca_graph %>%
   graph_from_data_frame()
 ```
 
-Exploring some of the bigrams the word "disease" are shown in @tbl-tbl-bigram-plot. The most common bigrams beginning with "neuro" are shown in @tbl-tbl-bigram-plot.
+Exploring some of the bigrams the word "disease" are shown in @tbl-bigram-plot. The most common bigrams beginning with "neuro" are shown in @tbl-bigram-plot.
 
 ```{r}
 #| label: tbl-bigram-plot
