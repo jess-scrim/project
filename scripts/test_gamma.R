@@ -42,8 +42,8 @@ tidy_lda_gamma <- tidy(all_lda,
 
 # Join results with abstract to get the date variable
 abstract_gamm <- tidy_lda_gamma %>%
-  mutate(document = as.numeric(document)) %>% 
-  left_join(bigrams_separated %>% mutate(document = abstract), by = "document") %>% 
+  mutate(abstract = as.numeric(document)) %>% 
+  left_join(bigrams_separated, by = "abstract") %>% 
   select(document, gamma, topic, date) %>% 
   mutate(type = case_when(date <= leca_approv ~ "pre-leca",
                           date > leca_approv ~ "post-leca"))
@@ -70,10 +70,14 @@ abstract_gamm %>%
   distinct(document, gamma, topic, date, type) %>%
   ggplot() +
   geom_boxplot(aes(x = type, y = gamma)) +
- # geom_jitter(aes(x = type, y = gamma))+
+  geom_jitter(aes(x = type, y = gamma))+
   facet_wrap(~ topic )
 
 ## See if significant difference
 wilcox.test(abstract_gamm$gamma)
-wilcox.test(ea1d$TajimaD, brad$TajimaD)
-            
+
+# Wilcoxon signed rank test with continuity correction
+# 
+# data:  abstract_gamm$gamma
+# V = 2.7275e+11, p-value < 2.2e-16
+# alternative hypothesis: true location is not equal to 0

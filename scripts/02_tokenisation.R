@@ -3,8 +3,8 @@ source("scripts/00_setting_up.R")
 # Tokenise
 tidy_abstracts <- abstracts %>% 
   filter(!text == "NA") %>% 
-  mutate(type = case_when(date <= leca_approv ~ "pre-lena",
-                          date > leca_approv ~ "post-lena")) %>% 
+  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
+                          date > leca_approv ~ "post-leca")) %>% 
   unnest_tokens(word, text)
 
 # Remove stopwords

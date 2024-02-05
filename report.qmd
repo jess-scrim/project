@@ -11,9 +11,18 @@ execute:
   warning: false
   cache: true
   freeze: true
+# format:
+#   pdf:
+#     toc: true
+#     number-sections: true
+#     colorlinks: true
 bibliography: references.bib
 csl: university-of-york-harvard-environment.csl
 ---
+
+# Abstract
+
+Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide. Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. Every year thousands of scientific articles are published concerning AD, however it can be time consuming and laborious to disseminate this information into a systematic review whilst highlighting current research. Full abstract text from PubMed for documents containing the MeSH term “Alzheimer’s Disease” were tokenised, cleaned then allocated to either a “pre-leca” or “post-leca” corpus relative to the date of lecanemab accelerated approval, 6th January 2023. Ten-topic latent Diurich Allocation (LDA) models were created for each corpus either using unigrams or bigrams. 
 
 ```{r}
 #| label: packages
@@ -27,35 +36,41 @@ source("scripts/00_setting_up.R")
 #| include: false
 load("project.RData")
 tidy_abstracts_clean <- read_csv("results/tidy_abstracts_clean.csv")
+tidy_abstracts_clean <- tidy_abstracts_clean %>%
+  anti_join(stop_words)
+tidy_abstracts_clean <- tidy_abstracts_clean %>%
+  anti_join(my_stopwords)
 abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
 abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
 
 abstract_na_n <- nrow(filter(abstracts, is.na(title)))
 abstract_n <- nrow(filter(abstracts, !is.na(title)))
+
 ```
 
 # Introduction
 
 ## Alzheimer's Disease
 
-Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties [@noauthor_2023-ek]. 
+Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties [@noauthor_2023-ek]. These symptoms usually manifest after the physiological changes in the brain develop, therefore scientific understanding and advances in new treatments is important in understanding AD aetiology. 
 
-The underlying aetiology of sporadic AD, as opposed to genetically caused familial AD, is largely unknown, however research consensus suggests the accumulation of abnormal proteins, amyloid-beta and tau, disrupt cellular pathways and lead to 
-
-AD is progressive and neuronal damage accumulates over a patient’s lifetime leading to hippocampal atrophy. As well as the degeneration of neurons, AD is associated with the build up of abnormal proteins, amyloid-beta and tau [@Villemagne2013-xk]. 
+Whilst the underlying mechanisms determining the progression of AD are not fully understood, the accumulation of abnormal protein aggregates including, amyloid-beta plaques and neurofibrillary tangles, are frequently found in the brains of patients with AD [@Villemagne2013-xk] [@Iaccarino2018-ta]. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. Diagnosing AD requires the presence of  both amyloid and tau pathologies as well as neuroinflammation, neuronal death and brain atrophy [@Garcia-Morales2021-zb]. 
 
 ## Treatments for AD
 
 Although there are currently no therapies or interventions that can cure AD, several disease-modifying treatments exist that can alter the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. A recent comprehensive review by [@Huang2023-vq], identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively [@Gustavsson2023-qr], therefore increasing research focus on these patient populations is imperative to slow the progression of the disease. 
 
-There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab ([@Center_for_Drug_Evaluation2023-gy]; [@Office_of_the_Commissioner2023-hu]). These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials [@Cummings2023-lo]. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023. 
+There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab [@Center_for_Drug_Evaluation2023-gy]; [@Office_of_the_Commissioner2023-hu]. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials [@Cummings2023-lo]. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023. 
 
 ## Topic Modelling and Text Mining in AD Research
 
-Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research literature [@Higgins2019-kn]. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words [@Blei2003-lh]. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.
+Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more research literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research field [@Higgins2019-kn]. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words [@Blei2003-lh]. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.
 
-In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. [@Martinelli2022-ic], identifying novel biomarkers [@Greco2012-pv], and drug repurposing [@Nian2022-xw]. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, as well as a topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved  immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against [@Grames2019-as].
+In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. [@Martinelli2022-ic], identifying novel biomarkers [@Greco2012-pv], and drug repurposing [@Nian2022-xw]. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved  immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against [@Grames2019-as].
 
+## Aims and Hypotheses
+
+In this study we aim to comprehensively investigate current research in AD, focusing on the period around the accelerated approval of the AD immunotherapy drug, lecanemab. We hypothesised that major topics in AD research could be categorised into distinct themes by applying LDA topic models to existing literature. Additionally, we hope to determine whether these topics have changed with the emergence of new immunotherapy treatments. This method is justified for the vast quantity of literature being published concerning AD and could be translated into other disease areas to study the impact of novel treatment options. Remaining current with the latest research is crucial for making significant strides in understanding and addressing the complexities of this disease, and finding new ways to treat AD.
 
 # Methods
 
@@ -107,27 +122,169 @@ knitr::kable(criteria, col.names = NULL)
 
 ```
 
+## Data Preprocessing
+
+Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the *unnest_tokens* function of the *tidytext* package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the *tidytext* package [@Silge2016-jf] combined with personalised words (@tbl-appendix2) were then removed @fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’  were all mapped to ‘*amyloid beta*’.
+
 ```{r}
 #| label: fig-preprocess
 #| include: true
-#| fig-cap: "Data Preprocessing"
-#| fig-width: 10
+#| fig-cap: "**Abstract tokenisation into unigrams.** Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the *tidytext* package [@Silge2016-jf], as well as personalised words (@tbl-appendix2). Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown."
+#| fig-subcap:
+#|  - "Example of Tokenisation"
+#|  - "Removal of stopwords"
+#| fig-width: 6
 #| fig-height: 3.5
-#| fig-align: left
+#| fig-align: center
 
 knitr::include_graphics("data/preprocess1.png")
 knitr::include_graphics("data/preprocess2.png")
 ```
 
-## Data Preprocessing
+```{r}
+#| label: bigram-cleaning
+#| include: false
+bigrams_separated <- abstract_bigrams %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+bigrams_separated <- bigrams_separated %>%
+  filter(!word1 %in% stop_words$word &
+         !word1 %in% my_stopwords$word) %>% # remove word1 if stopword
+  filter(!word2 %in% stop_words$word &
+         !word2 %in% my_stopwords$word) # remove word2 if stopword
 
-Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the unnest_tokens function of the tidytext package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the tidytext package [@Silge2016-jf] combined with personalised words (@tbl-appendix2) were then removed fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’  were all mapped to ‘*amyloid beta*’.
+# join word1 and word2 back together into bigram
+bigrams_united <- bigrams_separated %>%
+  unite(bigram, word1, word2, sep = " ")  # 'bigram' name of new column
+  
+## Map words and remove abbreviations ##
+bigrams_united <- bigrams_united %>% 
+ # filter(grepl("alzheimer*\\b*disease*", bigram)) %>% 
+  mutate(bigram = str_replace_all(bigram, 
+                              "\\b(neurodegenerative dis(?:ease|eases|order|orders)?)\\b|\\b(neurological dis(?:ease|eases|order|orders)?)\\b", 
+                              "neurodegenerative disease"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(central nervous)\\b|\\b(system cns)\\b",
+                                  "cns"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(parkinson's disease)\\b|\\b(disease pd)\\b|\\b(parkinson's diseases)\\b|\\b(parkinson's pd)\\b|\\b(parkinson disease)\\b|\\b(disease parkinson's)\\b",
+                                  "parkinson's disease"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(huntington's disease)\\b|\\b(disease hd)\\b|\\b(huntington's diseases)\\b|\\b(huntingon's hd)\\b|\\b(huntington disease)\\b|\\b(disease huntington's)\\b",
+                                  "huntington's disease"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(blood brain)\\b|\\b(brain barrier)\\b",
+                                  "blood brain"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(amyloid\\s*\\p{Greek})\\b|\\b(amyloid beta)\\b|\\b(beta amyloid)\\b|\\b(β aβ)\\b|\\b(amyloid β)\\b|\\b(beta aβ)\\b",
+                                   "amyloid beta"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(2019 covid)\\b|\\b(covid 19)\\b|\\b(sars cov)\\b|\\b(cov 2)\\b",
+                                  "covid 19"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(2 diabetes)\\b|\\b(diabetes t2d)\\b|\\b(type 2)\\b",
+                                  "diabetes t2d"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(amyotropic lateral)\\b|(lateral sclerosis)\\b",
+                                  "als"))
+bigrams_united
+
+# All abstracts
+bigram_counts <- bigrams_united %>% 
+  group_by(type) %>% 
+  count(bigram, sort = TRUE) %>% 
+  ungroup()
+
+# Filter for only relatively common combinations
+bigram_graph <- bigrams_united %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+  
+bigram_graph <- bigram_graph %>%
+  graph_from_data_frame() # most common word1->word2
+
+set.seed(2017) # set random 2017
+
+# Pre-leca
+pre_leca_graph <- bigrams_united %>%
+  filter(type == "pre-leca") %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+pre_leca_graph <- pre_leca_graph %>%
+  graph_from_data_frame()
+
+# Post-leca
+post_leca_graph <- bigrams_united %>%
+  filter(type == "post-leca") %>%
+  count(bigram) %>% 
+  filter(n > 200) %>% 
+  separate(bigram, c("word1", "word2"), sep = " ")
+post_leca_graph <- post_leca_graph %>%
+  graph_from_data_frame()
+```
+
+```{r}
+#| label: trigram clean
+#| include: false
+trigrams_separated <- abstract_trigrams %>%
+  separate(trigram, c("word1", "word2", "word3"), sep = " ")
+trigrams_separated <- trigrams_separated %>%
+  filter(!word1 %in% stop_words$word &
+           !word1 %in% my_stopwords$word) %>% # remove word1 if stopword
+  filter(!word2 %in% stop_words$word &
+           !word2 %in% my_stopwords$word) %>% # remove word2 if stopword
+  filter(!word3 %in% stop_words$word &
+           !word3 %in% my_stopwords$word) # remove word3 if stopword
+
+# trigram_counts <- trigrams_separated %>% 
+#   group_by(type) %>% 
+#   count(word1, word2, word3, sort = TRUE) %>% 
+#   ungroup()
+
+trigrams_united <- trigrams_separated %>%
+  group_by(type) %>% 
+  unite(trigram, word1, word2, word3, sep = " ") %>%  # 'trigram' name of new column
+  ungroup()
+
+trigrams_united <- trigrams_united %>%
+  mutate(trigram = str_replace_all(trigram, 
+                                   "\\b(?:mild cognitive impairment|mci|cognitive impairment mci)\\b", 
+                                   "mild cognitive impairment"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:central nervous system|nervous system cns|central nervous system)\\b", 
+                                   "central nervous system"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:blood brain barrier|brain barrier bbb)\\b", 
+                                   "blood-brain barrier"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:amyotrophic lateral sclerosis|lateral sclerosis als|amyotropic lateral sclerosis|disease amyotrophic lateral)\\b",
+                                   "amyotrophic lateral sclerosis"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:amyloid beta aβ|β amyloid aβ|amyloid β aβ|amyloid β peptide|amyloid β protein)\\b",
+                                   "amyloid beta aβ"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:type 2 diabetes|diabetes mellitus t2dm|2 diabetes mellitus)\\b", 
+                                   "type 2 diabetes"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:huntington's disease hd|disease huntington's disease)\\b",
+                                   "huntington's disease hd"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:parkinson's disease pd|disease parkinson's disease)\\b",
+                                   "parkinson's disease pd"))
+
+trigram_counts <- trigrams_united %>% 
+  group_by(type) %>%
+  count(trigram, sort = TRUE) %>%
+  ungroup()
+```
 
 ## Data Analysis
 
 ### *litsearchR*
 
-To reassure us that the PubMed search query encapsulated all literature, *litsearchr* package was used to expand the search terms [@Grames2019-as]. Citations from PubMed results using the previous search criteria were read into R. The combined unique keyword and titles, as not all articles have keywords,  for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and strength [@Barrat2004-hm] from the igraph package [@Csardi2006-gb]. The 80% cutoffs were determined to find only the most important terms to the articles; all others were discarded (@fig-ad-search-terms).
+To reassure us that the PubMed search query encapsulated all literature, *litsearchr* package was used to expand the search terms [@Grames2019-as]. Citations from PubMed results using the previous search criteria were read into R. The combined unique keyword and titles, as not all articles have keywords,  for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The 80% cutoffs were determined to find only the most important terms to the articles; all others were discarded (@fig-ad-search-terms; @fig-ad-drug-search-terms).
 
 ```{r}
 #| label: search-terms
@@ -320,16 +477,6 @@ cutoff_fig +
 
 ```
 
-```{r}
-#| label: data-import
-#| include: false
-tidy_abstracts_clean <- tidy_abstracts_clean %>%
-  anti_join(stop_words)
-tidy_abstracts_clean <- tidy_abstracts_clean %>%
-  anti_join(my_stopwords)
-
-```
-
 ### Publication Frequency
 
 Number of abstracts published per month were visualised as well as the frequency of dates of publications for papers containing the AD drug lecanemab and associated terminology were also obtained.
@@ -350,535 +497,41 @@ A document term matrix (dtm) was constructed for each dataset, indicating each w
 
 Furthermore, two ten-topic LDA models were created, one for each of the pre-leca and post-leca text corpuses, to determine the most frequent topics, where an arbitrary topic number (k) of ten was chosen. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most commonly found in each topic were visualised. As a lot of the most common words appear as bigrams in the text corpuses, the per-topic-per-bigram probabilities with the top 10 most common bigrams were also visualised with two more ten-topic LDA models. In each model the abstracts are considered mixtures of topics and each topic is considered a mixture of words.
 
-
-# Results
-
-## AD Research Publication
-
-This study found `r nrow(abstracts)` papers that were published between `r min(tidy_abstracts_clean$date)` and `r max(tidy_abstracts_clean$date)` that contained the identified terms.
-
-The distribution of publications is shown in @fig-publication-date.
-
 ```{r}
-#| label: fig-publication-date
-#| include: true
-#| fig-cap: "**Publication date distribution of abstracts**: yayady"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-abstracts %>%  
-  ggplot(aes(date)) +
-  geom_histogram(bins = 100) +
-  xlab("Date of Publication") +
-  ylab("Number of Abstracts") +
-  # 10 month intervals
-  scale_x_date(date_breaks = "4 month", date_labels = "%m/%Y") +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
-```
-
-The distribution of publications containing the terms associated with 'lecanemab' is shown in @fig-lecanemab-publication-date.
-
-```{r}
-#| label: fig-lecanemab-publication-date
-#| include: true
-#| fig-cap: "Publication date distribution of abstracts containing lecanemab terms"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-## Visualise abstracts published with all lena terms
-naive_drug_results %>% 
-  filter(!is.na(date_published)) %>% 
-  ggplot(aes(as.Date(date_published, format = "%Y %b %d"))) +
-  geom_histogram(bins = 30,
-                 binwidth = 100) +
-  xlab("Date of Publication") +
-  ylab("Number of Abstracts") +
-  # 10 month intervals
-  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
-```
-
-## N-gram Analysis
-
-### Unnigrams
-
-The most frequent unigrams are shown in @fig-tokenisation.
-
-```{r}
-#| label: fig-tokenisation
-#| include: true
-#| fig-cap: "Most Common Unigram"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-tidy_abstracts_clean %>% 
-  group_by(type) %>%
-  count(word, sort = TRUE) %>%
-  slice_head(n = 15) %>% 
-  ggplot(aes(n, reorder(word, n), fill = type)) +
-  geom_col() +
-  labs(y = NULL) +
-  xlab("Count") +
-  facet_wrap(~type, scale = "free") +
-  theme(legend.position = "none",
-        panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        strip.background = element_blank())
-
-# most common word facet by type: pre-leca, post-leca
-
-```
-
-The distribution by month of the top frequent words, as determined from @fig-tokenisation, is shown in @fig-glm-words.
-
-```{r}
-#| label: fig-glm-words
-#| include: true
-#| fig-cap: "Most Frequent Words per Month"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-## Create Generalised linear model
-
-top_words <- c("disease", "brain", "studies", "diseases", "review", "cognitive", "dementia", "neurodegenerative", "clinical", "patients", "treatment", "disorders", "risk", "effects")
-
-# Get word frequency per month
-glm_abstracts <- tidy_abstracts_clean %>%  
-  filter(word %in% top_words) %>% 
-  mutate(date = floor_date(date, "month")) %>% # round date to month
-  group_by(date) %>%
-  count(word, sort = TRUE) %>%
-  ungroup() %>%
-  group_by(word) %>%
-  mutate(freq = n / sum(n)) %>%
-  ungroup() 
-
-# Generalised linear model
-glm <- glm( freq ~ date + word, data = glm_abstracts, family = "poisson" )
-#summary(glm)
-
-# plot just months of date
-
-glm %>% ggplot(aes(x = date, y = freq)) +
-  geom_line(aes(color = word)) +
-  ylab("Frequency") +
-  xlab("Date") +
-  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
-  theme_classic()
-```
-
-### Bigrams
-
-```{r}
-#| label: bigram-cleaning
-#| include: false
-bigrams_separated <- abstract_bigrams %>%
-  separate(bigram, c("word1", "word2"), sep = " ")
-bigrams_separated <- bigrams_separated %>%
-  filter(!word1 %in% stop_words$word &
-         !word1 %in% my_stopwords$word) %>% # remove word1 if stopword
-  filter(!word2 %in% stop_words$word &
-         !word2 %in% my_stopwords$word) # remove word2 if stopword
-
-# join word1 and word2 back together into bigram
-bigrams_united <- bigrams_separated %>%
-  unite(bigram, word1, word2, sep = " ")  # 'bigram' name of new column
-  
-## Map words and remove abbreviations ##
-bigrams_united <- bigrams_united %>% 
- # filter(grepl("alzheimer*\\b*disease*", bigram)) %>% 
-  mutate(bigram = str_replace_all(bigram, 
-                              "\\b(neurodegenerative dis(?:ease|eases|order|orders)?)\\b|\\b(neurological dis(?:ease|eases|order|orders)?)\\b", 
-                              "neurodegenerative disease"),
-         bigram = str_replace_all(bigram,
-                                  "\\b(central nervous)\\b|\\b(system cns)\\b",
-                                  "cns"),
-         bigram = str_replace_all(bigram,
-                                  "\\b(parkinson's disease)\\b|\\b(disease pd)\\b",
-                                  "parkinson's disease"),
-         bigram = str_replace_all(bigram,
-                                  "\\b(blood brain)\\b|\\b(brain barrier)\\b",
-                                  "blood brain"),
-         bigram = str_replace_all(bigram,
-                                  "\\b(amyloid\\s*\\p{Greek})\\b|\\b(amyloid beta)\\b|\\b(amyloid a\\p{Greek})\\b|\\b(beta amyloid)\\b|\\b(\\p{Greek} amyloid)\\b",
-                                   "amyloid beta"),
-         bigram = str_replace_all(bigram,
-                                  "\\b(2019 covid)\\b|\\b(covid 19)\\b",
-                                  "covid 19"))
-
-# All abstracts
-bigram_counts <- bigrams_united %>% 
-  group_by(type) %>% 
-  count(bigram, sort = TRUE) %>% 
-  ungroup()
-
-# Filter for only relatively common combinations
-bigram_graph <- bigrams_united %>%
-  count(bigram) %>% 
-  filter(n > 200) %>% 
-  separate(bigram, c("word1", "word2"), sep = " ")
-  
-bigram_graph <- bigram_graph %>%
-  graph_from_data_frame() # most common word1->word2
-
-set.seed(2017) # set random 2017
-
-# Pre-leca
-pre_leca_graph <- bigrams_united %>%
-  filter(type == "pre-leca") %>%
-  count(bigram) %>% 
-  filter(n > 200) %>% 
-  separate(bigram, c("word1", "word2"), sep = " ")
-
-pre_leca_graph <- pre_leca_graph %>%
-  graph_from_data_frame()
-
-# Post-leca
-post_leca_graph <- bigrams_united %>%
-  filter(type == "post-leca") %>%
-  count(bigram) %>% 
-  filter(n > 200) %>% 
-  separate(bigram, c("word1", "word2"), sep = " ")
-post_leca_graph <- post_leca_graph %>%
-  graph_from_data_frame()
-```
-
-Exploring some of the bigrams the word "disease" are shown in @tbl-bigram-plot. The most common bigrams beginning with "neuro" are shown in @tbl-bigram-plot.
-
-```{r}
-#| label: tbl-bigram-plot
-#| include: true
-#| fig-cap: "Bigrams in abstracts"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-bigrams_separated %>%
-  filter(word2 == "disease") %>%
-  count(word1, sort = TRUE) %>% 
-  slice_head(n = 15) %>%
-  knitr::kable(caption = "Most common bigrams ending in 'disease'
-")
-
-bigrams_separated %>%
-  filter(grepl("^neuro", word1)) %>%
-  count(word2, sort = TRUE) %>% 
-  slice_head(n = 15) %>%
-  knitr::kable(caption = "Most frequent bigrams beginning with 'neuro' in first word
-")
-
-bigrams_separated %>%
-  filter(grepl("^neuro", word2)) %>%
-  count(word1, sort = TRUE) %>% 
-  slice_head(n = 15) %>%
-  knitr::kable(caption = "Most frequent bigrams beginning with 'neuro' in second word
-")
-```
-
-Relations of bigram networks are shown in @fig-bigram-visualisation. Bigram networks for pre-leca and post-leca are shown in @fig-bigram-visualisation-pre and @fig-bigram-visualisation-post respectively. Strength networks for bigrams are shown in @fig-bigram-visualisation-strength and split into pre-leca and post-leca in @fig-bigram-visualisation-strength-pre and @fig-bigram-visualisation-strength-post respectively.
-
-```{r}
-#| label: fig-bigram-visualisation
-#| include: true
-#| fig-cap: "Bigram networks"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-# Visualise how word1 relates to word2
-ggraph(bigram_graph, layout = "fr") +
-  geom_edge_link() +
-  geom_node_point() +
-  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
-  ggtitle("Bigram Relations")
-
-```
-
-```{r}
-#| label: fig-bigram-visualisation-pre
-#| include: true
-#| fig-cap: "Bigram networks Pre"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-ggraph(pre_leca_graph, layout = "fr") +
-  geom_edge_link() +
-  geom_node_point() +
-  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
-  ggtitle("Pre-leca Bigram Relations")
-
-```
-
-```{r}
-#| label: fig-bigram-visualisation-post
-#| include: true
-#| fig-cap: "Bigram networks Post"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-ggraph(post_leca_graph, layout = "fr") +
-  geom_edge_link() +
-  geom_node_point() +
-  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
-  ggtitle("Post-leca Bigram Relations")
-
-```
-
-```{r}
-#| label: fig-bigram-visualisation-strength
-#| include: true
-#| fig-cap: "Bigram networks strength"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-# Visualise - thickness of line determines how strong the relationship is
-set.seed(2020)
-
-bigram_graph %>% 
-  ggraph(layout = "fr") +
-  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
-  geom_node_point(size = 5) +
-  geom_node_text(aes(label = name), repel = TRUE, 
-                 point.padding = unit(0.2, "lines")) +
-  theme_void() +
-  ggtitle("Bigram Relations")
-
-```
-
-```{r}
-#| label: fig-bigram-visualisation-strength-pre
-#| include: true
-#| fig-cap: "Bigram networks Strength Pre"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-# Pre-leca
-pre_leca_graph %>% 
-  ggraph(layout = "fr") +
-  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
-  geom_node_point(size = 5) +
-  geom_node_text(aes(label = name), repel = TRUE, 
-                 point.padding = unit(0.2, "lines")) +
-  theme_void() +
-  ggtitle("Pre-leca Bigram Relations")
-
-```
-
-```{r}
-#| label: fig-bigram-visualisation-strength-post
-#| include: true
-#| fig-cap: "Bigram networks Strength Post"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-# Pre-leca
-post_leca_graph %>% 
-  ggraph(layout = "fr") +
-  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
-  geom_node_point(size = 5) +
-  geom_node_text(aes(label = name), repel = TRUE, 
-                 point.padding = unit(0.2, "lines")) +
-  theme_void() +
-  ggtitle("Post-leca Bigram Relations")
-```
-
-### Trigrams
-
-```{r}
-#| label: trigram clean
-#| include: false
-trigrams_separated <- abstract_trigrams %>%
-  separate(trigram, c("word1", "word2", "word3"), sep = " ")
-trigrams_separated <- trigrams_separated %>%
-  filter(!word1 %in% stop_words$word &
-           !word1 %in% my_stopwords$word) %>% # remove word1 if stopword
-  filter(!word2 %in% stop_words$word &
-           !word2 %in% my_stopwords$word) %>% # remove word2 if stopword
-  filter(!word3 %in% stop_words$word &
-           !word3 %in% my_stopwords$word) # remove word3 if stopword
-
-# trigram_counts <- trigrams_separated %>% 
-#   group_by(type) %>% 
-#   count(word1, word2, word3, sort = TRUE) %>% 
-#   ungroup()
-
-trigrams_united <- trigrams_separated %>%
-  group_by(type) %>% 
-  unite(trigram, word1, word2, word3, sep = " ") %>%  # 'trigram' name of new column
-  ungroup()
-
-trigrams_united <- trigrams_united %>%
-  mutate(trigram = str_replace_all(trigram, 
-                                   "\\b(?:mild cognitive impairment|mci|cognitive impairment mci)\\b", 
-                                   "mild cognitive impairment"),
-         trigram = str_replace_all(trigram,
-                                   "\\b(?:central nervous system|nervous system cns|central nervous system)\\b", 
-                                   "central nervous system"),
-         trigram = str_replace_all(trigram,
-                                   "\\b(?:blood brain barrier|brain barrier bbb)\\b", 
-                                   "blood-brain barrier"),
-         trigram = str_replace_all(trigram,
-                                   "\\b(?:amyotrophic lateral sclerosis|lateral sclerosis als|amyotropic lateral sclerosis)\\b",
-                                   "amyotrophic lateral sclerosis"),
-         trigram = str_replace_all(trigram,
-                                   "\\b(?:amyloid beta aβ|β amyloid aβ|amyloid β aβ|amyloid β peptide|amyloid β protein)\\b",
-                                   "amyloid beta aβ"),
-         trigram = str_replace_all(trigram,
-                                   "\\b(?:type 2 diabetes|diabetes mellitus t2dm|2 diabetes mellitus)\\b", 
-                                   "type 2 diabetes"),
-         trigram = str_replace_all(trigram,
-                                   "\\b(?:huntington's disease hd|disease huntinton's disease)\\b",
-                                   "huntington's disease hd"),
-         trigram = str_replace_all(trigram,
-                                   "\\b(?:parkinson's disease pd|disease parkinson's disease)\\b",
-                                   "parkinson's disease pd"))
-
-trigram_counts <- trigrams_united %>% 
-  group_by(type) %>%
-  count(trigram, sort = TRUE) %>%
-  ungroup()
-```
-
-Most common trigrams in pre- or post-leca text corpuses are shown in @fig-trigram-counts
-
-```{r}
-#| label: fig-trigram-counts
-#| include: true
-#| fig-cap: "Most common trigrams in pre- or post-leca text corpuses"
-#| fig-width: 10
-#| fig-height: 3.5
-#| fig-align: left
-
-trigram_counts %>% 
-  group_by(type) %>%
-  slice_head(n = 15) %>% 
-  ggplot(aes(n, reorder(trigram, n), fill = type)) +
-  geom_col() +
-  labs(y = NULL) +
-  xlab("Count") +
-  facet_wrap(~factor(type, levels = c("pre-leca", "post-leca")),
-             scale = "free") +
-  theme(legend.position = "none",
-        panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        strip.background = element_blank())
-```
-
-## Topic Modelling
-
-### Unigrams
-
-```{r}
-#| label: LDA Topic Modelling
+#| label: Gamma LDA Topic Modelling
 #| include: false
 #| cache: true
 
-word_count_pre <- tidy_abstracts_clean %>%
-  filter(type == "pre-leca") %>% 
-  count(word, abstract, sort = TRUE) %>% 
-  ungroup()
+# Create document term matrix of bigrams
+bigram_dtm <- bigrams_separated %>%
+  unite(bigram, word1, word2, sep = " ") %>% 
+  count(abstract, bigram) %>% 
+  cast_dtm(abstract, bigram, n) 
 
-word_count_post <- tidy_abstracts_clean %>%
-  filter(type == "post-leca") %>% 
-  count(word, abstract, sort = TRUE) %>% 
-  ungroup()
+# Create 2 topic LDA model for all abstracts
+all_lda <- LDA(bigram_dtm, k = 2, control = list(seed = 1234))
 
-# Cast the word counts into a document term matrix
-abstract_dtm_pre <- word_count_pre %>%
-  cast_dtm(abstract, word, n) 
+# Get gamma scores
+tidy_lda_gamma <- tidy(all_lda, 
+                 matrix = "gamma")
 
-abstract_dtm_post <- word_count_post %>%
-  cast_dtm(abstract, word, n)
+# Join results with abstract to get the date variable
+abstract_gamm <- tidy_lda_gamma %>%
+  mutate(abstract = as.numeric(document)) %>% 
+  left_join(bigrams_separated, by = "abstract") %>% 
+  select(document, gamma, topic, date) %>% 
+  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
+                          date > leca_approv ~ "post-leca"))
 
-# Running the LDA model
-abstract_lda_pre <- LDA(abstract_dtm_pre, k = 10, control = list(seed = 1234))
+## See if significant difference
+wilcox.test(abstract_gamm$gamma)
 
-abstract_lda_post <- LDA(abstract_dtm_post, k = 10, control = list(seed = 1234))
-
-tidy_lda_pre <- tidy(abstract_lda_pre,
-                     matrix = "beta") %>% 
-  mutate(type = "pre_leca")
-tidy_lda_post <- tidy(abstract_lda_post,
-                      matrix = "beta") %>% 
-  mutate(type = "post_leca")
-
-# Pre-leca
-top_terms_pre <- tidy_lda_pre %>%
-  filter(term != "disease") %>% 
-  group_by(topic) %>%
-  slice_max(beta, n = 10, with_ties = FALSE) %>%
-  ungroup() %>%
-  arrange(topic, -beta)
-
-# Post-leca
-top_terms_post <- tidy_lda_post %>%
-  filter(term != "disease") %>% 
-  group_by(topic) %>%
-  slice_max(beta, n = 10, with_ties = FALSE) %>%
-  ungroup() %>%
-  arrange(topic, -beta)
-
-top_terms_post <- top_terms_post %>%
-  mutate(term = reorder_within(term, beta, topic)) %>%
-  group_by(topic, term) %>%    
-  arrange(desc(beta)) %>%  
-  ungroup() %>%
-  ggplot(aes(beta, term, fill = as.factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  scale_y_reordered() +
-  labs(title = "Top 10 terms in each LDA topic: Post Leca",
-       x = expression(beta), y = NULL) +
-  facet_wrap(~ topic, ncol = 4, scales = "free")
-
-top_terms_pre <- top_terms_pre %>%
-  mutate(term = reorder_within(term, beta, topic)) %>%
-  group_by(topic, term) %>%    
-  arrange(desc(beta)) %>%  
-  ungroup() %>%
-  ggplot(aes(beta, term, fill = as.factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  scale_y_reordered() +
-  labs(title = "Top 10 terms in each LDA topic: Pre-Leca",
-       x = expression(beta), y = NULL) +
-  facet_wrap(~ topic, ncol = 4, scales = "free")
+# Wilcoxon signed rank test with continuity correction
+# 
+# data:  abstract_gamm$gamma
+# V = 2.7275e+11, p-value < 2.2e-16
+# alternative hypothesis: true location is not equal to 0
 ```
-
-The top 10 terms in each pre- and post- leca corpus are shown in @fig-topic-model-pre and @fig-topic-model-post respectively.
-
-```{r}
-#| label: fig-topic-model-pre
-#| include: true
-#| fig-cap: "LDA Topic Modelling"
-#| fig-width: 10
-#| fig-height: 10
-#| fig-align: left
-
-# Visualise - top 10 terms per topic
-top_terms_pre
-
-```
-
-```{r}
-#| label: fig-topic-model-post
-#| include: true
-#| fig-cap: "LDA Topic Modelling"
-#| fig-width: 10
-#| fig-height: 10
-#| fig-align: left
-top_terms_post
-```
-
-### Bigrams
 
 ```{r}
 #| label: LDA Topic Model Bigrams
@@ -886,15 +539,13 @@ top_terms_post
 #| cache: true
 
 # Cast the bigram counts into a document term matrix
-bigram_dtm_pre <- bigrams_separated %>%
+bigram_dtm_pre <- bigrams_united %>%
   filter(type == "pre-leca") %>% 
-  unite(bigram, word1, word2, sep = " ") %>% 
   count(abstract, bigram) %>% 
   cast_dtm(abstract, bigram, n) 
 
-bigram_dtm_post <- bigrams_separated %>%
+bigram_dtm_post <- bigrams_united %>%
   filter(type == "post-leca") %>% 
-  unite(bigram, word1, word2, sep = " ") %>% 
   count(abstract, bigram) %>% 
   cast_dtm(abstract, bigram, n)
 
@@ -914,7 +565,17 @@ tidy_bigram_lda_post <- tidy(bigram_lda_post,
 #   Not including 'neurodegenerative diseases', parkinson\'s disease' and 'cognitive impairment' as these were common to all bar one topics
 
 top_bigram_terms_pre <- tidy_bigram_lda_pre %>%
-  filter(!term %in% c("neurodegenerative diseases", "parkinson\'s disease", "cognitive impairment")) %>%  
+  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease", "cognitive impairment")) %>% 
+  mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+                           topic == 2 ~ "Protein",
+                           topic == 3 ~ "Something else1",
+                           topic == 4 ~ "Something else2",
+                           topic == 5 ~ "Something else3",
+                           topic == 6 ~ "Something else4",
+                           topic == 7 ~ "Something else5",
+                           topic == 8 ~ "Something else6",
+                           topic == 9 ~ "Something other",
+                           topic == 10 ~ "Something else7")) %>% 
   group_by(topic) %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
@@ -922,7 +583,17 @@ top_bigram_terms_pre <- tidy_bigram_lda_pre %>%
 top_bigram_terms_pre
 
 top_bigram_terms_post <- tidy_bigram_lda_post %>%
-  filter(!term %in% c("neurodegenerative diseases", "parkinson\'s disease", "cognitive impairment")) %>% 
+  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease", "cognitive impairment")) %>% 
+  mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+                           topic == 2 ~ "Protein",
+                           topic == 3 ~ "Something else1",
+                           topic == 4 ~ "Something else2",
+                           topic == 5 ~ "Something else3",
+                           topic == 6 ~ "Something else4",
+                           topic == 7 ~ "Something else5",
+                           topic == 8 ~ "Something else6",
+                           topic == 9 ~ "Something other",
+                           topic == 10 ~ "Something else7")) %>% 
   group_by(topic) %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
@@ -956,31 +627,425 @@ top_bigram_terms_post <- top_bigram_terms_post %>%
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
-The top 10 bigrams in topic models for pre- and post- leca corpuses are shown in @fig-topic-model-bigrams-pre and @fig-topic-model-bigrams-post respectively.
+```{r}
+#| label: LDA Topic Model Trigrams
+#| include: false
+#| cache: true
+
+# Cast the bigram counts into a document term matrix
+trigram_dtm_pre <- trigrams_united %>%
+  filter(type == "pre-leca") %>% 
+  count(abstract, trigram) %>% 
+  cast_dtm(abstract, trigram, n) 
+
+trigram_dtm_post <- trigrams_united %>%
+  filter(type == "post-leca") %>% 
+  count(abstract, trigram) %>% 
+  cast_dtm(abstract, trigram, n)
+
+trigram_lda_pre <- LDA(trigram_dtm_pre, k = 10, control = list(seed = 1234))
+# A LDA_VEM topic model with 10 topics
+trigram_lda_post <- LDA(trigram_dtm_post, k = 10, control = list(seed = 1234))
+# A LDA_VEM topic model with 10 topics.
+
+# Interpret the model
+tidy_trigram_lda_pre <- tidy(trigram_lda_pre, 
+                            matrix = "beta")
+
+tidy_trigram_lda_post <- tidy(trigram_lda_post,
+                             matrix = "beta")
+
+# Top 10 terms per topic
+#   Not including 'neurodegenerative diseases', parkinson\'s disease' and 'cognitive impairment' as these were common to all bar one topics
+
+top_trigram_terms_pre <- tidy_trigram_lda_pre %>%
+  filter(!term %in% c("central nervous system", "parkinson's disease pd", "blood-brain barrier")) %>%
+    mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+                           topic == 2 ~ "Protein",
+                           topic == 3 ~ "Something else1",
+                           topic == 4 ~ "Something else2",
+                           topic == 5 ~ "Something else3",
+                           topic == 6 ~ "Something else4",
+                           topic == 7 ~ "Something else5",
+                           topic == 8 ~ "Something else6",
+                           topic == 9 ~ "Something other",
+                           topic == 10 ~ "Something else7")) %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_trigram_terms_post <- tidy_trigram_lda_post %>% 
+  filter(!term %in% c("central nervous system", "parkinson's disease pd", "blood-brain barrier")) %>%
+  mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+                           topic == 2 ~ "Protein",
+                           topic == 3 ~ "Something else1",
+                           topic == 4 ~ "Something else2",
+                           topic == 5 ~ "Something else3",
+                           topic == 6 ~ "Something else4",
+                           topic == 7 ~ "Something else5",
+                           topic == 8 ~ "Something else6",
+                           topic == 9 ~ "Something other",
+                           topic == 10 ~ "Something else7")) %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+# Visualise
+top_trigram_terms_pre <- top_trigram_terms_pre %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 trigrams in each LDA topic: Pre-leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+
+
+top_trigram_terms_post <- top_trigram_terms_post %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 trigrams in each LDA topic: Post-leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+```
+
+# Results
+
+## AD Research Publication are Similar Over Time
+
+This study found `r nrow(abstracts)` papers that were published between `r min(tidy_abstracts_clean$date)` and `r max(tidy_abstracts_clean$date)` that contained the identified terms.
+
+The distribution of publications is shown in @fig-publication-date. There were `r nrow(filter(naive_drug_results, naive_drug_results$title %in% abstracts$title))` papers published between `r min(naive_drug_results$date_published)` and `r max(naive_drug_results$date_published)` that contained the identified terms.
 
 ```{r}
-#| label: fig-topic-model-bigrams-pre
+#| label: fig-publication-date
 #| include: true
-#| fig-cap: "Bigram Pre-leca LDA Topic Modelling"
+#| fig-cap: "**Frequency of lecanemab publications increases in 2023.** Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,155) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Terms associated with lecanemab are also in black in (A). Line represents date of lecanemab accelerated approval."
+#| fig-subcap: 
+#|  - "All Abstracts"
+#|  - "Lecanemab Abstracts"
 #| fig-width: 10
+#| fig-height: 5
+#| fig-align: left
+
+abstracts %>%  
+  ggplot(aes(date)) +
+  geom_histogram(bins = 100) +
+  xlab("Date of Publication") +
+  ylab("Number of Abstracts") +
+  # 10 month intervals
+  scale_x_date(date_breaks = "4 month", date_labels = "%m/%Y") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  geom_histogram(data = filter(abstracts, abstracts$title %in% naive_drug_results$title), bins = 100, fill = "black") +
+  # add a line at '06-01-2023'
+  geom_vline(xintercept = as.numeric(as.Date("2023-01-06")), linetype = "dashed", color = "red", linewidth = 1)
+
+## Visualise abstracts published with all lena terms
+naive_drug_results %>% 
+  filter(!is.na(date_published)) %>% 
+  ggplot(aes(as.Date(date_published, format = "%Y %b %d"))) +
+  geom_histogram(bins = 30,
+                 binwidth = 100) +
+  xlab("Date of Publication") +
+  ylab("Number of Abstracts") +
+  # 10 month intervals
+  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+```
+
+To determine if a statistical model could distinguish between pre-leca and post-leca corpuses, a two-topic Latent Dirich Allocation (LDA) model (Blei et al., 2003) was applied to the dtm using the topicmodels package (Grün and Hornik, 2011). The per-document-per-topic probabilities (γ) is extracted to show the proportion of words generated in each topic and how often these words appear in either the pre-leca or post-leca corpuses.
+
+```{r}
+#| label: fig-gamma-lda
+#| include: true 
+#| fig-cap: "**Two topics show similar occurrences around lecanemab approval.** No differences were observed between pre- and post-leca corpuses in a two topic model showing the per-document-per-topic probabilities, γ. Lines represent mean γ scores and points represent individual γ scores, n = 6,155. Abstracts split into two topics then significance shows if each topic is more related to one of the pre- or post-leca corpuses. Two topics show similar occurrences around lecanemab approval. Two topic model showing the per-document-per-topic probabilities, γ for full abstract dataset (n = 6,155), then grouped by pre-leca or post-leca text corpuses. Lines represent mean γ scores and points represent individual γ scores."
+#| fig-width: 10
+#| fig-height: 5
+#| fig-align: left
+
+abstract_gamm %>% 
+  distinct(document, gamma, topic, date, type) %>%
+  ggplot() +
+  geom_boxplot(aes(x = type, y = gamma)) +
+  geom_jitter(aes(x = type, y = gamma))+
+  facet_wrap(~ topic ) 
+```
+
+## N-gram Analysis
+
+Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The most frequent unigrams, bigrams and trigrams are shown in @fig-tokenisation. '*Disease*' is the most frequent unigram in both corpuses due to being most frequently associated with '*neurodegenerative disease*' as well as specifically for '*Parkinson's disease*', and '*Huntington's disease*' which are common neurodegenerative diseases which are researched as much as AD. 
+
+```{r}
+#| label: fig-tokenisation
+#| include: true
+#| fig-cap: "**Top 11 most frequent unigrams in AD literature are the same before and after lecanemab approval.** Tokenised unigrams split into pre- and post-lecanemab corpuses and ranked by (A) unigram frequency and (B) bigram frequency removing personalised stop-words (@tbl-appendix2) (n = 6155)."
+#| fig-subcap: 
+#|  - "Unigram"
+#|  - "Bigram"
+#|  - "Trigram"
+#| fig-width: 10
+#| fig-height: 5
+#| fig-align: left
+
+tidy_abstracts_clean %>% 
+  group_by(type) %>%
+  count(word, sort = TRUE) %>%
+  slice_head(n = 15) %>% 
+  ggplot(aes(n, reorder(word, n), fill = type)) +
+  geom_col() +
+  labs(y = NULL) +
+  xlab("Count") +
+  facet_wrap(~factor(type, levels=c('pre-leca','post-leca')), 
+             scale = "free") +
+  theme(legend.position = "none",
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        strip.background = element_blank()) +
+  scale_fill_manual(values = c("#56B4E9", "darkblue"))
+
+bigram_counts %>% 
+  group_by(type) %>%
+  slice_head(n = 15) %>% 
+  ggplot(aes(n, reorder(bigram, n), fill = type)) +
+  geom_col() +
+  labs(y = NULL) +
+  xlab("Count") +
+  facet_wrap(~factor(type, levels = c("pre-leca", "post-leca")),
+             scale = "free") +
+  theme(legend.position = "none",
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        strip.background = element_blank()) +
+  scale_fill_manual(values = c("#56B4E9", "darkblue"))
+
+trigram_counts %>%
+  group_by(type) %>%
+  slice_head(n = 15) %>%
+  ggplot(aes(x = n, y = reorder(trigram, n), fill = type)) +
+  geom_col() +
+  labs(y = NULL) +
+  xlab("Count") +
+  facet_wrap(~factor(type, levels = c("pre-leca", "post-leca")),
+             scale = "free") +
+  theme(legend.position = "none",
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        strip.background = element_blank()) +
+  scale_fill_manual(values = c("#56B4E9", "darkblue")) 
+```
+
+The distribution by month of the top 10 frequent words, as determined from @fig-tokenisation, is shown in @fig-glm-words.
+
+```{r}
+#| label: fig-glm-words
+#| include: true
+#| fig-cap: "**Word frequency trends are similar for the top 10 most frequent terms.** The focus of AD research has stayed consistent over time. The frequency of a selection of words used over 1000 times in AD abstracts from 01-01-2022 to 10-10-2023 has not changed."
+#| fig-width: 10
+#| fig-height: 5
+#| fig-align: left
+
+## Create Generalised linear model
+
+top_words <- c("disease", "brain", "studies", "diseases", "review", "cognitive", "dementia", "neurodegenerative", "clinical", "patients", "treatment", "disorders", "risk", "effects")
+
+# Get word frequency per month
+glm_abstracts <- tidy_abstracts_clean %>%  
+  filter(word %in% top_words) %>% 
+  mutate(date = floor_date(date, "month")) %>% # round date to month
+  group_by(date) %>%
+  count(word, sort = TRUE) %>%
+  ungroup() %>%
+  group_by(word) %>%
+  mutate(freq = n / sum(n)) %>%
+  ungroup() 
+
+# Generalised linear model
+glm <- glm( freq ~ date + word, data = glm_abstracts, family = "poisson" )
+#summary(glm)
+
+# plot just months of date
+
+glm %>% ggplot(aes(x = date, y = freq)) +
+  geom_line(aes(color = word)) +
+  ylab("Frequency") +
+  xlab("Date") +
+  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
+  theme_classic()
+```
+
+As '*disease*' was the most common unigram, we explored the most frequent bigrams that end in '*disease*' (@fig-bigram-plot). We also explored the most common bigrams that begin with '*neuro*' and those that end in '*neuro*' to understand the context in which these words are used.
+
+```{r}
+#| label: fig-bigram-plot
+#| include: true
+#| fig-cap: "*Bigrams exploration*"
+#| fig-subcap: 
+#|  - "Most common bigrams ending in 'disease'"
+#|  - "Most common bigrams beginning with 'neuro'"
+#|  - "Most common bigrams ending in 'neuro'"
+#| fig-width: 10
+#| fig-height: 5
+#| fig-align: left
+
+set.seed(1234)
+
+# bigrams_separated %>%
+#   filter(word2 == "disease") %>%
+#   count(word1, sort = TRUE) %>% 
+#   slice_head(n = 15) %>% 
+#   rename("Word" = word1) %>%
+#   knitr::kable()
+
+bigrams_separated %>% 
+  filter(word2 == "disease") %>%
+  count(word1, sort = TRUE) %>% 
+  wordcloud2::wordcloud2(size = 1)
+
+# bigrams_separated %>%
+#   filter(grepl("^neuro", word1)) %>%
+#   count(word2, sort = TRUE) %>% 
+#   slice_head(n = 15) %>% 
+#   rename("Word" = word2) %>%
+#   knitr::kable()
+set.seed(1234)
+
+bigrams_separated %>% 
+  filter(grepl("^neuro", word1)) %>%
+  count(word2, sort = TRUE) %>% 
+  wordcloud2::wordcloud2(size = 1)
+# 
+# bigrams_separated %>%
+#   filter(grepl("^neuro", word2)) %>%
+#   count(word1, sort = TRUE) %>% 
+#   slice_head(n = 15) %>% 
+#   rename("Word" = word1) %>%
+#   knitr::kable()
+set.seed(1234)
+
+bigrams_separated %>% 
+  filter(grepl("^neuro", word2)) %>%
+  count(word1, sort = TRUE) %>% 
+  wordcloud2::wordcloud2(size = 1)
+```
+
+### Bigram Networks
+
+Relations of bigram networks are shown in @fig-bigram-visualisation.
+
+```{r}
+#| label: fig-bigram-visualisation
+#| include: true
+#| fig-cap: " **‘Disease’ commonly occurs with ‘neurodegenerative’ and ‘parkinson’s’ in bigram relationship networks.** (A) All abstracts. (B) Pre-leca bigram corpus. (C) Post-leca bigram corpus. Increased thickness indicates increased frequency."
+#| fig-subcap: 
+#|  - "All Bigram Relations"
+#|  - "Pre-leca Bigram Relations"
+#|  - "Post-leca Bigram Relations"
+#| fig-width: 10
+#| fig-height: 5
+#| fig-align: left
+
+set.seed(2020)
+
+bigram_graph %>% 
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
+  geom_node_point(size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, 
+                 point.padding = unit(0.2, "lines")) +
+  theme_void() 
+
+# Pre-leca
+pre_leca_graph %>% 
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
+  geom_node_point(size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, 
+                 point.padding = unit(0.2, "lines")) +
+  theme_void() 
+
+# Pre-leca
+post_leca_graph %>% 
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n), edge_colour = "cyan4") +
+  geom_node_point(size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, 
+                 point.padding = unit(0.2, "lines")) +
+  theme_void() 
+```
+
+## Topic Modelling
+
+### Bigrams
+
+The top 10 bigrams in topic models for pre- and post- leca corpuses are shown in @fig-topic-model-bigrams. We removed the bigrams '*neurodegenerative disease*' and '*parkinson's disease*' and '*cognitive impairment*' from the models as they were present in all topics.
+
+```{r}
+#| label: fig-topic-model-bigrams
+#| include: true
+#| fig-cap: "**Bigram LDA Topic Modelling.** Outputs from the post-lecanemab (after 06/01/2023) corpus model with ten topics. Figures show the top ten most commonly associated bigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added."
+#| fig-subcap: 
+#|  - "Pre-leca"
+#|  - "Post-leca"
+#| fig-width: 15
 #| fig-height: 10
 #| fig-align: left
 
 # Pre-leca
 top_bigram_terms_pre
+
+top_bigram_terms_post
 ```
 
+## Trigrams
+
+The top 10 trigrams in topic models for pre- and post- leca corpuses are shown in @fig-topic-model-trigrams. We removed the trigrams '*central nervous system*' and '*parkingson's disease pd*' from the models as they were present in all topics and did not provide any additional information.
+
 ```{r}
-#| label: fig-topic-model-bigrams-post
+#| label: fig-topic-model-trigrams
 #| include: true
-#| fig-cap: "Bigram Post-leca LDA Topic Modelling"
-#| fig-width: 10
+#| fig-cap: "**Trigram LDA Topic Modelling.** LDA model shows the top ten most commonly associated trigrams in each topic ordered by their per-topic-per-word probability, β, for (A) pre-leca and (B) post-leca corpuses. Topic titles were manually created and added."
+#| fig-subcap: 
+#|  - "Pre-leca"
+#|  - "Post-leca"
+#| fig-width: 15
 #| fig-height: 10
 #| fig-align: left
 
 # Pre-leca
-top_bigram_terms_post
+top_trigram_terms_pre
+
+top_trigram_terms_post
 ```
+
+# Discussion
+
+## Study Limitations
+
+Due to our search strategy, a lot of papers contain the words 'Alzheimer's disease' may have been mentioned as a collective with other neurodegenerative diseases. Therefore, the unigrams '*huntington’s disease*', '*parkinson’s disease*' and '*amylotropic lateral sclerosis*' are very frequent.
+
+One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the time frame used for the analysis not being long enough to account for a change in the research landscape.
+
+Unable to mine keywords included in the full text, so terms only described in the abstract, regardless of whether other phrases are included in the complete article.
+
+## Conclusion
+
+The results of this study suggest that the introduction of lecanemab has not had a significant impact on the research landscape of neurodegenerative diseases. The most common topics in the pre-lecanemab corpus were also the most common in the post-lecanemab corpus.
+
+# Acknowledgements {.appendix}
+
+I would like to thank my supervisor Emma Rand for her constant support and guidance throughout my project. I would also like to dedicate this project to my late granddad Alan Scrimshire who passed away on the 31st March 2023 after fighting a five year battle with Alzheimer’s Disease. I hope this project highlights the complexity of the disease and the vast efforts being undertaken to find a cure.
 
 # Appendix
 

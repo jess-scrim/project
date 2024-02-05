@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jess Scrimshire">
-<meta name="dcterms.date" content="2024-01-28">
+<meta name="dcterms.date" content="2024-02-05">
 
 <title>Impact of novel Alzheimer’s disease drug discovery on the research field using text mining and topic models</title>
 <style>
@@ -54,6 +54,11 @@ div.csl-indent {
 <script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="report_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="report_files/libs/wordcloud2-0.0.1/wordcloud.css" rel="stylesheet">
+<script src="report_files/libs/wordcloud2-0.0.1/wordcloud2-all.js"></script>
+<script src="report_files/libs/wordcloud2-0.0.1/hover.js"></script>
+<script src="report_files/libs/wordcloud2-binding-0.2.1/wordcloud2.js"></script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -85,7 +90,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 28, 2024</p>
+      <p class="date">February 5, 2024</p>
     </div>
   </div>
   
@@ -95,23 +100,30 @@ div.csl-indent {
 
 </header>
 
+<section id="abstract" class="level1">
+<h1>Abstract</h1>
+<p>Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide. Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. Every year thousands of scientific articles are published concerning AD, however it can be time consuming and laborious to disseminate this information into a systematic review whilst highlighting current research. Full abstract text from PubMed for documents containing the MeSH term “Alzheimer’s Disease” were tokenised, cleaned then allocated to either a “pre-leca” or “post-leca” corpus relative to the date of lecanemab accelerated approval, 6th January 2023. Ten-topic latent Diurich Allocation (LDA) models were created for each corpus either using unigrams or bigrams.</p>
+</section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <section id="alzheimers-disease" class="level2">
 <h2 class="anchored" data-anchor-id="alzheimers-disease">Alzheimer’s Disease</h2>
-<p>Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties <span class="citation" data-cites="noauthor_2023-ek">(<a href="#ref-noauthor_2023-ek" role="doc-biblioref">Anon, 2023</a>)</span>.</p>
-<p>The underlying aetiology of sporadic AD, as opposed to genetically caused familial AD, is largely unknown, however research consensus suggests the accumulation of abnormal proteins, amyloid-beta and tau, disrupt cellular pathways and lead to</p>
-<p>AD is progressive and neuronal damage accumulates over a patient’s lifetime leading to hippocampal atrophy. As well as the degeneration of neurons, AD is associated with the build up of abnormal proteins, amyloid-beta and tau <span class="citation" data-cites="Villemagne2013-xk">(<a href="#ref-Villemagne2013-xk" role="doc-biblioref">Villemagne et al., 2013</a>)</span>.</p>
+<p>Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties <span class="citation" data-cites="noauthor_2023-ek">(<a href="#ref-noauthor_2023-ek" role="doc-biblioref">Anon, 2023</a>)</span>. These symptoms usually manifest after the physiological changes in the brain develop, therefore scientific understanding and advances in new treatments is important in understanding AD aetiology.</p>
+<p>Whilst the underlying mechanisms determining the progression of AD are not fully understood, the accumulation of abnormal protein aggregates including, amyloid-beta plaques and neurofibrillary tangles, are frequently found in the brains of patients with AD <span class="citation" data-cites="Villemagne2013-xk">(<a href="#ref-Villemagne2013-xk" role="doc-biblioref">Villemagne et al., 2013</a>)</span> <span class="citation" data-cites="Iaccarino2018-ta">(<a href="#ref-Iaccarino2018-ta" role="doc-biblioref">Iaccarino et al., 2018</a>)</span>. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. Diagnosing AD requires the presence of both amyloid and tau pathologies as well as neuroinflammation, neuronal death and brain atrophy <span class="citation" data-cites="Garcia-Morales2021-zb">(<a href="#ref-Garcia-Morales2021-zb" role="doc-biblioref">Garcı́a-Morales et al., 2021</a>)</span>.</p>
 </section>
 <section id="treatments-for-ad" class="level2">
 <h2 class="anchored" data-anchor-id="treatments-for-ad">Treatments for AD</h2>
 <p>Although there are currently no therapies or interventions that can cure AD, several disease-modifying treatments exist that can alter the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. A recent comprehensive review by <span class="citation" data-cites="Huang2023-vq">(<a href="#ref-Huang2023-vq" role="doc-biblioref">Huang et al., 2023</a>)</span>, identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively <span class="citation" data-cites="Gustavsson2023-qr">(<a href="#ref-Gustavsson2023-qr" role="doc-biblioref">Gustavsson et al., 2023</a>)</span>, therefore increasing research focus on these patient populations is imperative to slow the progression of the disease.</p>
-<p>There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab (<span class="citation" data-cites="Center_for_Drug_Evaluation2023-gy">(<a href="#ref-Center_for_Drug_Evaluation2023-gy" role="doc-biblioref">Center for Drug Evaluation and Research, 2023</a>)</span>; <span class="citation" data-cites="Office_of_the_Commissioner2023-hu">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023</a>)</span>). These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials <span class="citation" data-cites="Cummings2023-lo">(<a href="#ref-Cummings2023-lo" role="doc-biblioref">Cummings et al., 2023</a>)</span>. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023.</p>
+<p>There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab <span class="citation" data-cites="Center_for_Drug_Evaluation2023-gy">(<a href="#ref-Center_for_Drug_Evaluation2023-gy" role="doc-biblioref">Center for Drug Evaluation and Research, 2023</a>)</span>; <span class="citation" data-cites="Office_of_the_Commissioner2023-hu">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023</a>)</span>. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials <span class="citation" data-cites="Cummings2023-lo">(<a href="#ref-Cummings2023-lo" role="doc-biblioref">Cummings et al., 2023</a>)</span>. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023.</p>
 </section>
 <section id="topic-modelling-and-text-mining-in-ad-research" class="level2">
 <h2 class="anchored" data-anchor-id="topic-modelling-and-text-mining-in-ad-research">Topic Modelling and Text Mining in AD Research</h2>
-<p>Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research literature <span class="citation" data-cites="Higgins2019-kn">(<a href="#ref-Higgins2019-kn" role="doc-biblioref">Higgins, 2019</a>)</span>. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words <span class="citation" data-cites="Blei2003-lh">(<a href="#ref-Blei2003-lh" role="doc-biblioref">Blei, Ng and Jordan, 2003</a>)</span>. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.</p>
-<p>In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">Martinelli, 2022</a>)</span>, identifying novel biomarkers <span class="citation" data-cites="Greco2012-pv">(<a href="#ref-Greco2012-pv" role="doc-biblioref">Greco et al., 2012</a>)</span>, and drug repurposing <span class="citation" data-cites="Nian2022-xw">(<a href="#ref-Nian2022-xw" role="doc-biblioref">Nian et al., 2022</a>)</span>. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, as well as a topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>.</p>
+<p>Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more research literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research field <span class="citation" data-cites="Higgins2019-kn">(<a href="#ref-Higgins2019-kn" role="doc-biblioref">Higgins, 2019</a>)</span>. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words <span class="citation" data-cites="Blei2003-lh">(<a href="#ref-Blei2003-lh" role="doc-biblioref">Blei, Ng and Jordan, 2003</a>)</span>. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.</p>
+<p>In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">Martinelli, 2022</a>)</span>, identifying novel biomarkers <span class="citation" data-cites="Greco2012-pv">(<a href="#ref-Greco2012-pv" role="doc-biblioref">Greco et al., 2012</a>)</span>, and drug repurposing <span class="citation" data-cites="Nian2022-xw">(<a href="#ref-Nian2022-xw" role="doc-biblioref">Nian et al., 2022</a>)</span>. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>.</p>
+</section>
+<section id="aims-and-hypotheses" class="level2">
+<h2 class="anchored" data-anchor-id="aims-and-hypotheses">Aims and Hypotheses</h2>
+<p>In this study we aim to comprehensively investigate current research in AD, focusing on the period around the accelerated approval of the AD immunotherapy drug, lecanemab. We hypothesised that major topics in AD research could be categorised into distinct themes by applying LDA topic models to existing literature. Additionally, we hope to determine whether these topics have changed with the emergence of new immunotherapy treatments. This method is justified for the vast quantity of literature being published concerning AD and could be translated into other disease areas to study the impact of novel treatment options. Remaining current with the latest research is crucial for making significant strides in understanding and addressing the complexities of this disease, and finding new ways to treat AD.</p>
 </section>
 </section>
 <section id="methods" class="level1">
@@ -183,40 +195,43 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-preprocess_1c48bc514bb068d01ec75d20d2d89595">
-<div class="cell-output-display">
-<div id="fig-preprocess-1" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="data/preprocess1.png" class="img-fluid figure-img" width="480"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Data Preprocessing</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div id="fig-preprocess-2" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="data/preprocess2.png" class="img-fluid figure-img" width="480"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: Data Preprocessing</figcaption>
-</figure>
-</div>
-</div>
-</div>
 </section>
 <section id="data-preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h2>
-<p>Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the unnest_tokens function of the tidytext package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span>. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the tidytext package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span> combined with personalised words (<a href="#tbl-appendix2">Table&nbsp;3</a>) were then removed fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘<em>amyloid β</em>, ‘<em>beta amyloid</em>’, and ‘<em>amyloid aβ</em>’ were all mapped to ‘<em>amyloid beta</em>’.</p>
+<p>Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the <em>unnest_tokens</em> function of the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span>. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span> combined with personalised words (<a href="#tbl-appendix2">Table&nbsp;2</a>) were then removed <a href="#fig-preprocess">Figure&nbsp;1</a>. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘<em>amyloid β</em>, ‘<em>beta amyloid</em>’, and ‘<em>amyloid aβ</em>’ were all mapped to ‘<em>amyloid beta</em>’.</p>
+<div id="fig-preprocess" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div class="cell-output-display">
+<div id="fig-preprocess-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="data/preprocess1.png" class="img-fluid figure-img" data-ref-parent="fig-preprocess" width="480"></p>
+<figcaption class="figure-caption">(a) Example of Tokenisation</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div id="fig-preprocess-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="data/preprocess2.png" class="img-fluid figure-img" data-ref-parent="fig-preprocess" width="480"></p>
+<figcaption class="figure-caption">(b) Removal of stopwords</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;1: <strong>Abstract tokenisation into unigrams.</strong> Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span>, as well as personalised words (<a href="#tbl-appendix2">Table&nbsp;2</a>). Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.</figcaption>
+</figure>
+</div>
 </section>
 <section id="data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="data-analysis">Data Analysis</h2>
 <section id="litsearchr" class="level3">
 <h3 class="anchored" data-anchor-id="litsearchr"><em>litsearchR</em></h3>
-<p>To reassure us that the PubMed search query encapsulated all literature, <em>litsearchr</em> package was used to expand the search terms <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>. Citations from PubMed results using the previous search criteria were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and strength <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the igraph package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>. The 80% cutoffs were determined to find only the most important terms to the articles; all others were discarded (<a href="#fig-ad-search-terms">Figure&nbsp;3</a>).</p>
+<p>To reassure us that the PubMed search query encapsulated all literature, <em>litsearchr</em> package was used to expand the search terms <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>. Citations from PubMed results using the previous search criteria were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>. The 80% cutoffs were determined to find only the most important terms to the articles; all others were discarded (<a href="#fig-ad-search-terms">Figure&nbsp;2</a>; <a href="#fig-ad-drug-search-terms">Figure&nbsp;3</a>).</p>
 <div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-ad-search-terms_5233d7133121e551742dd0a2fd054161">
 <div class="cell-output-display">
 <div id="fig-ad-search-terms" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
 <p><img src="report_files/figure-html/fig-ad-search-terms-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;3: Search term network for Alzheimer’s Disease</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;2: Search term network for Alzheimer’s Disease</figcaption>
 </figure>
 </div>
 </div>
@@ -226,7 +241,7 @@ div.csl-indent {
 <div id="fig-ad-drug-search-terms" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
 <p><img src="report_files/figure-html/fig-ad-drug-search-terms-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;4: AD drug search term network</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;3: AD drug search term network</figcaption>
 </figure>
 </div>
 </div>
@@ -256,27 +271,38 @@ div.csl-indent {
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<section id="ad-research-publication" class="level2">
-<h2 class="anchored" data-anchor-id="ad-research-publication">AD Research Publication</h2>
+<section id="ad-research-publication-are-similar-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="ad-research-publication-are-similar-over-time">AD Research Publication are Similar Over Time</h2>
 <p>This study found 6199 papers that were published between 2022-01-01 and 2023-10-10 that contained the identified terms.</p>
-<p>The distribution of publications is shown in <a href="#fig-publication-date">Figure&nbsp;5</a>.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-publication-date_5212fcc20eb801140f8948bf4a06ec87">
-<div class="cell-output-display">
-<div id="fig-publication-date" class="quarto-figure quarto-figure-left anchored">
+<p>The distribution of publications is shown in <a href="#fig-publication-date">Figure&nbsp;4</a>. There were 51 papers published between 2007 Oct and 2023 Sep 9 that contained the identified terms.</p>
+<div id="fig-publication-date" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-publication-date-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;5: <strong>Publication date distribution of abstracts</strong>: yayady</figcaption>
+<div class="cell-output-display">
+<div id="fig-publication-date-1" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-publication-date-1.png" class="img-fluid figure-img" data-ref-parent="fig-publication-date" width="960"></p>
+<figcaption class="figure-caption">(a) All Abstracts</figcaption>
 </figure>
 </div>
 </div>
-</div>
-<p>The distribution of publications containing the terms associated with ‘lecanemab’ is shown in <a href="#fig-lecanemab-publication-date">Figure&nbsp;6</a>.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-lecanemab-publication-date_d05c39b4d59a95a23bc79d73772aa545">
 <div class="cell-output-display">
-<div id="fig-lecanemab-publication-date" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-publication-date-2" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-lecanemab-publication-date-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;6: Publication date distribution of abstracts containing lecanemab terms</figcaption>
+<p><img src="report_files/figure-html/fig-publication-date-2.png" class="img-fluid figure-img" data-ref-parent="fig-publication-date" width="960"></p>
+<figcaption class="figure-caption">(b) Lecanemab Abstracts</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;4: <strong>Frequency of lecanemab publications increases in 2023.</strong> Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,155) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Terms associated with lecanemab are also in black in (A). Line represents date of lecanemab accelerated approval.</figcaption>
+</figure>
+</div>
+<p>To determine if a statistical model could distinguish between pre-leca and post-leca corpuses, a two-topic Latent Dirich Allocation (LDA) model (Blei et al., 2003) was applied to the dtm using the topicmodels package (Grün and Hornik, 2011). The per-document-per-topic probabilities (γ) is extracted to show the proportion of words generated in each topic and how often these words appear in either the pre-leca or post-leca corpuses.</p>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-gamma-lda_ff2ec9f23549e3f45499d1446d8bc4b6">
+<div class="cell-output-display">
+<div id="fig-gamma-lda" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-gamma-lda-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: <strong>Two topics show similar occurrences around lecanemab approval.</strong> No differences were observed between pre- and post-leca corpuses in a two topic model showing the per-document-per-topic probabilities, γ. Lines represent mean γ scores and points represent individual γ scores, n = 6,155. Abstracts split into two topics then significance shows if each topic is more related to one of the pre- or post-leca corpuses. Two topics show similar occurrences around lecanemab approval. Two topic model showing the per-document-per-topic probabilities, γ for full abstract dataset (n = 6,155), then grouped by pre-leca or post-leca text corpuses. Lines represent mean γ scores and points represent individual γ scores.</figcaption>
 </figure>
 </div>
 </div>
@@ -284,415 +310,185 @@ div.csl-indent {
 </section>
 <section id="n-gram-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="n-gram-analysis">N-gram Analysis</h2>
-<section id="unnigrams" class="level3">
-<h3 class="anchored" data-anchor-id="unnigrams">Unnigrams</h3>
-<p>The most frequent unigrams are shown in <a href="#fig-tokenisation">Figure&nbsp;7</a>.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-tokenisation_3d8fb1536f74a5b4744b7833ca6214d4">
-<div class="cell-output-display">
-<div id="fig-tokenisation" class="quarto-figure quarto-figure-left anchored">
+<p>Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The most frequent unigrams, bigrams and trigrams are shown in <a href="#fig-tokenisation">Figure&nbsp;6</a>. ‘<em>Disease</em>’ is the most frequent unigram in both corpuses due to being most frequently associated with ‘<em>neurodegenerative disease</em>’ as well as specifically for ‘<em>Parkinson’s disease</em>’, and ‘<em>Huntington’s disease</em>’ which are common neurodegenerative diseases which are researched as much as AD.</p>
+<div id="fig-tokenisation" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-tokenisation-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;7: Most Common Unigram</figcaption>
+<div class="cell-output-display">
+<div id="fig-tokenisation-1" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-tokenisation-1.png" class="img-fluid figure-img" data-ref-parent="fig-tokenisation" width="960"></p>
+<figcaption class="figure-caption">(a) Unigram</figcaption>
 </figure>
 </div>
 </div>
+<div class="cell-output-display">
+<div id="fig-tokenisation-2" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-tokenisation-2.png" class="img-fluid figure-img" data-ref-parent="fig-tokenisation" width="960"></p>
+<figcaption class="figure-caption">(b) Bigram</figcaption>
+</figure>
 </div>
-<p>The distribution by month of the top frequent words, as determined from <a href="#fig-tokenisation">Figure&nbsp;7</a>, is shown in <a href="#fig-glm-words">Figure&nbsp;8</a>.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-glm-words_1e53e83121b4835621bbf12a7cf57fb0">
+</div>
+<div class="cell-output-display">
+<div id="fig-tokenisation-3" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-tokenisation-3.png" class="img-fluid figure-img" data-ref-parent="fig-tokenisation" width="960"></p>
+<figcaption class="figure-caption">(c) Trigram</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;6: <strong>Top 11 most frequent unigrams in AD literature are the same before and after lecanemab approval.</strong> Tokenised unigrams split into pre- and post-lecanemab corpuses and ranked by (A) unigram frequency and (B) bigram frequency removing personalised stop-words (<a href="#tbl-appendix2">Table&nbsp;2</a>) (n = 6155).</figcaption>
+</figure>
+</div>
+<p>The distribution by month of the top 10 frequent words, as determined from <a href="#fig-tokenisation">Figure&nbsp;6</a>, is shown in <a href="#fig-glm-words">Figure&nbsp;7</a>.</p>
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-glm-words_7adfbf27f33a8147b8a8e916ef2c51b2">
 <div class="cell-output-display">
 <div id="fig-glm-words" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
 <p><img src="report_files/figure-html/fig-glm-words-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;8: Most Frequent Words per Month</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;7: <strong>Word frequency trends are similar for the top 10 most frequent terms.</strong> The focus of AD research has stayed consistent over time. The frequency of a selection of words used over 1000 times in AD abstracts from 01-01-2022 to 10-10-2023 has not changed.</figcaption>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="bigrams" class="level3">
-<h3 class="anchored" data-anchor-id="bigrams">Bigrams</h3>
-<p>Exploring some of the bigrams the word “disease” are shown in <a href="#tbl-bigram-plot">Table&nbsp;2</a>. The most common bigrams beginning with “neuro” are shown in <a href="#tbl-bigram-plot">Table&nbsp;2</a>.</p>
-<div id="tbl-bigram-plot" class="cell tbl-parent quarto-layout-panel anchored" data-hash="report_cache/html/tbl-bigram-plot_9ffc36bd372f075af3cf3afd5017eead">
-<div class="panel-caption table-caption">
-<p>Table&nbsp;2: <strong>?(caption)</strong></p>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="tbl-bigram-plot-1" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-bigram-plot" style="flex-basis: 100.0%;justify-content: flex-start;">
-<table class="table table-sm table-striped small">
-<caption>(a) Most common bigrams ending in ‘disease’</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">word1</th>
-<th style="text-align: right;">n</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">parkinson’s</td>
-<td style="text-align: right;">1393</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">neurodegenerative</td>
-<td style="text-align: right;">544</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">huntington’s</td>
-<td style="text-align: right;">325</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">alzheimer</td>
-<td style="text-align: right;">309</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">cardiovascular</td>
-<td style="text-align: right;">131</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">parkinson</td>
-<td style="text-align: right;">59</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">vessel</td>
-<td style="text-align: right;">55</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">coronavirus</td>
-<td style="text-align: right;">49</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">neurological</td>
-<td style="text-align: right;">48</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">cerebrovascular</td>
-<td style="text-align: right;">43</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">liver</td>
-<td style="text-align: right;">39</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">heart</td>
-<td style="text-align: right;">38</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">bowel</td>
-<td style="text-align: right;">37</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">multifactorial</td>
-<td style="text-align: right;">32</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">periodontal</td>
-<td style="text-align: right;">32</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<p>Bigrams in abstracts</p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="tbl-bigram-plot-2" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-bigram-plot" style="flex-basis: 100.0%;justify-content: flex-start;">
-<table class="table table-sm table-striped small">
-<caption>(b) Most frequent bigrams beginning with ‘neuro’ in first word</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">word2</th>
-<th style="text-align: right;">n</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">diseases</td>
-<td style="text-align: right;">2483</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">disorders</td>
-<td style="text-align: right;">1423</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">disease</td>
-<td style="text-align: right;">633</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">disorder</td>
-<td style="text-align: right;">338</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">tangles</td>
-<td style="text-align: right;">293</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">effects</td>
-<td style="text-align: right;">239</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">conditions</td>
-<td style="text-align: right;">194</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">symptoms</td>
-<td style="text-align: right;">140</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">loss</td>
-<td style="text-align: right;">133</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">death</td>
-<td style="text-align: right;">108</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">processes</td>
-<td style="text-align: right;">93</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">cells</td>
-<td style="text-align: right;">79</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">function</td>
-<td style="text-align: right;">75</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">dysfunction</td>
-<td style="text-align: right;">73</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">cell</td>
-<td style="text-align: right;">72</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<p>Bigrams in abstracts</p>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="tbl-bigram-plot-3" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-bigram-plot" style="flex-basis: 100.0%;justify-content: flex-start;">
-<table class="table table-sm table-striped small">
-<caption>(c) Most frequent bigrams beginning with ‘neuro’ in second word</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">word1</th>
-<th style="text-align: right;">n</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">common</td>
-<td style="text-align: right;">215</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">progressive</td>
-<td style="text-align: right;">184</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">related</td>
-<td style="text-align: right;">168</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">chronic</td>
-<td style="text-align: right;">82</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">derived</td>
-<td style="text-align: right;">72</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">induced</td>
-<td style="text-align: right;">61</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">prevalent</td>
-<td style="text-align: right;">58</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">treating</td>
-<td style="text-align: right;">55</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">disease</td>
-<td style="text-align: right;">54</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">mediated</td>
-<td style="text-align: right;">50</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">major</td>
-<td style="text-align: right;">49</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">multiple</td>
-<td style="text-align: right;">49</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">intracellular</td>
-<td style="text-align: right;">44</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">treat</td>
-<td style="text-align: right;">44</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">underlying</td>
-<td style="text-align: right;">41</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<p>Bigrams in abstracts</p>
-</div>
-</div>
-</div>
-<p>Relations of bigram networks are shown in <a href="#fig-bigram-visualisation">Figure&nbsp;9</a>. Bigram networks for pre-leca and post-leca are shown in <a href="#fig-bigram-visualisation-pre">Figure&nbsp;10</a> and <a href="#fig-bigram-visualisation-post">Figure&nbsp;11</a> respectively. Strength networks for bigrams are shown in <a href="#fig-bigram-visualisation-strength">Figure&nbsp;12</a> and split into pre-leca and post-leca in <a href="#fig-bigram-visualisation-strength-pre">Figure&nbsp;13</a> and <a href="#fig-bigram-visualisation-strength-post">Figure&nbsp;14</a> respectively.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-bigram-visualisation_919d97eb5f87f375aefae4ee4f2c2651">
-<div class="cell-output-display">
-<div id="fig-bigram-visualisation" class="quarto-figure quarto-figure-left anchored">
+<p>As ‘<em>disease</em>’ was the most common unigram, we explored the most frequent bigrams that end in ‘<em>disease</em>’ (<a href="#fig-bigram-plot">Figure&nbsp;8</a>). We also explored the most common bigrams that begin with ‘<em>neuro</em>’ and those that end in ‘<em>neuro</em>’ to understand the context in which these words are used.</p>
+<div id="fig-bigram-plot" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-bigram-visualisation-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;9: Bigram networks</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-bigram-visualisation-pre_6d4898b452cf63f4737129a182c481f2">
-<div class="cell-output-display">
-<div id="fig-bigram-visualisation-pre" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-bigram-plot-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-bigram-visualisation-pre-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;10: Bigram networks Pre</figcaption>
+
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-1b4ff99564eb6e8884a5" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-1b4ff99564eb6e8884a5">{"x":{"word":["parkinson's","neurodegenerative","huntington's","alzheimer","cardiovascular","parkinson","vessel","coronavirus","neurological","cerebrovascular","liver","heart","bowel","multifactorial","periodontal","human","brain","huntington","effective","related","chronic","degenerative","kidney","metabolic","prion","pulmonary","body","potential","jakob","underlying","neuron","vascular","artery","clinical","pick's","alzheimer’s","neurologic","renal","complex","crohn's","devastating","grain","inflammatory","progressive","specific","autoimmune","cns","severe","slow","understanding","debilitating","earlier","future","gaucher","lung","systemic","wilson's","based","cardiac","cardiological","common","delay","developing","hakola","halt","infectious","modify","psychiatric","system","identify","multiple","potentially","prevent","relevant","tooth","advanced","ameliorate","celiac","develop","improve","influence","matter","pd","promising","reducing","respiratory","skin","stage","understand","19","addison's","affect","alzheimers","alzheimeŕs","cell","cerebral","challenging","dementia","diagnosis","evaluating","eye","halting","heterogeneous","identifying","include","incurable","late","mitochondrial","model","monitor","monitoring","muscle","neuronal","neuropathological","neuropsychiatric","preclinical","predicting","provide","rare","reduce","slowing","sporadic","stop","study","1","accelerate","accurate","age","aging","alleviate","alter","assess","batten","causing","cognitive","crohn","cross","current","deadly","decipher","define","delayed","demyelinating","determine","diagnose","diverse","emerging","existing","facilitate","fnirs","gaucher's","global","growing","hypothetical","inclusion","increased","investigating","ischemic","longitudinal","lyme","mediated","menkes","microvascular","mitigating","modifies","molecular","multifaceted","neuroinflammatory","nyhan","ovarian","overlapping","paget's","parkinson’s","pick","predict","predominant","preventing","promote","promoting","putative","reflecting","reflux","reverse","scheinker","significant","single","slowed","subtle","tackle","targeted","treat","tropical","ulcer","wasting","wilson","14","161","39","64","77.76","8","abating","ablate","absent","accelerated","accelerates","accessible","accomplish","achieving","active","address","admission","advance","advancing","affects","aggressive","allergic","alleviating","alterations","altered","altering","alternative","alzheimer.s","analysis","analyze","anatomy","ancl","animal","anticipating","approved","arrest","assessing","asymptomatic","atherosclerotic","attenuate","atypical","autoimmunity","aß","basic","bayesian","binswanger","biological","biospecimens","bipolar","blinding","blocking","booster","borna","buffer","bullous","candidate","cardiometabolic","care","carotid","cataract","causative","cerebellar","change","characteristics","characterizing","childhood","clinicopathologic","cm","collaborative","combat","combined","comedications","communicable","complete","complicate","complicated","concordant","considered","contagious","control","controlling","controls","convergent","core","coronary","cow","create","curable","da1","da2","damaging","databases","decades","decelerates","defer","definitive","delaying","delineate","dementing","demonstrate","demonstrated","demyelinated","dental","depression","detecting","development","diagnosed","diagnostic","differential","directed","directing","disabling","discover","discovery","disease","diseases","disorders","distinct","distinguish","diversified","dominant","dot","drives","drug","dull","dynamic","dysfunctions","e.g","earliest","elucidate","elucidating","endpoints","enhance","established","estimating","etiology","evaluate","exacerbate","exacerbating","exerts","expediate","experimental","extensive","faceted","factor","factors","faster","features","finding","fluctuating","forestalling","friedreich's","gastrointestinal","geriatric","glioma","globally","guiding","hallmark","halts","hamper","hansen's","hd","health","hepatic","hintington's","hirschsprung","hirschsprung's","host","hypertension","i.e","ideal","identified","immunomodulatory","impact","impacts","impede","impending","implant","implementing","improved","infection","inflict","inhibiting","initial","initiate","innovative","inter","intermediate","intra","introduced","invasive","jakob's","joseph","key","lack","lacking","lafora","life","limited","lundborg","macular","major","manifesting","mci","meaningful","mediating","menière's","merzbacher","methodology","microbiome","milder","misfolding","mitigate","modeling","moderate","modernized","modest","modifying","modulate","modulates","modulating","molecules","mouse","natural","neoplastic","neural","neurogenerative","neuroinfectious","neuroinflammation","neuromuscular","neurone","numerous","observed","obtain","occlusive","ocular","offending","ongoing","optimizing","oral","organoid","oriented","original","outcomes","paget","parkinsons","parkinsons's","parknson's","participants","pathophysiological","perplexing","phenotype","picks","pleural","polyq","pompe","possibly","precise","prevalent","pro","prodromal","projected","proteinopathic","proteins","psychosomatic","pure","ra","rapid","recapitulate","recapitulates","receive","recently","relapsed","relevance","reliable","relieve","report","reported","respective","response","reveal","revealed","rodent","schizophrenia","seeding","severity","sex","signaling","silent","slows","sole","spine","storage","stratifying","stress","studied","studying","subclinical","subjective","subsequent","substantial","suggested","superior","supporting","symptomatic","symptoms","tackles","targeting","tauopathy","terrible","therapeutic","threatening","throat","tissue","tracking","treating","trials","triggers","typical","ultimately","uncover","underlie","unifying","unique","unpredictable","unravel","urine","vcp","viable","viral","vitro","wm","worldwide","worse","worsen","xiaoke","zebrafish"],"freq":[1393,544,325,309,131,59,55,49,48,43,39,38,37,32,32,30,26,25,23,23,21,21,21,20,20,20,17,17,16,15,14,14,13,13,13,11,11,11,10,10,10,10,10,10,10,9,9,9,9,8,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.1292175161521895,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<figcaption class="figure-caption">(a) Most common bigrams ending in ‘disease’</figcaption>
 </figure>
 </div>
-</div>
-</div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-bigram-visualisation-post_33d901b9c60b8d06ec0bb548d784deec">
-<div class="cell-output-display">
-<div id="fig-bigram-visualisation-post" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-bigram-plot-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-bigram-visualisation-post-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;11: Bigram networks Post</figcaption>
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-8f836166d559454ecd73" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-8f836166d559454ecd73">{"x":{"word":["diseases","disorders","disease","disorder","tangles","effects","conditions","symptoms","loss","death","processes","cells","function","dysfunction","cell","factor","damage","properties","activity","degeneration","factors","mechanisms","condition","studies","process","tests","functions","light","illnesses","apoptosis","effect","pathologies","oxidative","research","role","unit","inflammation","inventory","survival","system","features","pathology","brain","initiative","markers","pain","biomarkers","manifestations","health","injury","pathways","complications","tangle","alterations","signaling","activities","data","hallmarks","outcomes","potential","related","release","dementia","development","examination","plays","agents","deficits","glial","neuroinflammation","response","techniques","assessment","astrocytes","tau","dementias","plasticity","responses","test","abnormalities","anti","differentiation","excitability","findings","immune","measures","synaptic","systems","coupling","homeostasis","levels","microglia","network","optica","recent","due","impairment","leading","amyloid","autophagy","circuits","cognitive","evaluation","inflammatory","mechanism","neurodegenerative","neuronal","phenotypes","protein","proteins","testing","action","agent","benefits","events","evidence","glia","illness","modalities","assessments","based","ceroid","derived","drugs","lesions","metabolism","syndromes","acetylcholine","actions","ailments","compounds","decline","efficacy","induced","mitochondrial","networks","occurs","patients","populations","specific","therapies","toxicity","ahn","approaches","consequences","correlates","criteria","degenerative","growth","interventions","mediated","pyroptosis","sequelae","technique","tissue","transmission","aging","aβ","capacity","caused","change","drug","dysfunctions","impact","insults","methods","molecules","protective","resulting","roles","signs","specifically","structure","syndrome","viability","activation","actuarial","applications","axis","blood","characterized","clinical","defects","dysregulation","ferroptosis","field","imaging","insulin","level","metabolic","models","neural","observed","outcome","progression","proteinopathies","remain","symptom","treatments","underpinnings","vulnerability","1","2023;94","accompanied","additionally","aspects","astrocyte","atrophy","cascades","communication","delay","devices","diagnosis","environment","evaluations","feature","finally","hallmark","hypothesis","impairments","membrane","modulation","neuroimaging","numerous","phenotype","physiology","protection","psychiatric","receptor","recycling","remains","signals","strategy","substances","technology","tissues","tlrs","vascular","viruses","antioxidant","apoe4","autoimmunity","ca","calcium","characteristics","chronic","circuit","component","components","connections","contributes","crosstalk","degradation","disturbances","domains","e.g","energy","examinations","functioning","heterogeneity","involvement","migration","movement","nature","neurodegeneration","neuroprotective","neurotoxicity","neurovascular","perspective","pharmacological","procedures","providing","receptors","recovery","regeneration","regulation","results","scales","senescence","sequalae","strategies","stress","support","surgery","synthesis","tauopathies","uncoupling","urological","2022;92","3","4","abnormal","analyses","arousal","axons","basis","behavioral","biology","cardiovascular","cascade","causing","centric","cerebrovascular","compared","contribute","contributing","department","die","enzymes","fiber","firing","form","functional","genetic","gut","hyperexcitability","i.e","immunotherapy","impacts","include","induces","inhibiting","inhibition","integrity","interaction","interactions","interestingly","interface","intranuclear","involving","junction","lastly","linked","lipid","literature","microenvironment","microglial","molecular","navigated","necroptosis","neurodevelopmental","neuropsychiatric","neurotrophic","niches","nicotinic","nitric","nts","ophthalmic","ophthalmology","origin","pathophysiology","patterns","peptide","peptides","pet","play","profile","property","regulating","rehabilitation","repair","researchers","resilience","risk","scientific","screening","signalling","species","status","structures","study","synapse","target","targeting","toxic","transport","triggered","type","undergo","units","uptake","urology","β","aberrant","abilities","ability","accumulation","acetylcholinesterase","advantages","adverse","ageing","aggregates","alteration","altered","animal","antibodies","antidepressant","antioxidative","apoptotic","atn","attr","autoantibodies","battery","begins","bfcn","biochemical","bioenergetics","biological","capabilities","central","cerebrospinal","characteristic","cholesterol","circuitry","citrate","classification","clinicaltrials.gov","cognition","comorbidities","complexities","composed","computation","context","control","coupled","cytoplasm","cytoplasmic","cytoskeleton","dataset","decreases","demise","depend","depression","directly","disability","dopamine","dynamics","electrophysiological","element","emerging","entities","etiology","excitotoxicity","expressing","expression","extensive","extracellular","fibrillary","foods","forms","framework","genes","glutamate","gold","gwas","hormone","hormones","hyperactivity","iii","implicated","inclusions","increased","indicators","induction","inhibits","instruments","integrate","interact","intervention","issues","leads","lhon","located","magnetic","maintain","maintenance","malady","maturation","mechanistically","medications","mental","metabolites","misfolded","mixed","model","motor","multiple","natural","neuro","neurocognitive","neurons","neuroregeneration","neurotransmitter","nf","niche","nm","normal","nos","oligodendrocytes","organization","origins","oscillations","partially","pathogenesis","pathological","pentraxin","performance","perspectives","phytochemicals","plant","plaques","plasma","polarity","population","predominant","presentations","produced","progressive","proliferation","promote","promotes","promoting","proteases","protects","published","rate","recently","reduce","reducing","refers","relapse","relevant","reprogramming","requires","restoration","rna","scientists","sign","signal","signatures","stem","steroids","stimulation","structural","subtype","suggesting","supportive","symptomatology","synapses","synaptogenesis","systemic","targeted","targets","tasks","termed","theory","therapeutic","therapy","threads","tool","tools","toxicities","treatment","trials","ultimately","white","worsens","12","17","2","2008;119","2020","2023;93","42","abnormality","accompanies","accumulating","accurate","ach","acquisition","act","acting","activated","actively","adaptations","adaptive","adaptiveness","adult","advisory","affected","affections","affective","afflicted","aftereffects","aggregate","aggregation","ailment","aiming","aims","allowing","alphaherpesviruses","ameliorating","amid","amyloidogenesis","analgesic","analysis","angiogenesis","anomalies","antiaging","anticancer","antifatigue","antimicrobial","antioxidants","antistress","anxiety","apoe","appears","approach","architecture","arising","association","associations","asymmetrically","atp","attempts","attenuation","autosomal","avenue","aβ42","bangabandhu","bbb","bdnf","beginning","behavioural","belonging","binding","bio","bioactivities","biofluid","biologically","biomarker","biosynthesis","blinded","blocking","bont","brains","branched","bridging","building","burden","c1q","caeminaxin","called","camp","cancer","capability","capillary","capsaicin","care","carries","carvacrol","category","caveolin","cb2r","cellular","center","centrally","cerebral","chalcones","challenge","characterization","chemicals","chemiexcitation","chemokines","cholinergic","chételat","circuity","clarifying","clearing","clinics","cln","clusters","cns","cognitions","cohorts","collectively","common","commonly","community","companies","compartment","compartments","complement","concentrations","conducted","congenital","connected","connection","connectivity","consequence","consists","consume","contexts","continued","contribution","contributions","controls","conversion","correlation","correlations","create","critical","critically","crosstalks","crucial","crucially","csharacterized","csvd","cte","culminating","culture","current","cx3cl1","cycling","cysteine","cytokines","cytosolic","d1","damagebrain","damps","decarli","decreased","deep","deficiencies","deficiency","defined","deg","degenerate","degenerating","degenerations","demonstrated","demonstrates","demonstrating","demyelinating","dendritic","denotes","density","dependent","depending","depleting","depletion","depolarization","deposition","dermatologists","destruction","detachment","detection","deterioration","determinants","determining","detoxifying","develop","developmental","developments","diabetes","diagnosed","diagnoses","diagnostic","diagnostics","diet","differences","differential","difficulties","diminish","disabilities","disclosing","discoveries","discusses","diseased","disintegration","disordered","disorderfeaturing","disrupted","disruption","disrupts","distribution","disturbance","diverse","dna","domain","donepezil","dose","dpn","driven","dtns","dys","dysfunctional","dysfunctionality","dysregulations","earlier","easier","eeg","efficient","eighteen","elasticity","elderly","elevated","elongation","elucidating","emphasizing","endocrine","endocrinological","endophenotype","endoplasmic","endorses","endosomal","enhance","enhanced","enrolling","ensues","ensuring","entails","entanglements","entity","establishment","etiologies","evidences","evident","evolves","examining","examples","excessive","excitation","excitatory","exemplified","exhibit","exist","existing","exosome","exosomes","experimental","experts","exploring","exposure","expressed","fabricated","facilitates","facilities","failed","fails","failure","family","faster","favored","fibrous","fitness","fludeoxyglucose","focused","focusing","formation","forming","foundation","frameworks","functionality","gaba","gait","generated","generating","generation","genetically","genetics","genomics","geriatricians","glioblastoma","glioma","gliosecretion","gliosis","glucose","glutamatergic","glutathione","glycogen","glycolipid","golgi","grade","graph","ha","hair","harm","harmane","haβpp","healthy","hebp1","helps","hematopoiesis","hemostasis","heterogeneous","hinder","histology","histories","homeodynamics","homeostatic","hsp60","human","huntington","hydrogen","hyper","hyperexcitation","hypoperfusion","identified","identity","il","images","imbalance","immunologic","immunological","impacted","impair","impaired","impairs","imply","importance","improvement","inadequate","inclusion","increases","increasing","individuals","induce","inextricably","infections","inflammaging","inflammasome","influences","information","initial","injuries","innate","innovative","inputs","ins","inspection","institute","insulinoresistance","intact","interleukin","intermediate","interstitial","interventional","intracellular","invasion","inventor","investigational","investigations","invoking","involve","inwardly","ischemia","ischemic","junctions","ketone","klk8","kynurenine","lactate","lc","lead","lifestyle","lifetime","limb","limited","linkages","links","live","lncrnas","load","location","lose","losses","lower","lts","lumbar","lysosomes","m2","maintaining","major","malfunctioning","malignancy","management","manifestation","manipulations","mark4","marker","marks","matrine","mcfas","measure","measurements","mec","mechanoreceptors","mediates","mediating","mediators","mesenchymal","metabolisms","metabolomic","metal","metals","metformin","microrna","microtubule","milestones","milieu","mir","misfolding","mitigates","mitochondria","mitochondriatargeted","mitophagy","mlc601","mode","modification","modifying","modulate","modulators","modulatory","molecule","monogenetic","morphogenesis","mortality","motifs","mounting","mouse","ms","mt","mtor","mucopolysaccharidoses","muscimol","musculoskeletal","mutual","myelin","naag","named","nanomedicine","naturally","ncdn","ndds","nds","ne","nephroprotective","nerve","neurite","neuritic","neuroblastoma","neurodegenerations","neuroendocrine","neuroexcitatory","neurofibrillary","neurofilament","neurogenesis","neurogenic","neuroinflammatory","neuroleptics","neuromodulator","neuromyelitis","neuropathology","neuroprotection","neuropsychological","neuropsychology","neuroregenerative","neuroscience","neurotransmission","neurotransmitters","neurotrophins","neurotropic","neutrophils","nif","nkcc1","nlrp3","nmda","nmdar","noncoding","nootropics","noradrenaline","noradrenergic","nose","nowadays","nrgn","nspan","ntfs","nutrients","obesity","occur","occurring","ocular","offer","offers","oipn","olfactory","oligomers","omvs","ophthalmologists","optic","options","oral","orchestrated","orthostatic","os","overwhelms","oxidation","participants","participating","pathobiology","pathogens","pathomechanisms","pathway","persisted","personalized","perturbations","peter","phagocytosis","pharmaceuticals","pharmacotherapeutics","phosphorylated","physiological","picolinic","picture","pirna","pirnas","pkan","platelets","players","playing","polysaccharides","pool","pools","portfolio","postural","potencies","pparγ","practice","precipitates","precisely","preclinical","precursor","predispositions","preventing","primarily","prion","prism","procedure","processing","products","profiles","progenitors","progesterone","prognosis","prognostication","proinflammatory","projections","promoted","proteinopathic","protocols","provide","provided","provoked","pss","psychedelic","psychiatrists","psychiatry","psychoactive","psychological","psychology","public","pursuits","qualities","quinolinic","range","ranging","ras","reacidification","reactions","reactive","reasons","recognized","recordings","reductions","referrals","reflecting","regions","regression","regulate","regulated","regulator","regulatory","reinforce","released","remarkably","remedies","remodeling","removing","rendering","renewal","reparation","repercussions","reported","represent","represents","require","requiring","resembling","resistance","resistant","resolve","respond","restrictive","restructuring","result","retain","retinopathy","reuptake","reveals","reversibly","rewiring","ripk1","rnas","rnp","rocks","ros","rr","sa","scaffold","scans","score","scores","secreted","seeks","semaglutide","sensitive","serotonergic","serves","services","settings","share","short","similarly","simulating","single","sites","skin","skns","sleeplessness","slow","smn","solutions","source","speciation","spectroscopic","spinal","spingosine","sporadic","sporadically","spreading","stability","stabilize","staging","start","stimulated","stimulus","strengthening","stroke","subcortical","subdomains","substrate","subtle","subtypes","summarizes","summary","superoxide","supply","supported","supporting","surface","surrounding","survive","susceptibility","susceptible","suspicious","sustained","swelling","synaptotoxicity","synergic","taking","tautangles","tbi","team","technologies","tetraploidization","therapeutics","thereffore","thymoquinone","till","timely","tq","tracts","traditional","trajectories","transcriptional","transfer","transforming","translational","transplantation","trauma","traumatic","trem","triggering","ttasaan","tumors","turnover","twenty","types","ucps","umbrella","umn","understanding","unexplainable","unfolded","vacuole","variants","vestibular","view","viral","virus","vitamin","vulnerable","war","waste","wastes","whilst","wiring","wpns","xenobiotic","α"],"freq":[2483,1423,633,338,293,239,194,140,133,108,93,79,75,73,72,71,64,61,60,55,52,51,47,45,43,42,41,41,40,36,36,36,35,35,35,33,31,31,31,29,28,28,27,27,27,25,24,24,23,23,23,22,22,21,21,20,20,20,20,20,20,20,19,19,19,19,18,18,18,18,18,18,17,17,17,16,16,16,16,15,15,15,15,15,15,15,15,15,14,14,14,14,14,14,14,13,13,13,12,12,12,12,12,12,12,12,12,12,12,12,12,11,11,11,11,11,11,11,11,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0724929520741039,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<figcaption class="figure-caption">(b) Most common bigrams beginning with ‘neuro’</figcaption>
 </figure>
 </div>
-</div>
-</div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-bigram-visualisation-strength_8347735b87f27d2e497fdd4677b02dd3">
-<div class="cell-output-display">
-<div id="fig-bigram-visualisation-strength" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-bigram-plot-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-bigram-visualisation-strength-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;12: Bigram networks strength</figcaption>
+
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-0d7db73d03839427d3b7" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-0d7db73d03839427d3b7">{"x":{"word":["common","progressive","related","chronic","derived","induced","prevalent","treating","disease","mediated","major","multiple","intracellular","treat","underlying","cholinergic","hippocampal","motor","dopaminergic","tau","brain","human","anti","complex","numerous","stress","adult","promote","potential","specific","irreversible","prevent","devastating","induce","developing","targeting","reduce","clinical","debilitating","exert","impaired","dysfunction","peripheral","frequent","promotes","diseases","diverse","neuroinflammation","significant","aggregation","excitatory","neurodegeneration","severe","term","increased","plaques","cognitive","disorders","functional","invasive","main","modulate","onset","promoting","regulating","affect","causing","degenerative","multifactorial","subsequent","acute","alleviate","function","improve","inflammation","inflammatory","inhibit","multimodal","plasticity","preventing","system","trigger","aging","cancer","damaged","distinct","existing","impact","metabolism","primary","protect","provide","rare","reducing","regulate","ann","apoptosis","based","diabetic","managing","neurogenesis","optic","reduced","triggers","autoimmune","cortical","death","dementia","excessive","fatal","include","increase","induces","influence","inhibitory","ischemic","life","mediate","mitotic","pathology","pd","potent","prodromal","regulates","shown","tangles","accumulation","affecting","ameliorate","amyloid","damage","direct","enhance","enteric","exhibit","glutamatergic","hyperphosphorylation","improving","inducing","linked","loss","mature","modulating","possess","promising","putative","retinal","sclerosis","structural","study","studying","abnormal","activation","affected","apoptotic","attenuating","cells","central","disabling","drive","effective","experience","impairment","improves","incurable","injured","maintaining","mild","mitigate","multifaceted","pathological","persistent","postoperative","prominent","protects","pv","reduces","relevant","representative","sensory","studied","superior","symptoms","underwent","1","active","activity","affects","aggravate","altered","aluminum","aβ","biomarkers","blood","cure","da","decreased","defined","dependent","deposition","diabetes","dopamine","driven","excitotoxicity","exerts","hippocampus","improved","inhibiting","involving","microglia","neurodegenerative","neurological","neuropsychiatric","newborn","normal","phosphorylation","plasma","predominant","pro","pyramidal","report","selective","single","stroke","substantial","sustained","svz","target","widespread","19","additional","addressing","age","assess","astrocyte","autophagy","baseline","control","counteract","counteracting","decline","demonstrated","deteriorating","diagnosing","drives","dysfunctional","elderly","endogenous","essential","extensive","fluid","gabaergic","generate","gradual","hallmark","heterogeneous","i.e","individual","lasting","mediating","model","modulates","ne","neurodevelopmental","neurons","neuroprotective","noradrenergic","p75","pain","physiological","producing","proper","proteins","recent","reported","resistance","resulting","signaling","similar","standard","suppressing","synaptic","traditional","translational","triggering","ultimately","underlie","vivo","2","3","aberrant","abovementioned","activated","adoptive","aforementioned","als","attenuate","attenuates","basic","behavioral","brain's","burden","cardinal","cardiovascular","characterized","circulating","cns","cognition","combat","combating","comprehensive","computational","conditions","confer","considered","controlling","depression","detailed","develop","developed","development","diminishing","dominant","driving","dying","e.g","effects","enhancing","established","eventual","exact","exerting","exogenic","experimental","facilitates","factors","features","focal","form","formation","future","glia","global","glutamate","hypothalamic","included","increasing","infantile","inside","interestingly","intraneuronal","involve","ischemia","key","lancet","leading","lithium's","mammalian","mediates","memory","mentioned","metabolic","microglial","negative","neighboring","neocortical","neuroplasticity","notably","occurring","ocular","perioperative","pet","poor","population","postmortem","postsynaptic","potentially","precedes","prevailing","processes","progressing","projection","protecting","protective","psychiatric","receptors","restore","secondary","seoul","serotonergic","serum","strong","studies","support","synapses","techniques","termed","understand","validated","vascular","25","7t","accelerates","accelerating","achieving","act","activates","addition","address","advance","ageing","agents","aggregates","alleviates","alleviating","anatomical","apoe4","astrocytes","atrophy","attention","aβo","barrier","braak","brainstem","called","cambridge","cell","cerebellar","classical","communicable","compensatory","complete","comprising","consequent","conventional","core","critical","crucial","csf","current","decreasing","deficits","delay","delirium","demand","density","deposits","detect","detected","detrimental","developmental","differentiation","disrupt","disruption","downregulating","downstream","dyshomeostasis","earliest","eeg","elicit","enable","encompassing","enhanced","epilepsy","evaluate","evaluated","exacerbate","exacerbates","examining","exhibited","explain","facilitate","familial","flow","forebrain","forming","functions","gaba","generated","genetic","globally","growing","highly","histaminergic","homeostatic","hormones","hypocretin","identify","identifying","ii","imaging","immature","impacting","impair","impairments","impairs","increases","initial","injuries","injury","inter","investigate","involves","lc","lesions","limited","living","lost","maintain","marked","massive","measured","metals","mice","microbial","microbiome","midbrain","mimic","mitigates","mitigating","mitochondria","mitochondrial","mixed","modal","modeling","modelling","modern","modulatory","molecular","molecules","morbid","mortem","myelination","named","natural","neurobiology","neuroimaging","neuropathology","neuropsychological","neuroregenerative","neurotoxicity","neurotransmission","noninvasive","notable","nss","nuclear","olfactory","ongoing","ophthalmological","oriented","os","overlapping","paraneoplastic","pathologies","pathways","patients","perform","person","pervasive","physiology","pleiotropic","possesses","precede","preclinical","preserving","presymptomatic","primarily","principal","process","produce","pronounced","properties","protein","providing","ready","recently","recipient","regulated","regulation","repair","resolves","restrict","reverse","reviewed","scale","sensitive","septal","specifically","spect","spinal","sporadic","stimulate","supply","supporting","supports","suppresses","survival","susceptibility","sustain","targeted","tauopathy","tbi","terminal","threatening","thwart","time","total","treatment","triggered","tumors","type","types","underpins","understanding","understood","valuable","vitro","vulnerable","world","worsen","0.00","0.01","10","12","2006","2021","2040","2050","4","40","6","60","8","90","abilities","accelerate","accelerated","accompanying","accumulating","aceruloplasminemia","acetylcholine","ach","ad's","adaptive","additionally","adiponectin's","adjacent","adjuvant","adls","administering","adopt","adrd","adulthood","advanced","adverse","aforesaid","ageassociated","aged","ages","ago","aid","aim","akt","al","alongside","alter","alzheimer","ameliorates","ameliorating","amine","aminoacidergic","amyloidogenic","amyloidosis","analgesic","analysis","analyze","analyzed","anesthesia","angiogenesis","annual","anomalous","antalgic","antianxiety","anticancer","anticipating","antihypoxic","antimicrobial","antioxidant","anxiety","apparent","approval","approved","assembly","assessing","assessment","asthma","astrocytic","attack","atypical","augment","authors","autopsy","autoregulation","aβ's","balance","ballooned","barcelona","bbb","bdnf","behavior","beneficial","benefits","beta","betainduced","bioarctic","bioenergetic","bioenergetics","biofluid","biomarker","blocking","blunt","blunted","bmi","bolstering","boost","born","botulinum","branched","breakdown","broad","built","burdening","ca1","call","candidate","capacity","capturing","cardiac","careful","carvacrol","cbf","cck","cd","cellular","cerad","cerebral","cerebrolysin","cerebrovascular","challenging","change","channels","characterised","characteristics","characterize","characterizes","chief","childhood","chondrocyte","circuit","classic","clearance","clin","clinic","clinically","coeruleus","combining","commits","committing","commonest","comorbid","comorbidities","comparable","comparative","compared","complicated","composite","compromise","compromised","computer","conclusion","concomitant","concrete","concurrent","condition","conferring","confers","congenital","consequence","conserved","considerable","consistent","constitutes","constraining","contender","context","contradictory","contrast","copd","cortex","cortico","countries","creates","criteria","crossed","csvd","cultured","curb","cures","cycle","cycles","cytokines","cytotoxicity","damages","damaging","data","datasets","day","dead","deadly","decade","decades","decreases","defence","deficiency","deficient","defines","defining","degenerated","degenerating","degeneration","degrading","delayed","deleterious","demanding","dementing","demonstrates","demyelinating","dense","depolarizing","deprive","depriving","depth","deranged","dermatologic","describe","desired","destroy","destructive","detecting","deterioration","determination","devastate","dha","diagnose","diagnosed","diagnostic","differential","differentiated","dimensional","diminish","diminished","directed","disability","discovered","discovery","discuss","discusses","disease's","disrupted","disrupts","dissect","dissection","distant","distressing","distributed","disturbing","dividing","dlb","dominating","downregulate","drugs","ds","dsb","dysfunctions","dysregulated","dystrophy","eaat2","ebv's","ec","efficacy","electrical","electronic","element","elevated","eliciting","elsevier","elucidate","elucidation","elusive","employing","encephalopathy","encoding","encourage","endocrinologists","endocrinology","endothelial","engaged","engineering","engram","enrich","ensheathing","ensure","ensures","environment","environmental","enzyme","epidemiological","epigenetic","erythematosus","escalated","esp","establish","ev","evaluates","eventually","evidenced","exacerbated","examination","examinations","excellent","excitability","excitotoxic","exclusively","exhibiting","expensive","experienced","experiencing","expert","exploit","exploratory","expression","extensively","extent","extra","extracellular","extremity","facilitating","factor","factorial","failure","familiar","family","fast","favorable","fda","ferroptotic","fetal","fibers","final","finding","finished","fmri","focused","formal","foster","ftd","fuels","ga","gaseous","gene","generating","genes","genetics","genomics","genotoxic","german","gliosis","glucagon","glycine","governing","granules","grievous","growth","gut","hand","harm","helps","hemispheric","hemorrhage","hepatoprotective","hereditary","heritable","herpesvirus","hfabp","highlighting","hindering","hoc","hold","homeostasis","hydrogen's","hyper","hyperphosphorylated","hypoxia","ibds","identified","illnesses","illustrating","image","imi","immune","immunomodulatory","impacts","impairing","impeding","implementing","implicates","impressive","incident","inciting","includes","incorporate","independent","individuals","infect","infection","infectious","inflamm'aging","inflammasome","influences","influencing","inherent","inherited","inhibited","inhibits","initially","initiate","initiated","innumerable","insufficient","integrated","integrating","integration","integrative","integrity","intensified","intercellular","interrelated","interventions","intracerebral","intricate","introduce","investigating","irrefutable","irritating","item","jeopardized","justify","largest","late","lb","lead","leakage","lethal","level","levels","lifetime","light","limiting","linear","lipofuscinosis","lncrnas","lobes","lose","lower","lowers","lysosomal","m1","m2","macroscale","macroscopical","magnetic","mammalians","manage","manifold","mapk","markers","matter","maturation","maximum","mci","mechanisms","melanin","mental","met","metastasis","metformin's","microbiota","microstructural","migraine","migrating","millisecond","mimicking","minimal","minor","misfolded","misuse","mitophagy","mmse","mobile","modalities","models","modification","modify","modifying","monoamine","monoaminergic","morphological","mrnas","msc","multi","multicausal","multifunctional","multimodality","multiscale","multisystem","mutations","myriad","naringenin's","nasal","nat","neighbouring","nervosa","networks","neural","neuritogenesis","neuroblastoma","neurochemistry","neuroimmune","neuroinflammatory","neuroinvasion","neuroinvasive","neurology","neuromodulation","neuromyelitis","neuronal","neuropeptides","neurophysiology","neuroprotection","neuropsychology","neuroretinal","neurosteroids","neurotransmitter","neurotransmitters","neurotrophic","neurovascular","nft","ngf","niche","nmosd","nondegenerative","nonetheless","noticeable","notorious","nowadays","npds","obesity","observational","observed","obtain","occur","oec","offering","offspring's","oligodendrocytes","ontogeny","operationalization","ophthalmology","ops","optica","optimal","options","orchestrate","orexigenic","organelles","organized","osa","outgrowth","outlines","overcome","overt","oxidative","pacemaker","painful","parenchyme","parkinson","parkinson's","parkinsonism","partial","participation","pathogenesis","pathognomonic","pathophysiological","pathway","pcc","pediatric","performance","performances","pericytes","perpetuating","perplexing","perturbing","phenomenon","phytochemistry","pioneering","pipeline","plaque","play","polarity","polyphenols","polysaccharides","positive","postmitotic","precipitates","precise","preclude","predefined","predict","predicting","predisposition","preexisting","preoperative","preserved","presynaptic","prevented","prevents","previous","probiotics","produces","products","proffer","profound","programme","progresses","progression","project","proliferate","proliferation","propagate","propagation","proteinopathies","prototype","prototypic","prototypical","provided","provokes","provoking","psp","psychiatrist","psychological","psychometrics","psychopathology","psychosis","ptau","public","published","puerarin","puncture","purely","purported","quantifying","quantitative","quell","quelling","quickening","raphe","rates","reac","rebuilding","recognized","recover","recurrent","recurring","recycle","recycling","reestablishing","reflects","regions","release","released","releases","releasing","relieve","relieving","remarkable","remarkably","render","rendering","renowned","repairing","required","rescue","research","researched","resembling","residual","resisting","resolved","responders","responses","restored","restricted","reticulum","retrograde","reversed","reversible","reversing","reverts","review","reviews","rhythmicity","risk","ros","rounded","runaway","rvp","salivary","saponins","sarcopenia","satisfaction","sc","scenarios","schizophrenia","scope","screen","searched","secret","secrete","secreting","sectional","seek","seizure","select","selected","senescence","senescent","separate","separating","sequential","serotonin","sex","shape","shaped","shaping","shielding","silymarin","similarly","simple","simultaneously","sleep","slow","solve","solving","spanning","sparse","specialty","species","specification","spectrum","spiny","stabilizing","stages","stagnates","start","status","stimulating","stimulation","storm","stream","strengthen","strokes","structures","subfoveal","substrates","subtype","subtypes","success","successful","successive","suffer","suitable","summarise","summarized","supplemental","suppressed","surrounding","surrounds","susceptible","sustaining","symptom","synaptotoxicity","syndrome","synthesis","synthesizing","synucleinopathic","synucleinopathy","systematic","systemic","t2dm","targets","tau217","tdp","technologies","temporal","tertiary","tests","theoretical","therapies","thickness","thirteen","times","tomography","tool","top","toxicity","toxoplasmosis","training","transentorhinal","transfer","translate","transmembrane","transmission","transmitting","transports","trials","trigeminal","trihydroxystilbene","tudca's","tune","typical","ubiquitous","uds","uncertain","uncommon","uncontrolled","undergoing","undergone","underpinning","unexplored","unfavorable","uniform","unique","united","universal","upr","uprising","urgency","v4","varying","vascularization","vasculo","vast","vectors","viable","view","virtual","visual","vital","vmpfc","vrf","weakened","wiring","worldwide","worsening","α7"],"freq":[215,184,168,82,72,61,58,55,54,50,49,49,44,44,41,39,38,38,35,34,33,33,32,32,32,31,30,28,26,26,25,25,24,23,21,21,20,19,19,19,19,18,18,17,17,16,16,16,16,15,15,15,15,15,14,14,13,13,13,13,13,13,13,13,13,12,12,12,12,12,11,11,11,11,11,11,11,11,11,11,11,11,10,10,10,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.8372093023255814,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<figcaption class="figure-caption">(c) Most common bigrams ending in ‘neuro’</figcaption>
 </figure>
 </div>
+<figcaption class="figure-caption">Figure&nbsp;8: <em>Bigrams exploration</em></figcaption>
+</figure>
 </div>
-</div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-bigram-visualisation-strength-pre_2844a03e285f2ee8f2819ff69ca52554">
-<div class="cell-output-display">
-<div id="fig-bigram-visualisation-strength-pre" class="quarto-figure quarto-figure-left anchored">
+<section id="bigram-networks" class="level3">
+<h3 class="anchored" data-anchor-id="bigram-networks">Bigram Networks</h3>
+<p>Relations of bigram networks are shown in <a href="#fig-bigram-visualisation">Figure&nbsp;9</a>.</p>
+<div id="fig-bigram-visualisation" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-bigram-visualisation-strength-pre-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;13: Bigram networks Strength Pre</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-bigram-visualisation-strength-post_7e7a5da74aaa01f0a4a82f1dd9346b11">
 <div class="cell-output-display">
-<div id="fig-bigram-visualisation-strength-post" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-bigram-visualisation-1" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-bigram-visualisation-strength-post-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;14: Bigram networks Strength Post</figcaption>
+<p><img src="report_files/figure-html/fig-bigram-visualisation-1.png" class="img-fluid figure-img" data-ref-parent="fig-bigram-visualisation" width="960"></p>
+<figcaption class="figure-caption">(a) All Bigram Relations</figcaption>
 </figure>
 </div>
 </div>
-</div>
-</section>
-<section id="trigrams" class="level3">
-<h3 class="anchored" data-anchor-id="trigrams">Trigrams</h3>
-<p>Most common trigrams in pre- or post-leca text corpuses are shown in <a href="#fig-trigram-counts">Figure&nbsp;15</a></p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-trigram-counts_08fc8a76cef7a45fd8b7132c26ac4c8e">
 <div class="cell-output-display">
-<div id="fig-trigram-counts" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-bigram-visualisation-2" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-trigram-counts-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;15: Most common trigrams in pre- or post-leca text corpuses</figcaption>
+<p><img src="report_files/figure-html/fig-bigram-visualisation-2.png" class="img-fluid figure-img" data-ref-parent="fig-bigram-visualisation" width="960"></p>
+<figcaption class="figure-caption">(b) Pre-leca Bigram Relations</figcaption>
 </figure>
 </div>
 </div>
+<div class="cell-output-display">
+<div id="fig-bigram-visualisation-3" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-bigram-visualisation-3.png" class="img-fluid figure-img" data-ref-parent="fig-bigram-visualisation" width="960"></p>
+<figcaption class="figure-caption">(c) Post-leca Bigram Relations</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;9: <strong>‘Disease’ commonly occurs with ‘neurodegenerative’ and ‘parkinson’s’ in bigram relationship networks.</strong> (A) All abstracts. (B) Pre-leca bigram corpus. (C) Post-leca bigram corpus. Increased thickness indicates increased frequency.</figcaption>
+</figure>
 </div>
 </section>
 </section>
 <section id="topic-modelling-1" class="level2">
 <h2 class="anchored" data-anchor-id="topic-modelling-1">Topic Modelling</h2>
-<section id="unigrams" class="level3">
-<h3 class="anchored" data-anchor-id="unigrams">Unigrams</h3>
-<p>The top 10 terms in each pre- and post- leca corpus are shown in <a href="#fig-topic-model-pre">Figure&nbsp;16</a> and <a href="#fig-topic-model-post">Figure&nbsp;17</a> respectively.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-topic-model-pre_e9580bd90dde150dc670f0e087a98dd3">
-<div class="cell-output-display">
-<div id="fig-topic-model-pre" class="quarto-figure quarto-figure-left anchored">
+<section id="bigrams" class="level3">
+<h3 class="anchored" data-anchor-id="bigrams">Bigrams</h3>
+<p>The top 10 bigrams in topic models for pre- and post- leca corpuses are shown in <a href="#fig-topic-model-bigrams">Figure&nbsp;10</a>. We removed the bigrams ‘<em>neurodegenerative disease</em>’ and ‘<em>parkinson’s disease</em>’ and ‘<em>cognitive impairment</em>’ from the models as they were present in all topics.</p>
+<div id="fig-topic-model-bigrams" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-pre-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;16: LDA Topic Modelling</figcaption>
+<div class="cell-output-display">
+<div id="fig-topic-model-bigrams-1" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-topic-model-bigrams-1.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-bigrams" width="1440"></p>
+<figcaption class="figure-caption">(a) Pre-leca</figcaption>
 </figure>
 </div>
 </div>
-</div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-topic-model-post_81db4ecc4c5da3c807b8d2357b1ae5a8">
 <div class="cell-output-display">
-<div id="fig-topic-model-post" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-topic-model-bigrams-2" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-post-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;17: LDA Topic Modelling</figcaption>
+<p><img src="report_files/figure-html/fig-topic-model-bigrams-2.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-bigrams" width="1440"></p>
+<figcaption class="figure-caption">(b) Post-leca</figcaption>
 </figure>
 </div>
 </div>
+<figcaption class="figure-caption">Figure&nbsp;10: <strong>Bigram LDA Topic Modelling.</strong> Outputs from the post-lecanemab (after 06/01/2023) corpus model with ten topics. Figures show the top ten most commonly associated bigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added.</figcaption>
+</figure>
 </div>
 </section>
-<section id="bigrams-1" class="level3">
-<h3 class="anchored" data-anchor-id="bigrams-1">Bigrams</h3>
-<p>The top 10 bigrams in topic models for pre- and post- leca corpuses are shown in <a href="#fig-topic-model-bigrams-pre">Figure&nbsp;18</a> and <a href="#fig-topic-model-bigrams-post">Figure&nbsp;19</a> respectively.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-topic-model-bigrams-pre_8a48f812683db55d378632054ef38e73">
-<div class="cell-output-display">
-<div id="fig-topic-model-bigrams-pre" class="quarto-figure quarto-figure-left anchored">
+</section>
+<section id="trigrams" class="level2">
+<h2 class="anchored" data-anchor-id="trigrams">Trigrams</h2>
+<p>The top 10 trigrams in topic models for pre- and post- leca corpuses are shown in <a href="#fig-topic-model-trigrams">Figure&nbsp;11</a>. We removed the trigrams ‘<em>central nervous system</em>’ and ‘<em>parkingson’s disease pd</em>’ from the models as they were present in all topics and did not provide any additional information.</p>
+<div id="fig-topic-model-trigrams" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-bigrams-pre-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;18: Bigram Pre-leca LDA Topic Modelling</figcaption>
+<div class="cell-output-display">
+<div id="fig-topic-model-trigrams-1" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-topic-model-trigrams-1.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-trigrams" width="1440"></p>
+<figcaption class="figure-caption">(a) Pre-leca</figcaption>
 </figure>
 </div>
 </div>
-</div>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-topic-model-bigrams-post_fb644d4df032bcd8ec393e57b0458865">
 <div class="cell-output-display">
-<div id="fig-topic-model-bigrams-post" class="quarto-figure quarto-figure-left anchored">
+<div id="fig-topic-model-trigrams-2" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-bigrams-post-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;19: Bigram Post-leca LDA Topic Modelling</figcaption>
+<p><img src="report_files/figure-html/fig-topic-model-trigrams-2.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-trigrams" width="1440"></p>
+<figcaption class="figure-caption">(b) Post-leca</figcaption>
 </figure>
 </div>
 </div>
+<figcaption class="figure-caption">Figure&nbsp;11: <strong>Trigram LDA Topic Modelling.</strong> LDA model shows the top ten most commonly associated trigrams in each topic ordered by their per-topic-per-word probability, β, for (A) pre-leca and (B) post-leca corpuses. Topic titles were manually created and added.</figcaption>
+</figure>
 </div>
 </section>
 </section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<section id="study-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="study-limitations">Study Limitations</h2>
+<p>Due to our search strategy, a lot of papers contain the words ‘Alzheimer’s disease’ may have been mentioned as a collective with other neurodegenerative diseases. Therefore, the unigrams ‘<em>huntington’s disease</em>’, ‘<em>parkinson’s disease</em>’ and ‘<em>amylotropic lateral sclerosis</em>’ are very frequent.</p>
+<p>One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the time frame used for the analysis not being long enough to account for a change in the research landscape.</p>
+<p>Unable to mine keywords included in the full text, so terms only described in the abstract, regardless of whether other phrases are included in the complete article.</p>
 </section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The results of this study suggest that the introduction of lecanemab has not had a significant impact on the research landscape of neurodegenerative diseases. The most common topics in the pre-lecanemab corpus were also the most common in the post-lecanemab corpus.</p>
+</section>
+</section>
+
 <section id="appendix" class="level1">
 <h1>Appendix</h1>
 <div class="cell" data-tbl-width="10" data-tbl-height="3.5" data-tbl-align="left" data-hash="report_cache/html/tbl-appendix2_89066a4e2a1e041a0769ce95d54e9ee5">
 <div class="cell-output-display">
 <div id="tbl-appendix2" class="anchored">
 <table class="table table-sm table-striped small">
-<caption>Table&nbsp;3: Personalised Stop Words</caption>
+<caption>Table&nbsp;2: Personalised Stop Words</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Stop Word</th>
@@ -722,7 +518,10 @@ div.csl-indent {
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="quarto-appendix" class="default"><section id="acknowledgements" class="level1 appendix"><h2 class="anchored quarto-appendix-heading">Acknowledgements</h2><div class="quarto-appendix-contents">
+
+<p>I would like to thank my supervisor Emma Rand for her constant support and guidance throughout my project. I would also like to dedicate this project to my late granddad Alan Scrimshire who passed away on the 31st March 2023 after fighting a five year battle with Alzheimer’s Disease. I hope this project highlights the complexity of the disease and the vast efforts being undertaken to find a cure.</p>
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-noauthor_2023-ek" class="csl-entry" role="listitem">
 (2023). <span class="nodecoration">2023 alzheimer’s disease facts and figures</span>. 19 (4), pp.1598–1695.
 </div>
@@ -741,6 +540,9 @@ Csardi, G. and Nepusz, T. (2006). <span class="nodecoration"><em>The igraph soft
 <div id="ref-Cummings2023-lo" class="csl-entry" role="listitem">
 Cummings, J., Zhou, Y., Lee, G., Zhong, K., Fonseca, J. and Cheng, F. (2023). <span class="nodecoration">Alzheimer’s disease drug development pipeline: 2023</span>. <em>Alzheimers. Dement.</em>, 9 (2), p.e12385.
 </div>
+<div id="ref-Garcia-Morales2021-zb" class="csl-entry" role="listitem">
+Garcı́a-Morales, V., González-Acedo, A., Melguizo-Rodrı́guez, L., Pardo-Moreno, T., Costela-Ruiz, V. J., Montiel-Troya, M. and Ramos-Rodrı́guez, J. J. (2021). <span class="nodecoration">Current understanding of the physiopathology, diagnosis and therapeutic approach to alzheimer’s disease</span>. <em>Biomedicines</em>, 9 (12).
+</div>
 <div id="ref-Grames2019-as" class="csl-entry" role="listitem">
 Grames, E. M., Stillman, A. N., Tingley, M. W. and Elphick, C. S. (2019). <span class="nodecoration">An automated approach to identifying search terms for systematic reviews using keyword co‐occurrence networks</span>. <em>Methods Ecol. Evol.</em>, 10 (10), Wiley., pp.1645–1654.
 </div>
@@ -758,6 +560,9 @@ Higgins, J. P. T. (2019). <span class="nodecoration"><em>Cochrane handbook for s
 </div>
 <div id="ref-Huang2023-vq" class="csl-entry" role="listitem">
 Huang, L.-K., Kuan, Y.-C., Lin, H.-W. and Hu, C.-J. (2023). <span class="nodecoration">Clinical trials of new drugs for alzheimer disease: A 2020–2023 update</span>. <em>J. Biomed. Sci.</em>, 30 (1), p.83.
+</div>
+<div id="ref-Iaccarino2018-ta" class="csl-entry" role="listitem">
+Iaccarino, L., Tammewar, G., Ayakta, N., Baker, S. L., Bejanin, A., Boxer, A. L., Gorno-Tempini, M. L., Janabi, M., Kramer, J. H., Lazaris, A., Lockhart, S. N., Miller, B. L., Miller, Z. A., O’Neil, J. P., Ossenkoppele, R., Rosen, H. J., Schonhaut, D. R., Jagust, W. J. and Rabinovici, G. D. (2018). <span class="nodecoration">Local and distant relationships between amyloid, tau and neurodegeneration in alzheimer’s disease</span>. <em>Neuroimage Clin</em>, 17, pp.452–464.
 </div>
 <div id="ref-Kovalchik2021-xq" class="csl-entry" role="listitem">
 Kovalchik, S. (2021). <span class="nodecoration"><em><span>RISmed</span>: Download content from <span>NCBI</span> databases</em></span>.
