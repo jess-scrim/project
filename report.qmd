@@ -22,7 +22,7 @@ csl: university-of-york-harvard-environment.csl
 
 # Abstract
 
-Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide. Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. Every year thousands of scientific articles are published concerning AD, however it can be time consuming and laborious to disseminate this information into a systematic review whilst highlighting current research. Full abstract text from PubMed for documents containing the MeSH term “Alzheimer’s Disease” were tokenised, cleaned then allocated to either a “pre-leca” or “post-leca” corpus relative to the date of lecanemab accelerated approval, 6th January 2023. Ten-topic latent Diurich Allocation (LDA) models were created for each corpus either using unigrams or bigrams. 
+Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide. Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. Every year thousands of scientific articles are published concerning AD, however it can be time consuming and laborious to disseminate this information into a systematic review whilst highlighting current research. Full abstract text from PubMed for documents containing the MeSH term “Alzheimer’s Disease” were tokenised, cleaned then allocated to either a “pre-leca” or “post-leca” corpus relative to the date of lecanemab accelerated approval, 6th January 2023. Ten-topic latent Diurich Allocation (LDA) models were created for each corpus either using unigrams or bigrams.
 
 ```{r}
 #| label: packages
@@ -52,21 +52,21 @@ abstract_n <- nrow(filter(abstracts, !is.na(title)))
 
 ## Alzheimer's Disease
 
-Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties [@noauthor_2023-ek]. These symptoms usually manifest after the physiological changes in the brain develop, therefore scientific understanding and advances in new treatments is important in understanding AD aetiology. 
+Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties [@noauthor_2023-ek]. These symptoms usually manifest after the physiological changes in the brain develop, therefore scientific understanding and advances in new treatments is important in understanding AD aetiology.
 
-Whilst the underlying mechanisms determining the progression of AD are not fully understood, the accumulation of abnormal protein aggregates including, amyloid-beta plaques and neurofibrillary tangles, are frequently found in the brains of patients with AD [@Villemagne2013-xk] [@Iaccarino2018-ta]. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. Diagnosing AD requires the presence of  both amyloid and tau pathologies as well as neuroinflammation, neuronal death and brain atrophy [@Garcia-Morales2021-zb]. 
+Whilst the underlying mechanisms determining the progression of AD are not fully understood, the accumulation of abnormal protein aggregates including, amyloid-beta plaques and neurofibrillary tangles, are frequently found in the brains of patients with AD [@Villemagne2013-xk] [@Iaccarino2018-ta]. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. Diagnosing AD requires the presence of both amyloid and tau pathologies as well as neuroinflammation, neuronal death and brain atrophy [@Garcia-Morales2021-zb].
 
 ## Treatments for AD
 
-Although there are currently no therapies or interventions that can cure AD, several disease-modifying treatments exist that can alter the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. A recent comprehensive review by [@Huang2023-vq], identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively [@Gustavsson2023-qr], therefore increasing research focus on these patient populations is imperative to slow the progression of the disease. 
+Although there are currently no therapies or interventions that can cure AD, several disease-modifying treatments exist that can alter the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. A recent comprehensive review by [@Huang2023-vq], identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively [@Gustavsson2023-qr], therefore increasing research focus on these patient populations is imperative to slow the progression of the disease.
 
-There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab [@Center_for_Drug_Evaluation2023-gy]; [@Office_of_the_Commissioner2023-hu]. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials [@Cummings2023-lo]. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023. 
+There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab [@Center_for_Drug_Evaluation2023-gy]; [@Office_of_the_Commissioner2023-hu]. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials [@Cummings2023-lo]. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023.
 
 ## Topic Modelling and Text Mining in AD Research
 
 Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more research literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research field [@Higgins2019-kn]. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words [@Blei2003-lh]. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.
 
-In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. [@Martinelli2022-ic], identifying novel biomarkers [@Greco2012-pv], and drug repurposing [@Nian2022-xw]. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved  immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against [@Grames2019-as].
+In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. [@Martinelli2022-ic], identifying novel biomarkers [@Greco2012-pv], and drug repurposing [@Nian2022-xw]. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against [@Grames2019-as].
 
 ## Aims and Hypotheses
 
@@ -78,7 +78,7 @@ A full summary of the methodology is provided in Appendix 1. All data analysis a
 
 ## Data Acquisition
 
-Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, author list, and publication date were obtained from PubMed using the inclusion criteria described in @tbl-inclusion-criteria and *EUTils*, accessed through *Rismed* [@Kovalchik2021-xq]. After excluding publications without abstracts (n = `r abstract_na_n`), `r abstract_n` manuscripts comprised the final dataset (data cut accessed on 10th October 2023). PubMed is a large, online search engine containing over 36 million citations for biomedical literature, and is maintained by the United States National Library of Medicine (NLM) at the National Institutes of Health (NIH). The diversity of entries into the database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias. 
+Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, author list, and publication date were obtained from PubMed using the inclusion criteria described in @tbl-inclusion-criteria and *EUTils*, accessed through *Rismed* [@Kovalchik2021-xq]. After excluding publications without abstracts (n = `r abstract_na_n`), `r abstract_n` manuscripts comprised the final dataset (data cut accessed on 10th October 2023). PubMed is a large, online search engine containing over 36 million citations for biomedical literature, and is maintained by the United States National Library of Medicine (NLM) at the National Institutes of Health (NIH). The diversity of entries into the database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.
 
 ```{r}
 #| label: tbl-inclusion-criteria
@@ -124,7 +124,7 @@ knitr::kable(criteria, col.names = NULL)
 
 ## Data Preprocessing
 
-Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the *unnest_tokens* function of the *tidytext* package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the *tidytext* package [@Silge2016-jf] combined with personalised words (@tbl-appendix2) were then removed @fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’  were all mapped to ‘*amyloid beta*’.
+Abstracts and their metadata were categorised into “pre-leca” or “post-leca” corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023. Full abstract text was tokenised into single words using the *unnest_tokens* function of the *tidytext* package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the *tidytext* package [@Silge2016-jf] combined with personalised words (@tbl-appendix2) were then removed @fig-preprocess. To prevent the different spellings of the same word or phrase from being counted multiple times, similar words were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’ were all mapped to ‘*amyloid beta*’.
 
 ```{r}
 #| label: fig-preprocess
@@ -184,8 +184,17 @@ bigrams_united <- bigrams_united %>%
                                   "\\b(2 diabetes)\\b|\\b(diabetes t2d)\\b|\\b(type 2)\\b",
                                   "diabetes t2d"),
          bigram = str_replace_all(bigram,
-                                  "\\b(amyotropic lateral)\\b|(lateral sclerosis)\\b",
-                                  "als"))
+                                  "\\b(amyotrophic lateral)\\b|\\b(lateral sclerosis)\\b|\\b(disease amyotrophic)\\b",
+                                  "als"),
+         bigram = str_replace_all(bigram,
+                                   "\\b(α syn|α synuclein|alpha synuclein|alpha synucleinuclein)\\b",
+                                  "alpha synuclein"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(cerebrospinal fluid)\\b|\\b(fluid csf)\\b|\\b(cerebrospinal csf)\\b",
+                                  "cerebrospinal fluid"),
+         bigram = str_replace_all(bigram,
+                                  "\\b(cardiovascular dis(?:ease|eases|order|orders)?)\\b",
+                                  "cardiovascular disease"))
 bigrams_united
 
 # All abstracts
@@ -250,7 +259,7 @@ trigrams_united <- trigrams_separated %>%
 
 trigrams_united <- trigrams_united %>%
   mutate(trigram = str_replace_all(trigram, 
-                                   "\\b(?:mild cognitive impairment|mci|cognitive impairment mci)\\b", 
+                                   "\\b(?:mild cognitive impairment|mci|mild impairment mci)\\b", 
                                    "mild cognitive impairment"),
          trigram = str_replace_all(trigram,
                                    "\\b(?:central nervous system|nervous system cns|central nervous system)\\b", 
@@ -272,7 +281,25 @@ trigrams_united <- trigrams_united %>%
                                    "huntington's disease hd"),
          trigram = str_replace_all(trigram,
                                    "\\b(?:parkinson's disease pd|disease parkinson's disease)\\b",
-                                   "parkinson's disease pd"))
+                                   "parkinson's disease pd"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(?:multiple sclerosis ms|disease multiple sclerosis)\\b",
+                                   "multiple sclerosis ms"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(amyloid precursor protein|precursor protein app)\\b",
+                                   "amyloid precursor protein"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(reactive oxygen species|oxygen species ros)\\b",
+                                   "reactive oxygen species"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(magnetic resonance imaging|resonance imaging mri)\\b",
+                                   "magnetic resonance imaging"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(randomized controlled trial|randomized controlled trials|randomized clinical trials|randomized clinical trial|randomised controlled trials|randomised controlled trial|controlled trials rcts|controlled trial rct)\\b",
+                                   "randomised controlled trials"),
+         trigram = str_replace_all(trigram,
+                                   "\\b(lewy body dementia|lewy bodies dlb|dementia lewy body)\\b",
+                                   "lewy body dementia"))
 
 trigram_counts <- trigrams_united %>% 
   group_by(type) %>%
@@ -284,7 +311,7 @@ trigram_counts <- trigrams_united %>%
 
 ### *litsearchR*
 
-To reassure us that the PubMed search query encapsulated all literature, *litsearchr* package was used to expand the search terms [@Grames2019-as]. Citations from PubMed results using the previous search criteria were read into R. The combined unique keyword and titles, as not all articles have keywords,  for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The 80% cutoffs were determined to find only the most important terms to the articles; all others were discarded (@fig-ad-search-terms; @fig-ad-drug-search-terms).
+To reassure us that the PubMed search query encapsulated all literature, *litsearchr* package was used to expand the search terms [@Grames2019-as]. Citations from PubMed results using the previous search criteria were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The 80% cutoffs were determined to find only the most important terms to the articles; all others were discarded (@fig-ad-search-terms; @fig-ad-drug-search-terms).
 
 ```{r}
 #| label: search-terms
@@ -565,7 +592,7 @@ tidy_bigram_lda_post <- tidy(bigram_lda_post,
 #   Not including 'neurodegenerative diseases', parkinson\'s disease' and 'cognitive impairment' as these were common to all bar one topics
 
 top_bigram_terms_pre <- tidy_bigram_lda_pre %>%
-  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease", "cognitive impairment")) %>% 
+  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease", "amyloid beta")) %>%
   mutate(topic = case_when(topic == 1 ~ "Mechanisms",
                            topic == 2 ~ "Protein",
                            topic == 3 ~ "Something else1",
@@ -580,10 +607,9 @@ top_bigram_terms_pre <- tidy_bigram_lda_pre %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
   arrange(topic, -beta)
-top_bigram_terms_pre
 
 top_bigram_terms_post <- tidy_bigram_lda_post %>%
-  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease", "cognitive impairment")) %>% 
+  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease")) %>%
   mutate(topic = case_when(topic == 1 ~ "Mechanisms",
                            topic == 2 ~ "Protein",
                            topic == 3 ~ "Something else1",
@@ -598,7 +624,6 @@ top_bigram_terms_post <- tidy_bigram_lda_post %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
   arrange(topic, -beta)
-top_bigram_terms_post
 
 # Visualise
 top_bigram_terms_pre <- top_bigram_terms_pre %>%
@@ -719,13 +744,13 @@ top_trigram_terms_post <- top_trigram_terms_post %>%
   facet_wrap(~ topic, ncol = 4, scales = "free")
 ```
 
-# Results
+# Results and Discussion
 
 ## AD Research Publication are Similar Over Time
 
-This study found `r nrow(abstracts)` papers that were published between `r min(tidy_abstracts_clean$date)` and `r max(tidy_abstracts_clean$date)` that contained the identified terms.
+This study found `r abstract_n` papers that were published between `r min(tidy_abstracts_clean$date)` and `r max(tidy_abstracts_clean$date)` that contained the identified terms (@tbl-inclusion criteria). 
 
-The distribution of publications is shown in @fig-publication-date. There were `r nrow(filter(naive_drug_results, naive_drug_results$title %in% abstracts$title))` papers published between `r min(naive_drug_results$date_published)` and `r max(naive_drug_results$date_published)` that contained the identified terms.
+The distribution of publication dates for these articles is shown in @fig-publication-date. There were `r nrow(filter(naive_drug_results, naive_drug_results$title %in% abstracts$title))` papers published between `r min(format(as.Date(naive_drug_results$date_published, format = "%Y %b %d"),"%d-%m-%Y"), na.rm = T)` and `r max(format(as.Date(naive_drug_results$date_published, format = "%Y %b %d"),"%d-%m-%Y"), na.rm = T)` that contained the identified terms.
 
 ```{r}
 #| label: fig-publication-date
@@ -765,7 +790,7 @@ naive_drug_results %>%
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
 ```
 
-To determine if a statistical model could distinguish between pre-leca and post-leca corpuses, a two-topic Latent Dirich Allocation (LDA) model (Blei et al., 2003) was applied to the dtm using the topicmodels package (Grün and Hornik, 2011). The per-document-per-topic probabilities (γ) is extracted to show the proportion of words generated in each topic and how often these words appear in either the pre-leca or post-leca corpuses.
+To determine if a statistical model could distinguish between pre-leca and post-leca corpuses, a two-topic Latent Dirich Allocation (LDA) model [@Blei2003-lh] was applied to the dtm using the *topicmodels* package [@Grun2011-do]. The per-document-per-topic probabilities (*γ*) is extracted to show the proportion of words generated in each topic and how often these words appear in either the pre-leca or post-leca corpuses.
 
 ```{r}
 #| label: fig-gamma-lda
@@ -785,7 +810,7 @@ abstract_gamm %>%
 
 ## N-gram Analysis
 
-Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The most frequent unigrams, bigrams and trigrams are shown in @fig-tokenisation. '*Disease*' is the most frequent unigram in both corpuses due to being most frequently associated with '*neurodegenerative disease*' as well as specifically for '*Parkinson's disease*', and '*Huntington's disease*' which are common neurodegenerative diseases which are researched as much as AD. 
+Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The most frequent unigrams, bigrams and trigrams are shown in @fig-tokenisation. '*Disease*' is the most frequent unigram in both corpuses due to being most frequently associated with '*neurodegenerative disease*' as well as specifically for '*Parkinson's disease*', and '*Huntington's disease*' which are common neurodegenerative diseases which are researched as much as AD.
 
 ```{r}
 #| label: fig-tokenisation
@@ -895,8 +920,8 @@ As '*disease*' was the most common unigram, we explored the most frequent bigram
 #|  - "Most common bigrams ending in 'disease'"
 #|  - "Most common bigrams beginning with 'neuro'"
 #|  - "Most common bigrams ending in 'neuro'"
-#| fig-width: 10
-#| fig-height: 5
+#| fig-width: 15
+#| fig-height: 10
 #| fig-align: left
 
 set.seed(1234)
@@ -921,10 +946,10 @@ bigrams_separated %>%
 #   knitr::kable()
 set.seed(1234)
 
-bigrams_separated %>% 
-  filter(grepl("^neuro", word1)) %>%
-  count(word2, sort = TRUE) %>% 
-  wordcloud2::wordcloud2(size = 1)
+# bigrams_separated %>% 
+#   filter(grepl("^neuro", word1)) %>%
+#   count(word2, sort = TRUE) %>% 
+#   wordcloud2::wordcloud2(size = 1)
 # 
 # bigrams_separated %>%
 #   filter(grepl("^neuro", word2)) %>%
@@ -932,12 +957,12 @@ bigrams_separated %>%
 #   slice_head(n = 15) %>% 
 #   rename("Word" = word1) %>%
 #   knitr::kable()
-set.seed(1234)
-
-bigrams_separated %>% 
-  filter(grepl("^neuro", word2)) %>%
-  count(word1, sort = TRUE) %>% 
-  wordcloud2::wordcloud2(size = 1)
+# set.seed(1234)
+# 
+# bigrams_separated %>% 
+#   filter(grepl("^neuro", word2)) %>%
+#   count(word1, sort = TRUE) %>% 
+#   wordcloud2::wordcloud2(size = 1)
 ```
 
 ### Bigram Networks
@@ -987,9 +1012,116 @@ post_leca_graph %>%
 
 ## Topic Modelling
 
+### Unigrams
+
+The top 10 unigrams in LDA for **pre-leca:** and **post-leca** are shown in @fig-topic-model-unigrams.
+
+-   **Topic 1:** Clinical studies - 'treatment', 'trials', 'development', 'clinical'
+
+-   **Topic 2:** Studies for diagnosis - 'clinical', 'data', 'biomarkers', 'diagnosis'
+
+-   **Topic 3:** Risk factors & symptoms - 'age', 'health', 'depression'
+
+-   **Topic 4:** Cells - 'neuroinflammation', 'microglia', 'signaling'
+
+-   **Topic 5:** ? - 'sleep', 'inflammatory', 'effects'
+
+-   **Topic 6:** Mechanisms ? - 'mitochondrial', 'gut', 'stress', 'brain'
+
+-   **Topic 7:** Genetics - 'gene', 'risk', 'common'
+
+-   **Topic 8:** Abnormal proteins - 'tau', 'aB', 'plaques', 'aggregation', 'accumulation', 'beta'
+
+-   **Topic 9:** Study criteria ? - 'mci', 'included', 'meta', 'cognitive' - i.e. choosing the correct people for a study is very important to ensure you get the correct findings, especially choosing AD patients with mild vs late MCI vs clinical dementia & AD
+
+-   **Topic 10:** Brain - 'neurological', 'neurodegeneration', 'blood brain barrier', 'system'
+
+The top 10 unigrams in LDA for **post-leca:**
+
+-   Topic 1: Study criteria - 'mci', 'patients', 'included', 'dementia'
+
+-   Topic 2: Brain - 'memory', 'disorders', 'imaging', 'neurodegeneration'
+
+-   Topic 3: ? - 'covid', '19', 'tau', 'protein'
+
+-   Topic 4:
+
+-   Topic 5: Risk Factors - 'sleep', 'health', 'age', 'ageing'
+
+-   Topic 6: Treatments - 'therapeutics', 'effects', 'anti', 'drugs', 'treatment'
+
+-   Topic 7: Study ? - 'study', 'participants', 'clinical', 'risk'
+
+-   Topic 8: Diagnosis - 'biomarkers', 'genetic', 'research', 'analysis'
+
+-   Topic 9: Proteins - 'amyloid', 'aB', 'tau', 'brain', 'B', 'protein'
+
+-   Topic 10: Diabetes ? - 'insulin', 'receptor', 'diabetes', '1', '2' - though 1 might be from something else, e.g. '1 42' is a bigram which is a type of amyloid beta peptide 1-40 and 1-42
+
+```{r} 
+#| label: fig-topic-model-unigrams 
+#| include: true 
+#| fig-cap: "**Unigram LDA Topic Modelling.** Outputs from the model with ten topics. Figures show the top ten most commonly associated unigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added." 
+#| fig-subcap: 
+#|   - "Pre-leca" 
+#|   - "Post-leca" 
+#| fig-width: 15 
+#| fig-height: 10 
+#| fig-align: center
+
+knitr::include_graphics("plots/pre-leca-lda-updated.png")
+knitr::include_graphics("plots/post-leca-lda-updated.png")
+```
+
 ### Bigrams
 
-The top 10 bigrams in topic models for pre- and post- leca corpuses are shown in @fig-topic-model-bigrams. We removed the bigrams '*neurodegenerative disease*' and '*parkinson's disease*' and '*cognitive impairment*' from the models as they were present in all topics.
+The top 10 bigrams in topic models for pre- and post- leca corpuses are shown in @fig-topic-model-bigrams. We removed the bigrams '*neurodegenerative disease*' and '*parkinson's disease*' from the models as they were present in all topics. Additionally we removed '*amyloid-beta*' from the pre-leca model as this was also present in all topics.
+
+Then most frequent terms:
+
+-   '**cognitive impairment**' was common to 8/10 pre-leca models and 9/10 post-leca
+
+-   '**amyloid beta**' was common to 8/10 post-leca models 
+
+Unique terms which define each topic:
+
+Themes of topics **pre-leca**:
+
+-   **Topic 1:** Risk factors ? - 'diabetes t2d', 'insulin resistance', '
+
+-   **Topic 2:**
+
+-   **Topic 3:**
+
+-   **Topic 4:** "Covid 19" - high beta value
+
+-   **Topic 5:**
+
+-   **Topic 6:** "Amyloid beta" - high beta value
+
+-   **Topic 7:**
+
+-   **Topic 8:**
+
+-   **Topic 9:**
+
+-   **Topic 10:**
+
+Themes of topics **post-leca:**
+
+-   Topic 1: neurodegenerative diseases - "huntington's disease", "ALS"
+
+-   Topic 2:
+
+-   Topic 2:
+
+-   Topic 2:
+
+-   Topic 2:
+
+-   Topic 2:
+
+-   Topic 2:
 
 ```{r}
 #| label: fig-topic-model-bigrams
@@ -1011,6 +1143,44 @@ top_bigram_terms_post
 ## Trigrams
 
 The top 10 trigrams in topic models for pre- and post- leca corpuses are shown in @fig-topic-model-trigrams. We removed the trigrams '*central nervous system*' and '*parkingson's disease pd*' from the models as they were present in all topics and did not provide any additional information.
+
+Themes of topics **pre-leca**:
+
+-   Topic 1:
+
+-   Topic 2:
+
+-   Topic 3:
+
+-   Topic 4: Covid (?)
+
+-   Topic 5:
+
+-   Topic 6:
+
+-   Topic 2:
+
+Themes of topics **post-leca:**
+
+-   Topic 1:
+
+-   Topic 2:
+
+-   Topic 3: "chinese patent medicine"
+
+-   Topic 4: "inflammatory bowel disease"
+
+-   Topic 5: "bstructive sleep apnea"
+
+-   Topic 6:
+
+-   Topic 7: "glp 1 ras"
+
+-   Topic 8:
+
+-   Topic 9: "traditional chinese medicine"
+
+-   Topic 10: "donepezil patch 27.5", "patch 27.5 mg"
 
 ```{r}
 #| label: fig-topic-model-trigrams

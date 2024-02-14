@@ -37,6 +37,16 @@ tidy_lda_post <- tidy(abstract_lda_post,
 # Pre-leca
 top_terms_pre <- tidy_lda_pre %>%
   filter(term != "disease") %>% 
+  mutate(topic = case_when(topic == 1 ~ "Clinical Studies",
+                           topic == 2 ~ "Studies for Diagnosis",
+                           topic == 3 ~ "Risk Factors and Symptoms",
+                           topic == 4 ~ "Cells",
+                           topic == 5 ~ "Inconclusive",
+                           topic == 6 ~ "Pathological mechanisms",
+                           topic == 7 ~ "Genetics",
+                           topic == 8 ~ "Abnormal Proteins",
+                           topic == 9 ~ "Study criteria",
+                           topic == 10 ~ "Brain")) %>% 
   group_by(topic) %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
@@ -45,6 +55,16 @@ top_terms_pre <- tidy_lda_pre %>%
 # Post-leca
 top_terms_post <- tidy_lda_post %>%
   filter(term != "disease") %>% 
+  mutate(topic = case_when(topic == 1 ~ "Study Criteria",
+                           topic == 2 ~ "Brain",
+                           topic == 3 ~ "Inconclusive",
+                           topic == 4 ~ "Inconclusive",
+                           topic == 5 ~ "Risk Factors",
+                           topic == 6 ~ "Treatments",
+                           topic == 7 ~ "Clinical Study",
+                           topic == 8 ~ "Diagnosis",
+                           topic == 9 ~ "Proteins",
+                           topic == 10 ~ "Risk Factor - Diabetes")) %>% 
   group_by(topic) %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
