@@ -1,6 +1,11 @@
-abstract_trigrams <- tidy_abstracts %>%
-  unnest_tokens(trigram, text, token = "ngrams", n = 3) %>%
+abstract_trigrams <- abstract %>%
+  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
+                          date > leca_approv ~ "post-leca")) %>% 
+  unnest_tokens(trigram, text, token = "ngrams", n = 3) %>% 
   filter(!is.na(trigram)) # remove NA
+
+abstract_trigrams %>%
+  write_csv("results/abstract_trigrams.csv")
 
 abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
 

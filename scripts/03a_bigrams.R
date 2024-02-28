@@ -1,8 +1,13 @@
 #### Understanding relationships between words: n-grams & correlations ####
 
 abstract_bigrams <- tidy_abstracts %>%
-  unnest_tokens(bigram, text, token = "ngrams", n = 2) %>%
+  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
+                          date > leca_approv ~ "post-leca")) %>% 
+  unnest_tokens(bigram, text, token = "ngrams", n = 2) %>% 
   filter(!is.na(bigram)) # remove NA
+
+abstract_bigrams %>%
+  write_csv("results/abstract_bigrams.csv")
 
 # abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
 

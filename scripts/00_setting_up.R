@@ -8,9 +8,10 @@ library(topicmodels)
 library(remotes)
 library(litsearchr)
 library(lubridate)
+library(medrxivr)
 
 # Define Search terms
-query <- '("alzheimer disease"[MeSH Terms] OR ("alzheimer"[All Fields] AND "disease"[All Fields]) OR "alzheimer disease"[All Fields] OR ("alzheimer s"[All Fields] AND "disease"[All Fields]) OR "alzheimer s disease"[All Fields]) AND ((fha[Filter]) AND (booksdocs[Filter] OR casereports[Filter] OR clinicalstudy[Filter] OR clinicaltrial[Filter] OR controlledclinicaltrial[Filter] OR meta-analysis[Filter] OR randomizedcontrolledtrial[Filter] OR review[Filter] OR systematicreview[Filter]) AND (2022/1/2:2023/10/10[pdat]) AND (english[Filter]))'
+query <- '("alzheimer disease"[MeSH Terms] OR ("alzheimer"[All Fields] AND "disease"[All Fields]) OR "alzheimer disease"[All Fields] OR ("alzheimer s"[All Fields] AND "disease"[All Fields]) OR "alzheimer s disease"[All Fields]) AND ((fha[Filter]) AND (booksdocs[Filter] OR casereports[Filter] OR clinicalstudy[Filter] OR clinicaltrial[Filter] OR controlledclinicaltrial[Filter] OR meta-analysis[Filter] OR randomizedcontrolledtrial[Filter] OR review[Filter] OR systematicreview[Filter]) AND (2022/1/2:2024/01/01[pdat]) AND (english[Filter]))'
 leca_query <- '("lecanemab"[All Fields] OR "mab2401"[All Fields] OR "leqembi"[All Fields] OR "ban2401"[All Fields])'
 type <- 'esearch'
 db <- 'pubmed'
