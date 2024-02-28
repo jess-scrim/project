@@ -68,13 +68,16 @@ preprints <- mx_data %>%
 
 test <- preprints %>% 
   rename("text" = abstract) %>% 
-  mutate(abstract = 6167:6743,
-         source = "preprint")
-test <- tidy_abstracts %>% 
+  mutate(source = "preprint",
+         abstract = row_number())
+tidy_abstracts <- tidy_abstracts %>% 
   mutate(source = "pubmed") %>%
-  rbind(test)
+  rbind(test) %>% 
+  mutate(abstract = row_number())
 # In total with pubmed 6744 - no duplicates
 
+
+## Extra - number of unpublished preprints
 preprints_unpub <- mx_data %>% 
   filter(is.na(published)) %>% 
   select(title, date, abstract) %>% 

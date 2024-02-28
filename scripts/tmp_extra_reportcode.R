@@ -45,6 +45,83 @@ knitr::kable(criteria, col.names = NULL)
 
 ```
 
+```{r}
+#| label: drug-search-terms
+#| include: false 
+#| cache: true
+
+naive_drug_results <- import_results(file="data/pubmed-lecanemabO-set.nbib")
+
+keywords <- extract_terms(keywords=naive_drug_results[, "keywords"], 
+                          method="tagged", 
+                          min_n = 1, # allows single words
+                          min_freq = 2) # only words that appear at least 2 times in keyword search 
+
+# Remove stop-words from titles
+clin_stopwords <- read_lines("data/clin_stopwords.txt")
+all_stopwords <- c(get_stopwords("English"), clin_stopwords)
+
+title_terms <- extract_terms(
+  text = naive_drug_results[, "title"],
+  method = "fakerake",
+  min_freq = 2, 
+  min_n = 1,
+  stopwords = all_stopwords
+)
+
+# Combine search terms & remove duplicates
+search_terms <- c(keywords, title_terms) %>% unique()
+
+## Network analysis ###
+
+# Combine title with abstract
+docs <- paste(naive_drug_results[, "title"], naive_drug_results[, "abstract"])
+
+# Create matrix of which term appears in which article
+dfm <- create_dfm(elements = docs, 
+                  features = search_terms)
+
+# Create network of linked terms
+g <- create_network(dfm, 
+                    min_studies = 3)
+ggraph(g, layout="stress") +
+  coord_fixed() +
+  expand_limits(x=c(-3, 3)) +
+  geom_edge_link(aes(alpha=weight)) +
+  geom_node_point(shape="circle filled", fill="white") +
+  geom_node_text(aes(label=name), 
+                 hjust="outward", 
+                 check_overlap=TRUE) 
+
+## Pruning ##
+
+# Remove terms that are not connected to other terms - strength
+strengths <- strength(g)
+
+term_strengths <- data.frame(term=names(strengths), strength=strengths, row.names=NULL) %>%
+  mutate(rank=rank(strength, ties.method="min")) %>%
+  arrange(strength)
+
+# Visualise to determine cutoff
+cutoff_fig <- ggplot(term_strengths, aes(x=rank, y=strength, label=term)) +
+  geom_line() +
+  geom_point() +
+  geom_text(data=filter(term_strengths, rank>5), hjust="right", nudge_y=20, check_overlap=TRUE)
+
+# Find 80% cutoff
+cutoff_cum <- find_cutoff(g, 
+                          method="cumulative", 
+                          percent=0.8)
+
+# Add to figure
+cutoff_fig +
+  geom_hline(yintercept=cutoff_cum, linetype="dashed")
+
+# Add cutoffs for changes
+cutoff_change <- find_cutoff(g, method="changepoint", knot_num=3)
+
+```
+
 ### Unigrams
 
 #```{r}
@@ -83,17 +160,17 @@ tidy_lda_post <- tidy(abstract_lda_post,
 
 # Pre-leca
 top_terms_pre <- tidy_lda_pre %>%
-  filter(term != "disease") %>% 
-  mutate(topic = case_when(topic == 1 ~ "1: Abnormal Proteins",
-                           topic == 2 ~ "2: Neurodegeneration review",
-                           topic == 3 ~ "3: Treatments",
-                           topic == 4 ~ "4: Study Terminology",
+  filter(term != "disease" & term != "alzheimers") %>% 
+  mutate(topic = case_when(topic == 1 ~ "1: Risk Factors",
+                           topic == 2 ~ "2: Neurodegeneration Review",
+                           topic == 3 ~ "3: Cellular Pathology",
+                           topic == 4 ~ "4: Neurological Disease",
                            topic == 5 ~ "5: Study Terminology",
-                           topic == 6 ~ "6: Risk Factors",
-                           topic == 7 ~ "7: Physical Health",
-                           topic == 8 ~ "8: Diagnosis",
-                           topic == 9 ~ "9: Cellular Pathology",
-                           topic == 10 ~ "10: Diagnosis")) %>%
+                           topic == 6 ~ "6: Physical Health",
+                           topic == 7 ~ "7: Cognitive Impairment",
+                           topic == 8 ~ "8: Treatments",
+                           topic == 9 ~ "9: Diagnostics",
+                           topic == 10 ~ "10: Abnormal Proteins")) %>%
   group_by(topic) %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
@@ -101,17 +178,17 @@ top_terms_pre <- tidy_lda_pre %>%
 
 # Post-leca
 top_terms_post <- tidy_lda_post %>%
-  filter(term != "disease") %>% 
-  mutate(topic = case_when(topic == 1 ~ "1: Cellular Pathology",
+  filter(term != "disease" & term != "alzheimers") %>% 
+  mutate(topic = case_when(topic == 1 ~ "1: Treatments",
                            topic == 2 ~ "2: Study Terminology",
-                           topic == 3 ~ "3: Diagnosis",
-                           topic == 4 ~ "4: Common AD Abstract Terms",
-                           topic == 5 ~ "5: Risk Factors",
-                           topic == 6 ~ "6: Treatments",
-                           topic == 7 ~ "7: Risk Factors",
-                           topic == 8 ~ "8: Clinical Trials",
-                           topic == 9 ~ "9: Abnormal Proteins",
-                           topic == 10 ~ "10: Neurodegeneration review")) %>%
+                           topic == 3 ~ "3: Health research",
+                           topic == 4 ~ "4: Diagnostics",
+                           topic == 5 ~ "5: Studies",
+                           topic == 6 ~ "6: Neurological Research",
+                           topic == 7 ~ "7: Abnormal Proteins",
+                           topic == 8 ~ "8: Genetics",
+                           topic == 9 ~ "9: Clinical Studies",
+                           topic == 10 ~ "10: Cellular Pathology")) %>%
   group_by(topic) %>%
   slice_max(beta, n = 10, with_ties = FALSE) %>%
   ungroup() %>%
@@ -125,30 +202,33 @@ top_terms_pre <- top_terms_pre %>%
   ggplot(aes(beta, term, fill = as.factor(topic))) +
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
-  theme(axis.text.y = element_text(size = 8)) +
+  theme(axis.title.x = element_text(size = 15),
+        strip.text = element_text(size = 15),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12)) +
   labs(x = expression(beta), y = NULL) +
-  facet_wrap(~factor(topic, levels=c("1: Abnormal Proteins",
-                                     "2: Neurodegeneration review",
-                                     "3: Treatments",
-                                     "4: Study Terminology",
+  facet_wrap(~factor(topic, levels=c("1: Risk Factors",
+                                     "2: Neurodegeneration Review",
+                                     "3: Cellular Pathology",
+                                     "4: Neurological Disease",
                                      "5: Study Terminology",
-                                     "6: Risk Factors",
-                                     "7: Physical Health",
-                                     "8: Diagnosis",
-                                     "9: Cellular Pathology",
-                                     "10: Diagnosis")), 
+                                     "6: Physical Health",
+                                     "7: Cognitive Impairment",
+                                     "8: Treatments",
+                                     "9: Diagnostics",
+                                     "10: Abnormal Proteins")), 
              ncol = 5,
-             scale = "free") +
-  scale_fill_manual(values = c("1: Abnormal Proteins" = "brown",
-                             "2: Neurodegeneration review" = "purple",
-                             "3: Treatments" = "darkgreen",
-                             "4: Study Terminology" = "lightgreen",
-                             "5: Study Terminology" = "lightgreen",
-                             "6: Risk Factors" = "red",
-                             "7: Physical Health" = "grey",
-                             "8: Diagnosis" = "darkblue",
-                             "9: Cellular Pathology" = "yellow",
-                             "10: Diagnosis" = "darkblue"))
+             scale = "free") 
+  # scale_fill_manual(values = c("1: Abnormal Proteins" = "brown",
+  #                            "2: Neurodegeneration review" = "purple",
+  #                            "3: Treatments" = "darkgreen",
+  #                            "4: Study Terminology" = "lightgreen",
+  #                            "5: Study Terminology" = "lightgreen",
+  #                            "6: Risk Factors" = "red",
+  #                            "7: Physical Health" = "grey",
+  #                            "8: Diagnosis" = "darkblue",
+  #                            "9: Cellular Pathology" = "yellow",
+  #                            "10: Diagnosis" = "darkblue"))
 
 top_terms_post <- top_terms_post %>%
   mutate(term = reorder_within(term, beta, topic)) %>%
@@ -159,32 +239,36 @@ top_terms_post <- top_terms_post %>%
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
   labs(x = expression(beta), y = NULL) +
-  theme(axis.text.y = element_text(size = 8)) +
+  theme(axis.title.x = element_text(size = 20),
+        strip.text = element_text(size = 15),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10)) +
   facet_wrap(~ factor(topic,
-                      levels = c("1: Cellular Pathology",
+                      levels = c("1: Treatments",
                                  "2: Study Terminology",
-                                 "3: Diagnosis",
-                                 "4: Common AD Abstract Terms",
-                                 "5: Risk Factors",
-                                 "6: Treatments",
-                                 "7: Risk Factors",
-                                 "8: Clinical Trials",
-                                 "9: Abnormal Proteins",
-                                 "10: Neurodegeneration review")),
+                                 "3: Health research",
+                                 "4: Diagnostics",
+                                 "5: Studies",
+                                 "6: Neurological Research",
+                                 "7: Abnormal Proteins",
+                                 "8: Genetics",
+                                 "9: Clinical Studies",
+                                 "10: Cellular Pathology"
+                      )),                                    
                       ncol = 5, 
-                      scales = "free") +
-  scale_fill_manual(values = c(
-    "1: Cellular Pathology" = "yellow",
-    "2: Study Terminology" = "lightgreen",
-    "3: Diagnosis" = "darkblue",
-    "4: Common AD Abstract Terms" = "orange",
-    "5: Risk Factors" = "red",
-    "6: Treatments" = "darkgreen",
-    "7: Risk Factors" = "red",
-    "8: Clinical Trials" = "lightblue",
-    "9: Abnormal Proteins" = "brown",
-    "10: Neurodegeneration review" = "purple"
-  ))
+                      scales = "free") 
+  # scale_fill_manual(values = c(
+  #   "1: Cellular Pathology" = "yellow",
+  #   "2: Study Terminology" = "lightgreen",
+  #   "3: Diagnosis" = "darkblue",
+  #   "4: Common AD Abstract Terms" = "orange",
+  #   "5: Risk Factors" = "red",
+  #   "6: Treatments" = "darkgreen",
+  #   "7: Risk Factors" = "red",
+  #   "8: Clinical Trials" = "lightblue",
+  #   "9: Abnormal Proteins" = "brown",
+  #   "10: Neurodegeneration review" = "purple"
+  # ))
 #```
 
 The top 10 terms in each pre- and post- leca corpus are shown in fig-topic-model-pre and fig-topic-model-post respectively.
