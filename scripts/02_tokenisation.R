@@ -2,8 +2,6 @@ source("scripts/00_setting_up.R")
 
 # Tokenise
 abstract_unigrams <- tidy_abstracts %>% 
-  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
-                          date > leca_approv ~ "post-leca")) %>% 
   unnest_tokens(word, text)
 
 # Remove stopwords

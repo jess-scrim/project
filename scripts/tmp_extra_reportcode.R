@@ -202,10 +202,10 @@ top_terms_pre <- top_terms_pre %>%
   ggplot(aes(beta, term, fill = as.factor(topic))) +
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
-  theme(axis.title.x = element_text(size = 15),
-        strip.text = element_text(size = 15),
-        axis.text.x = element_text(size = 12),
-        axis.text.y = element_text(size = 12)) +
+  theme(axis.title.x = element_text(size = 12),
+        strip.text = element_text(size = 12),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10)) +
   labs(x = expression(beta), y = NULL) +
   facet_wrap(~factor(topic, levels=c("1: Risk Factors",
                                      "2: Neurodegeneration Review",
@@ -239,8 +239,8 @@ top_terms_post <- top_terms_post %>%
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
   labs(x = expression(beta), y = NULL) +
-  theme(axis.title.x = element_text(size = 20),
-        strip.text = element_text(size = 15),
+  theme(axis.title.x = element_text(size = 12),
+        strip.text = element_text(size = 12),
         axis.text.x = element_text(size = 10),
         axis.text.y = element_text(size = 10)) +
   facet_wrap(~ factor(topic,

@@ -73,7 +73,9 @@ test <- preprints %>%
 tidy_abstracts <- tidy_abstracts %>% 
   mutate(source = "pubmed") %>%
   rbind(test) %>% 
-  mutate(abstract = row_number())
+  mutate(abstract = row_number()) %>% 
+  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
+                          date > leca_approv ~ "post-leca"))
 # In total with pubmed 6744 - no duplicates
 
 

@@ -1,8 +1,6 @@
 #### Understanding relationships between words: n-grams & correlations ####
 
 abstract_bigrams <- tidy_abstracts %>%
-  mutate(type = case_when(date <= leca_approv ~ "pre-leca",
-                          date > leca_approv ~ "post-leca")) %>% 
   unnest_tokens(bigram, text, token = "ngrams", n = 2) %>% 
   filter(!is.na(bigram)) # remove NA
 

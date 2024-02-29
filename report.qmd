@@ -32,9 +32,9 @@ source("scripts/00_setting_up.R")
 #| label: data
 #| include: false
 load("updated_project.RData")
-abstract_unigrams_clean <- read_csv("results/abstract_unigrams_clean.csv")
-abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
-abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
+# abstract_unigrams_clean <- read_csv("results/abstract_unigrams_clean.csv")
+# abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
+# abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
 
 abstract_n <- abstract_unigrams_clean %>%
   distinct(title) %>% count() %>% pull(n)
@@ -846,8 +846,8 @@ Topics concerning study terminology was common to both corpuses, however in the 
 #| fig-height: 15 
 #| fig-align: center
 
-knitr::include_graphics("plots/pre-leca-lda-newcol.png")
-knitr::include_graphics("plots/post-leca-lda-newcol.png")
+knitr::include_graphics("plots/pre-leca-lda-new.png")
+knitr::include_graphics("plots/post-leca-lda-new.png")
 ```
 
 ## Study Limitations
