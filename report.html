@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jess Scrimshire">
-<meta name="dcterms.date" content="2024-02-29">
+<meta name="dcterms.date" content="2024-03-04">
 
 <title>Impact of novel Alzheimer’s disease drug discovery on the research field using text mining and topic models</title>
 <style>
@@ -62,7 +62,7 @@ div.csl-indent {
 
 <body>
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full toc-left">
 <div id="quarto-sidebar-toc-left" class="sidebar toc-left">
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
@@ -107,9 +107,9 @@ div.csl-indent {
   </ul>
 </nav>
 </div>
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content" id="quarto-document-content">
+<main class="content column-page-right" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -130,7 +130,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 29, 2024</p>
+      <p class="date">March 4, 2024</p>
     </div>
   </div>
   
@@ -168,37 +168,56 @@ div.csl-indent {
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
-<p>A full summary of the methodology is provided in Appendix 1. All data analysis and visualisations were done in R version 4.3.2 using <em>tidyverse</em> packages <span class="citation" data-cites="Wickham2019-rj">(<a href="#ref-Wickham2019-rj" role="doc-biblioref">Wickham et al., 2019</a>)</span> unless otherwise stated.</p>
+<p>A full summary of the methodology is provided in <a href="#fig-full-summary">Figure&nbsp;1</a>. All data analysis and visualisations were done in R version 4.3.2 using <em>tidyverse</em> packages <span class="citation" data-cites="Wickham2019-rj">(<a href="#ref-Wickham2019-rj" role="doc-biblioref">Wickham et al., 2019</a>)</span> unless otherwise stated.</p>
+<div id="fig-full-summary" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div class="cell" data-hash="report_cache/html/fig-full-summary_8e4876835ddf74f8e6d32bb01d2e4ecd">
+<div class="cell-output-display">
+<div id="fig-full-summary" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="data/methodsummary.png" class="img-fluid figure-img" data-ref-parent="fig-full-summary" width="480"></p>
+<figcaption class="figure-caption">(a)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;1: <em>Summary of Methods</em></figcaption>
+</figure>
+</div>
 <section id="data-acquisition" class="level2">
 <h2 class="anchored" data-anchor-id="data-acquisition">Data Acquisition</h2>
-<p>Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, and publication date were obtained from the National Center for Biotechnology Information (NCBI) datasbase, PubMed, using the inclusion criteria described in <a href="#tbl-inclusion-criteria">Table&nbsp;1</a>, and accessed through <em>Rismed</em> <span class="citation" data-cites="Kovalchik2021-xq">(<a href="#ref-Kovalchik2021-xq" role="doc-biblioref">Kovalchik, 2021</a>)</span> on 18th February 2023. The diversity of entries into the PubMed database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.</p>
-<div id="tbl-inclusion-criteria" class="anchored">
+<p>Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, and publication date were obtained from the National Center for Biotechnology Information (NCBI) datasbase, PubMed, using the inclusion criteria described in <strong>?@tbl-inclusion-criteria</strong>, and accessed through <em>Rismed</em> <span class="citation" data-cites="Kovalchik2021-xq">(<a href="#ref-Kovalchik2021-xq" role="doc-biblioref">Kovalchik, 2021</a>)</span> on 18th February 2023. The diversity of entries into the PubMed database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.</p>
+<div id="tbl-inclusion-criteria" class="tbl-parent quarto-layout-panel anchored">
+<div class="panel-caption table-caption">
+<p><em>Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database</em>. Adapted from <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">Martinelli, 2022</a>)</span>.</p>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
 <table class="table">
-<caption>Table&nbsp;1: Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database. Adapted from <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">Martinelli, 2022</a>)</span>.</caption>
 <colgroup>
 <col style="width: 37%">
 <col style="width: 62%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Criteria</th>
-<th>Filter Applied</th>
+<th style="text-align: left;">Criteria</th>
+<th style="text-align: left;">Filter Applied</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>MeSH Term</td>
-<td>‘Alzheimer’s Disease’</td>
+<td style="text-align: left;">MeSH Term</td>
+<td style="text-align: left;">‘Alzheimer’s Disease’</td>
 </tr>
 <tr class="even">
-<td>Title and/or Abstract Text</td>
-<td><p>‘Alzheimer’s Disease’</p>
+<td style="text-align: left;">Title and/or Abstract Text</td>
+<td style="text-align: left;"><p>‘Alzheimer’s Disease’</p>
 <p>‘alzheimer’</p>
 <p>‘AD’</p></td>
 </tr>
 <tr class="odd">
-<td>Article Type</td>
-<td><p>“Books”</p>
+<td style="text-align: left;">Article Type</td>
+<td style="text-align: left;"><p>“Books”</p>
 <p>“Case Reports”</p>
 <p>“Clinical Study”</p>
 <p>“Clinical Trial”</p>
@@ -209,44 +228,46 @@ div.csl-indent {
 <p>“Systematic Review”</p></td>
 </tr>
 <tr class="even">
-<td>Publication Date</td>
-<td>1st January 2022 to 1st January 2024 inclusive</td>
+<td style="text-align: left;">Publication Date</td>
+<td style="text-align: left;">1st January 2022 to 1st January 2024 inclusive</td>
 </tr>
 <tr class="odd">
-<td>Language</td>
-<td>English</td>
+<td style="text-align: left;">Language</td>
+<td style="text-align: left;">English</td>
 </tr>
 </tbody>
 </table>
 </div>
+</div>
+</div>
 <section id="litsearchr" class="level3">
 <h3 class="anchored" data-anchor-id="litsearchr"><em>litsearchR</em></h3>
-<p>To reassure us that the PubMed search query encapsulated all literature, <em>litsearchr</em> package was used to expand the search terms <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>. Citations from PubMed results using the previous search criteria in <a href="#tbl-inclusion-criteria">Table&nbsp;1</a> were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>.</p>
+<p>To reassure us that the PubMed search query encapsulated all literature, <em>litsearchr</em> package was used to expand the search terms <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>. Citations from PubMed results using the previous search criteria in <strong>?@tbl-inclusion-criteria</strong> were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>.</p>
 </section>
 </section>
 <section id="data-preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h2>
 <p>Abstracts and their metadata were categorised into <em>“pre-leca”</em> or <em>“post-leca”</em> corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023 <span class="citation" data-cites="Office_of_the_Commissioner2023-hu">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023b</a>)</span>. Full abstract text was tokenised into single words using the <em>unnest_tokens</em> function of the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span>. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span> combined with the personalised words frequent to the unigram analysis, “<em>alzheimer’s</em>”, “<em>ad</em>”, “<em>95</em>”, “<em>ci</em>”, and “<em>including</em>”, were then removed. To prevent the different spellings of the same phrase from being counted multiple times, similar bigrams and trigrams were mapped to the same variable. For example, ‘<em>amyloid β</em>, ‘<em>beta amyloid</em>’, and ‘<em>amyloid aβ</em>’ were all mapped to ‘<em>amyloid beta</em>’, and ‘<em>mild cognitive impairments</em>’ and ‘<em>cognitive impairment mci</em>’ were mapped to ‘<em>mild cognitive impairment</em>’.</p>
-<div id="fig-preprocess" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="{fig-preprocess}">
+<div class="cell" data-hash="report_cache/html/fig-preprocess_aedafdf40c1cfa466314ec25d2277150">
 <div class="cell-output-display">
 <div id="fig-preprocess-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="data/preprocess1.png" class="img-fluid figure-img" data-ref-parent="fig-preprocess" width="480"></p>
-<figcaption class="figure-caption">(a) Example of Tokenisation</figcaption>
+<p><img src="data/preprocess1.png" class="img-fluid figure-img" width="480"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: <strong>?(caption)</strong></figcaption>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div id="fig-preprocess-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="data/preprocess2.png" class="img-fluid figure-img" data-ref-parent="fig-preprocess" width="480"></p>
-<figcaption class="figure-caption">(b) Removal of stopwords</figcaption>
+<p><img src="data/preprocess2.png" class="img-fluid figure-img" width="480"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: <strong>?(caption)</strong></figcaption>
 </figure>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;1: <strong>Abstract tokenisation into unigrams.</strong> Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span> and personalised words frequent to the unigram analysis, alzheimers, AD, 95, ci, and including. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.</figcaption>
-</figure>
+</div>
+<p><strong>Abstract tokenisation into unigrams.</strong> Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span> and personalised words frequent to the unigram analysis, ‘<em>alzheimers</em>’, ‘<em>AD</em>’, ‘<em>95</em>’, ‘<em>ci</em>’, and including. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.</p>
 </div>
 </section>
 <section id="data-analysis" class="level2">
@@ -275,23 +296,46 @@ div.csl-indent {
 </section>
 <section id="results-and-discussion" class="level1">
 <h1>Results and Discussion</h1>
-<section id="search-query-refinement-identified-the-term-alzheimer" class="level2">
-<h2 class="anchored" data-anchor-id="search-query-refinement-identified-the-term-alzheimer">Search Query Refinement Identified the Term ‘alzheimer’</h2>
-<p>Out initial search query was refined using <em>litsearchr</em> <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span> using the 80% cutoffs which determined the most important terms to the articles; all others were discarded (<a href="#fig-ad-search-terms">Figure&nbsp;2</a>). We disregarded ‘<em>alzheimer’s disease</em>’ as this MeSH term was included in the original search query, but we updated the PubMed search query with ‘<em>alzheimer</em>’ (<a href="#tbl-inclusion-criteria">Table&nbsp;1</a>). We omitted the unigram ‘<em>disease</em>’ as it was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query.</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-ad-search-terms_76f72a04c043fa62b3c5c8b1104b7967">
-<div class="cell-output-display">
-<div id="fig-ad-search-terms" class="quarto-figure quarto-figure-left anchored">
+<p>A full summary of the results is found in <a href="#fig-results-summary">Figure&nbsp;4</a>.</p>
+<div id="fig-results-summary" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-ad-search-terms-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: ** Search query refinement using <em>litsearchr</em> identified ‘<em>alzheimer</em>’.** A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded.</figcaption>
+<div class="cell" data-hash="report_cache/html/fig-results-summary_2a90924c1a889991db6f2ef43a82a337">
+<div class="cell-output-display">
+<div id="fig-results-summary" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="data/resultsummary.png" class="img-fluid figure-img" data-ref-parent="fig-results-summary" width="480"></p>
+<figcaption class="figure-caption">(a)</figcaption>
 </figure>
 </div>
 </div>
 </div>
+<figcaption class="figure-caption">Figure&nbsp;4: <em>Summary of Methods</em></figcaption>
+</figure>
+</div>
+<section id="search-query-refinement-identified-the-term-alzheimer" class="level2">
+<h2 class="anchored" data-anchor-id="search-query-refinement-identified-the-term-alzheimer">Search Query Refinement Identified the Term ‘alzheimer’</h2>
+<p>Out initial search query was refined using <em>litsearchr</em> <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span> using the 80% cutoffs which determined the most important terms to the articles; all others were discarded (<a href="#fig-ad-search-terms">Figure&nbsp;5</a>). We disregarded ‘<em>alzheimer’s disease</em>’ as this MeSH term was included in the original search query, but we updated the PubMed search query with ‘<em>alzheimer</em>’ (<strong>?@tbl-inclusion-criteria</strong>). We omitted the unigram ‘<em>disease</em>’ as it was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query.</p>
+<div id="fig-ad-search-terms" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-ad-search-terms_76f72a04c043fa62b3c5c8b1104b7967">
+<div class="cell-output-display">
+<div id="fig-ad-search-terms" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-ad-search-terms-1.png" class="img-fluid figure-img" data-ref-parent="fig-ad-search-terms" width="960"></p>
+<figcaption class="figure-caption">(a) ** Search query refinement using <em>litsearchr</em> identified ‘<em>alzheimer</em>’.** A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;5: ** Search query refinement using <em>litsearchr</em> identified ‘<em>alzheimer</em>’.** A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded.</figcaption>
+</figure>
+</div>
 </section>
 <section id="ad-research-publication-are-similar-over-time" class="level2">
 <h2 class="anchored" data-anchor-id="ad-research-publication-are-similar-over-time">AD Research Publication are Similar Over Time</h2>
-<p>This study found 6744 papers that were published between 2022-01-01 and 2023-12-30 that met the inclusion criteria in <a href="#tbl-inclusion-criteria">Table&nbsp;1</a>. The distribution of publication frequency did not vary considerably during this period <a href="#fig-publication-date">Figure&nbsp;3</a>. The frequency of publications containing the terms associated with the AD drug lecanemab increased in 2023. This could be attributed to 2023 being the year of the accelerated and traditional approval of lecanemab <span class="citation" data-cites="Office_of_the_Commissioner2023-hu Office_of_the_Commissioner2023-ka">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023b</a>, <a href="#ref-Office_of_the_Commissioner2023-ka" role="doc-biblioref">2023a</a>)</span>. The overall distribution of dates of publication was similar across the observed time frame for the full abstract texts.</p>
+<p>This study found 6744 papers that were published between 2022-01-01 and 2023-12-30 that met the inclusion criteria in <strong>?@tbl-inclusion-criteria</strong>. The distribution of publication frequency did not vary considerably during this period <a href="#fig-publication-date">Figure&nbsp;6</a>. The frequency of publications containing the terms associated with the AD drug lecanemab increased in 2023. This could be attributed to 2023 being the year of the accelerated and traditional approval of lecanemab <span class="citation" data-cites="Office_of_the_Commissioner2023-hu Office_of_the_Commissioner2023-ka">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023b</a>, <a href="#ref-Office_of_the_Commissioner2023-ka" role="doc-biblioref">2023a</a>)</span>. The overall distribution of dates of publication was similar across the observed time frame for the full abstract texts.</p>
+<div id="fig-publication-date" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
 <div id="fig-publication-date" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <div class="cell-output-display">
@@ -310,24 +354,34 @@ div.csl-indent {
 </figure>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;3: <strong>Frequency of lecanemab publications increases in 2023.</strong> Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval.</figcaption>
+<figcaption class="figure-caption">(c) <strong>Frequency of lecanemab publications increases in 2023.</strong> Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval.</figcaption>
 </figure>
 </div>
-<p>The per-document-per-topic probabilities (γ) did not show a difference between the two topics when pre-leca and post-leca documents were identified (<a href="#fig-gamma-lda">Figure&nbsp;4</a>).</p>
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-gamma-lda_1dfe3ba333bb7e6f953278527f927a83">
+<figcaption class="figure-caption">Figure&nbsp;6: <strong>Frequency of lecanemab publications increases in 2023.</strong> Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval.</figcaption>
+</figure>
+</div>
+<p>The per-document-per-topic probabilities (γ) did not show a difference between the two topics when pre-leca and post-leca documents were identified (<a href="#fig-gamma-lda">Figure&nbsp;7</a>).</p>
+<div id="fig-gamma-lda" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-gamma-lda_cd0c9b320daf9fa52e097e6ac8b97ef0">
 <div class="cell-output-display">
 <div id="fig-gamma-lda" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-gamma-lda-1.png" class="img-fluid figure-img" width="1440"></p>
-<figcaption class="figure-caption">Figure&nbsp;4: **Two topic LDA model does not distinguish between pre-leca and post-leca corpuses<em>.</em> A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using <em>topicmodels</em> <span class="citation" data-cites="Grun2011-do">(<a href="#ref-Grun2011-do" role="doc-biblioref">Grün and Hornik, 2011</a>)</span>. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Topics are split for pre-leca and post-leca corpuses. n = 7,007.</figcaption>
+<p><img src="report_files/figure-html/fig-gamma-lda-1.png" class="img-fluid figure-img" data-ref-parent="fig-gamma-lda" width="1440"></p>
+<figcaption class="figure-caption">(a)</figcaption>
 </figure>
 </div>
 </div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;7: <em>Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab</em>. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using <em>topicmodels</em> <span class="citation" data-cites="Grun2011-do">(<a href="#ref-Grun2011-do" role="doc-biblioref">Grün and Hornik, 2011</a>)</span>. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, 2023-01-06. n = 6744.</figcaption>
+</figure>
 </div>
 </section>
 <section id="n-gram-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="n-gram-analysis">N-gram Analysis</h2>
-<p>Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in <a href="#fig-tokenisation-1">Figure&nbsp;5 (a)</a>. ‘<em>Disease</em>’ is the most frequent unigram in both corpuses. This may be due to being most frequently associated with ‘<em>neurodegenerative disease</em>’, ‘<em>Parkinson’s disease</em>’, and ‘<em>Huntington’s disease</em>’ which are among the most frequent bigrams. which are common neurodegenerative diseases which are researched as much as AD (ref).</p>
+<p>Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in <a href="#fig-tokenisation">Figure&nbsp;8</a>. ‘<em>Disease</em>’ is the most frequent unigram in both corpuses (<a href="#fig-tokenisation-1">Figure&nbsp;8 (a)</a>). This may be due to being most frequently associated with ‘<em>neurodegenerative disease</em>’, ‘<em>Parkinson’s disease</em>’, and ‘<em>Huntington’s disease</em>’ which are among the most frequent bigrams and trigrams (<a href="#fig-tokenisation-3">Figure&nbsp;8 (c)</a>; <a href="#fig-tokenisation-4">Figure&nbsp;8 (d)</a>).</p>
+<div id="fig-tokenisation" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
 <div id="fig-tokenisation" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <div class="cell-output-display">
@@ -362,7 +416,10 @@ div.csl-indent {
 </figure>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;5: <strong>Literature use is similar around the time of lecanemab approval.</strong> Tokenised n-grams split into pre- and post-lecanemab corpuses and ranked by (A) unigram frequency, (C) bigram frequency, and (D) trigram frequency, removing stop-words (n = 7,007). <strong>Word frequency trends are similar for the top 10 most frequent terms.</strong> The focus of AD research has stayed consistent over time. The frequency of a selection of words used over 1000 times in AD abstracts from 01-01-2022 to 10-10-2023 has not changed.</figcaption>
+<figcaption class="figure-caption">(e) <strong>Literature use is similar around the time of lecanemab approval.</strong> Tokenised n-grams split into pre- and post-lecanemab corpuses and ranked by (A) unigram frequency, (C) bigram frequency, and (D) trigram frequency, removing stop-words (n = 7,007). <strong>Word frequency trends are similar for the top 10 most frequent terms.</strong> The focus of AD research has stayed consistent over time. The frequency of a selection of words used over 1000 times in AD abstracts from 01-01-2022 to 10-10-2023 has not changed.</figcaption>
+</figure>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;8: <strong>?(caption)</strong></figcaption>
 </figure>
 </div>
 </section>
@@ -370,14 +427,16 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="topic-modelling-1">Topic Modelling</h2>
 <section id="potential-increase-in-late-phase-studies-after-lecanemab-approval." class="level3">
 <h3 class="anchored" data-anchor-id="potential-increase-in-late-phase-studies-after-lecanemab-approval.">Potential increase in late-phase studies after lecanemab approval.</h3>
-<p>The top 10 unigrams in LDA for <strong>pre-leca:</strong> and <strong>post-leca</strong> are shown in <a href="#fig-topic-model-unigrams">Figure&nbsp;6</a>. Topics that occur in both text corpuses are <em>‘Treatments’</em>, <em>‘Abnormal Proteins’</em>, <em>‘Neurodegeneration review’</em>, <em>‘Risk Factor<em>s’, </em>’Study Terminology’</em>, <em>‘Diagnosis’</em>, and <em>‘Cellular Pathology’</em>. Within ‘abnormal proteins’</p>
+<p>The top 10 unigrams in LDA for <strong>pre-leca:</strong> and <strong>post-leca</strong> are shown in <a href="#fig-topic-model-unigrams">Figure&nbsp;9</a>. Topics that occur in both text corpuses are <em>‘Treatments’</em>, <em>‘Abnormal Proteins’</em>, <em>‘Neurodegeneration review’</em>, <em>‘Risk Factor<em>s’, </em>’Study Terminology’</em>, <em>‘Diagnosis’</em>, and <em>‘Cellular Pathology’</em>. Within ‘abnormal proteins’</p>
 <p>Topics concerning study terminology was common to both corpuses, however in the post-leca corpus the unigrams ‘randomised’, ‘trial’ and ‘trials’ were unique and potentially suggests the increase in randomised clinical trials after lecanemab approval. This is consistent with the trends observed in <span class="citation" data-cites="Huang2023-vq">(<a href="#ref-Huang2023-vq" role="doc-biblioref">Huang et al., 2023</a>)</span> which suggest an increase in Phase III clinical trials for anti-amyloid therapies and encompasses the traditonal approval date of lecanemab by the FDA in July 2023 from the Clarity AD clinical trial <span class="citation" data-cites="Office_of_the_Commissioner2023-ka">(<a href="#ref-Office_of_the_Commissioner2023-ka" role="doc-biblioref">Office of the Commissioner, 2023a</a>)</span>. Randomisation of clinical trials usually happens during the later Phase III trials due to earlier phases recruiting smaller numbers of participants. Therefore, this suggests a shift in the research literature to studies with larger patient cohorts and using robust methods to eliminate selection bias.</p>
+<div id="fig-topic-model-unigrams" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
 <div id="fig-topic-model-unigrams" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <div class="cell-output-display">
 <div id="fig-topic-model-unigrams-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="plots/pre-leca-lda-newcol.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
+<p><img src="plots/pre-leca-lda-new.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
 <figcaption class="figure-caption">(a) Top 10 terms in each LDA topic: Pre-Leca</figcaption>
 </figure>
 </div>
@@ -385,12 +444,15 @@ div.csl-indent {
 <div class="cell-output-display">
 <div id="fig-topic-model-unigrams-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="plots/post-leca-lda-newcol.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
+<p><img src="plots/post-leca-lda-new.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
 <figcaption class="figure-caption">(b) Top 10 terms in each LDA topic: Post-Leca</figcaption>
 </figure>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;6: <strong>Unigram LDA Topic Modelling.</strong> Outputs from the LDA model with ten topics. Figures show the top ten most commonly associated unigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added.</figcaption>
+<figcaption class="figure-caption">(c) <strong>Unigram LDA Topic Modelling.</strong> Outputs from the LDA model with ten topics. Figures show the top ten most commonly associated unigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added.</figcaption>
+</figure>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;9: <strong>?(caption)</strong></figcaption>
 </figure>
 </div>
 </section>
@@ -407,57 +469,15 @@ div.csl-indent {
 </section>
 </section>
 
-<section id="appendix" class="level1">
-<h1>Appendix</h1>
-<div id="fig-topic-model-bigrams" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<div class="cell-output-display">
-<div id="fig-topic-model-bigrams-1" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-bigrams-1.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-bigrams" width="1440"></p>
-<figcaption class="figure-caption">(a) Pre-leca</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div id="fig-topic-model-bigrams-2" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-bigrams-2.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-bigrams" width="1440"></p>
-<figcaption class="figure-caption">(b) Post-leca</figcaption>
-</figure>
-</div>
-</div>
-<figcaption class="figure-caption">Figure&nbsp;7: <strong>Bigram LDA Topic Modelling.</strong> Outputs from the post-lecanemab (after 06/01/2023) corpus model with ten topics. Figures show the top ten most commonly associated bigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added.</figcaption>
-</figure>
-</div>
-<div id="fig-topic-model-trigrams" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<div class="cell-output-display">
-<div id="fig-topic-model-trigrams-1" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-trigrams-1.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-trigrams" width="1440"></p>
-<figcaption class="figure-caption">(a) Pre-leca</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div id="fig-topic-model-trigrams-2" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="report_files/figure-html/fig-topic-model-trigrams-2.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-trigrams" width="1440"></p>
-<figcaption class="figure-caption">(b) Post-leca</figcaption>
-</figure>
-</div>
-</div>
-<figcaption class="figure-caption">Figure&nbsp;8: <strong>Trigram LDA Topic Modelling.</strong> LDA model shows the top ten most commonly associated trigrams in each topic ordered by their per-topic-per-word probability, β, for (A) pre-leca and (B) post-leca corpuses. Topic titles were manually created and added.</figcaption>
-</figure>
-</div>
+<section id="appendix" class="level1 unnumbered">
+
 
 </section>
 
 <div id="quarto-appendix" class="default"><section id="acknowledgements" class="level1 appendix"><h2 class="anchored quarto-appendix-heading">Acknowledgements</h2><div class="quarto-appendix-contents">
 
 <p>I would like to thank my supervisor Emma Rand for her constant support and guidance throughout my project. I would also like to dedicate this project to my late granddad Alan Scrimshire who passed away on the 31st March 2023 after fighting a five year battle with Alzheimer’s Disease. I hope this project highlights the complexity of the disease and the vast efforts being undertaken to find a cure.</p>
-</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Appendix</h2><div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-Barrat2004-hm" class="csl-entry" role="listitem">
 Barrat, A., Barthélemy, M., Pastor-Satorras, R. and Vespignani, A. (2004). <span class="nodecoration">The architecture of complex weighted networks</span>. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 101 (11), pp.3747–3752.
 </div>

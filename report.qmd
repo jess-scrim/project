@@ -11,6 +11,9 @@ execute:
   warning: false
   cache: true
   freeze: true
+format:
+  html: 
+    page-layout: full
 toc: true
 toc-location: left
 bibliography: references.bib
@@ -66,11 +69,26 @@ In this study we aim to comprehensively investigate current research in AD, focu
 
 # Methods
 
-A full summary of the methodology is provided in Appendix 1. All data analysis and visualisations were done in R version 4.3.2 using *tidyverse* packages [@Wickham2019-rj] unless otherwise stated.
+A full summary of the methodology is provided in @fig-full-summary. All data analysis and visualisations were done in R version 4.3.2 using *tidyverse* packages [@Wickham2019-rj] unless otherwise stated.
+
+::: {#fig-full-summary}
+
+```{r}
+#| label: fig-full-summary
+
+knitr::include_graphics("data/methodsummary.png")
+
+```
+
+*Summary of Methods* 
+
+:::
 
 ## Data Acquisition
 
 Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, and publication date were obtained from the National Center for Biotechnology Information (NCBI) datasbase, PubMed, using the inclusion criteria described in @tbl-inclusion-criteria, and accessed through *Rismed* [@Kovalchik2021-xq] on 18th February 2023. The diversity of entries into the PubMed database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.
+
+::: {#tbl-inclusion-criteria}
 
 +----------------------------+------------------------------------------------+
 | Criteria                   | Filter Applied                                 |
@@ -106,7 +124,10 @@ Due to accessing constraints, abstracts represent the only document content for 
 | Language                   | English                                        |
 +----------------------------+------------------------------------------------+
 
-: Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database. Adapted from [@Martinelli2022-ic]. {#tbl-inclusion-criteria}
+*Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database*. Adapted from [@Martinelli2022-ic].
+
+
+:::
 
 ### *litsearchR*
 
@@ -204,20 +225,19 @@ cutoff_change <- find_cutoff(g,
 
 Abstracts and their metadata were categorised into *“pre-leca”* or *“post-leca”* corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023 [@Office_of_the_Commissioner2023-hu]. Full abstract text was tokenised into single words using the *unnest_tokens* function of the *tidytext* package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the *tidytext* package [@Silge2016-jf] combined with the personalised words frequent to the unigram analysis, "*alzheimer's*", "*ad*", "*95*", "*ci*", and "*including*", were then removed. To prevent the different spellings of the same phrase from being counted multiple times, similar bigrams and trigrams were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’ were all mapped to ‘*amyloid beta*’, and '*mild cognitive impairments*' and '*cognitive impairment mci*' were mapped to ‘*mild cognitive impairment*’.
 
+::: {fig-preprocess}
+
 ```{r}
 #| label: fig-preprocess
-#| include: true
-#| fig-cap: "**Abstract tokenisation into unigrams.** Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the *tidytext* package [@Silge2016-jf] and personalised words frequent to the unigram analysis, alzheimers, AD, 95, ci, and including. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown."
-#| fig-subcap:
-#|  - "Example of Tokenisation"
-#|  - "Removal of stopwords"
-#| fig-width: 6
-#| fig-height: 3.5
-#| fig-align: center
 
 knitr::include_graphics("data/preprocess1.png")
 knitr::include_graphics("data/preprocess2.png")
 ```
+
+**Abstract tokenisation into unigrams.** Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the *tidytext* package [@Silge2016-jf] and personalised words frequent to the unigram analysis, '*alzheimers*', '*AD*', '*95*', '*ci*', and including. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.
+
+
+:::
 
 ```{r}
 #| label: bigram-cleaning
@@ -432,7 +452,7 @@ wilcox.test(abstract_gamm$gamma)
 # Wilcoxon signed rank test with continuity correction
 # 
 # data:  abstract_gamm$gamma
-# V = 2.7123e+11, p-value < 2.2e-16
+# V = 1.3843e+12, p-value < 2.2e-16
 # alternative hypothesis: true location is not equal to 0
 ```
 
@@ -625,9 +645,26 @@ top_trigram_terms_post <- top_trigram_terms_post %>%
 
 # Results and Discussion
 
+A full summary of the results is found in @fig-results-summary.
+
+::: {#fig-results-summary}
+
+```{r}
+#| label: fig-results-summary
+
+knitr::include_graphics("data/resultsummary.png")
+
+```
+
+*Summary of Methods* 
+
+:::
+
 ## Search Query Refinement Identified the Term 'alzheimer'
 
 Out initial search query was refined using *litsearchr* [@Grames2019-as] using the 80% cutoffs which determined the most important terms to the articles; all others were discarded (@fig-ad-search-terms). We disregarded '*alzheimer's disease*' as this MeSH term was included in the original search query, but we updated the PubMed search query with '*alzheimer*' (@tbl-inclusion-criteria). We omitted the unigram '*disease*' as it was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query.
+
+::: {#fig-ad-search-terms}
 
 ```{r}
 #| label: fig-ad-search-terms
@@ -644,9 +681,14 @@ cutoff_fig +
 
 ```
 
+** Search query refinement using *litsearchr* identified '*alzheimer*'.** A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded.
+:::
+
 ## AD Research Publication are Similar Over Time
 
 This study found `r abstract_n` papers that were published between `r min(abstract_unigrams_clean$date)` and `r max(abstract_unigrams_clean$date)` that met the inclusion criteria in @tbl-inclusion-criteria. The distribution of publication frequency did not vary considerably during this period @fig-publication-date. The frequency of publications containing the terms associated with the AD drug lecanemab increased in 2023. This could be attributed to 2023 being the year of the accelerated and traditional approval of lecanemab [@Office_of_the_Commissioner2023-hu; @Office_of_the_Commissioner2023-ka]. The overall distribution of dates of publication was similar across the observed time frame for the full abstract texts.
+
+::: {#fig-publication-date}
 
 ```{r}
 #| label: fig-publication-date
@@ -703,13 +745,17 @@ naive_drug_results %>%
              color = "red", 
              linewidth = 1)
 ```
+**Frequency of lecanemab publications increases in 2023.** Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval.
+
+
+:::
 
 The per-document-per-topic probabilities (γ) did not show a difference between the two topics when pre-leca and post-leca documents were identified (@fig-gamma-lda).
 
+::: {#fig-gamma-lda}
+
 ```{r}
 #| label: fig-gamma-lda
-#| include: true 
-#| fig-cap: "**Two topic LDA model does not distinguish between pre-leca and post-leca corpuses*.* A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using *topicmodels* [@Grun2011-do]. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Topics are split for pre-leca and post-leca corpuses. n = 7,007."
 #| fig-width: 15
 #| fig-height: 10
 #| fig-align: left
@@ -717,26 +763,47 @@ The per-document-per-topic probabilities (γ) did not show a difference between 
 abstract_gamm %>% 
   distinct(document, gamma, topic, date, type) %>%
   ggplot() +
-  geom_boxplot(aes(x = type, y = gamma),
+  geom_boxplot(aes(x = type, y = gamma, fill = type),
                alpha = 3)  +
   facet_wrap(~ topic,
              strip.position = "bottom") +
   labs(y = expression(gamma)) +
   xlab("Topic") +
-  theme(axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30),
+  theme(axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
         strip.text = element_text(size = 20),
-        axis.text.x = element_text(size = 15),
+        strip.text.x = element_text(size = 15),
+        axis.text.x = element_blank(),
         axis.text.y = element_text(size = 15),
-        legend.position = "none",
+        legend.position = "right",
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 15),
         panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        strip.background = element_blank()) 
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        axis.ticks = element_blank(),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")
+     ) +
+  scale_fill_manual(values = c("gray", "black"),
+                    name = "Corpus Type",
+                    limits = c("pre-leca", "post-leca"),
+                    labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")) +
+  scale_x_discrete(limits = c("pre-leca", "post-leca")) 
 ```
+  
+*Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab*. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using *topicmodels* [@Grun2011-do]. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, `r as.Date(leca_approv)`. n = `r abstract_n`.
+
+:::
 
 ## N-gram Analysis
 
-Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in @fig-tokenisation-1. '*Disease*' is the most frequent unigram in both corpuses. This may be due to being most frequently associated with '*neurodegenerative disease*', '*Parkinson's disease*', and '*Huntington's disease*' which are among the most frequent bigrams. which are common neurodegenerative diseases which are researched as much as AD (ref).
+Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in @fig-tokenisation. '*Disease*' is the most frequent unigram in both corpuses (@fig-tokenisation-1). This may be due to being most frequently associated with '*neurodegenerative disease*', '*Parkinson's disease*', and '*Huntington's disease*' which are among the most frequent bigrams and trigrams (@fig-tokenisation-3; @fig-tokenisation-4).
+
+
+::: {#fig-tokenisation}
 
 ```{r}
 #| label: fig-tokenisation
@@ -759,17 +826,24 @@ abstract_unigrams_clean %>%
   geom_col() +
   labs(y = NULL) +
   xlab("Count") +
-  theme(axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30),
+  theme(axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
         strip.text = element_text(size = 20),
         axis.text.x = element_text(size = 15),
-        axis.text.y = element_text(size = 15)) +
-  facet_wrap(~factor(type, levels=c('pre-leca','post-leca')), 
-             scale = "free") +
-  theme(legend.position = "none",
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
         panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        strip.background = element_blank()) +
+        legend.position = "none",
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")) +
+  facet_wrap(~factor(type, 
+                     levels=c('pre-leca','post-leca'), 
+                     labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
+              scale = "free") +
   scale_fill_manual(values = c("black", "darkgrey"))
 
 glm %>% ggplot(aes(x = date, y = freq)) +
@@ -777,32 +851,46 @@ glm %>% ggplot(aes(x = date, y = freq)) +
   ylab("Frequency") +
   xlab("Date") +
   scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
-  theme(axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30),
+  theme(axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
         strip.text = element_text(size = 20),
         axis.text.x = element_text(size = 15),
-        axis.text.y = element_text(size = 15)) +
-  theme_classic() +
-  scale_color_manual(values = c("#56B4E9", "darkblue", "red", "darkgreen", "orange", "black", "purple", "brown", "pink", "grey", "lightblue", "lightgreen", "lightpink", "lightgrey"))
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        legend.position = "right",
+        axis.line = element_line(colour = "black",
+                                 size = 1)
+) +
+  scale_color_manual(values = c("#56B4E9", "darkblue", "red", "darkgreen", "orange", "black", "purple", "brown", "pink", "grey", "lightblue", "lightgreen", "lightpink", "lightgrey"),
+                     name = "Unigram")
 
 bigram_counts %>% 
+  filter(bigram != "alzheimers disease") %>% 
   group_by(type) %>%
   slice_head(n = 15) %>% 
   ggplot(aes(n, reorder(bigram, n), fill = type)) +
   geom_col() +
   labs(y = NULL) +
   xlab("Count") +
-  theme(axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30),
+  theme(axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
         strip.text = element_text(size = 20),
         axis.text.x = element_text(size = 15),
-        axis.text.y = element_text(size = 15)) +
-  facet_wrap(~factor(type, levels = c("pre-leca", "post-leca")),
-             scale = "free") +
-  theme(legend.position = "none",
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
         panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        strip.background = element_blank()) +
+        legend.position = "none",
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")) +
+  facet_wrap(~factor(type, 
+                     levels=c('pre-leca','post-leca'), 
+                     labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
+              scale = "free") +
   scale_fill_manual(values = c("darkgrey", "black")) 
 
 trigram_counts %>%
@@ -812,19 +900,30 @@ trigram_counts %>%
   geom_col() +
   labs(y = NULL) +
   xlab("Count") +
-  theme(axis.title.x = element_text(size = 30),
-        axis.title.y = element_text(size = 30),
+  theme(axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
         strip.text = element_text(size = 20),
         axis.text.x = element_text(size = 15),
-        axis.text.y = element_text(size = 15)) +
-  facet_wrap(~factor(type, levels = c("pre-leca", "post-leca")),
-             scale = "free") +
-  theme(legend.position = "none",
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
         panel.background = element_blank(),
-        axis.line = element_line(colour = "black"),
-        strip.background = element_blank()) +
-  scale_fill_manual(values = c("darkgrey", "black")) 
+        legend.position = "none",
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")) +
+  facet_wrap(~factor(type, 
+                     levels=c('pre-leca','post-leca'), 
+                     labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
+              scale = "free") +
+  scale_fill_manual(values = c("darkgrey", "black"))
+
 ```
+
+
+:::
 
 ## Topic Modelling
 
@@ -834,6 +933,7 @@ The top 10 unigrams in LDA for **pre-leca:** and **post-leca** are shown in @fig
 
 Topics concerning study terminology was common to both corpuses, however in the post-leca corpus the unigrams 'randomised', 'trial' and 'trials' were unique and potentially suggests the increase in randomised clinical trials after lecanemab approval. This is consistent with the trends observed in [@Huang2023-vq] which suggest an increase in Phase III clinical trials for anti-amyloid therapies and encompasses the traditonal approval date of lecanemab by the FDA in July 2023 from the Clarity AD clinical trial [@Office_of_the_Commissioner2023-ka]. Randomisation of clinical trials usually happens during the later Phase III trials due to earlier phases recruiting smaller numbers of participants. Therefore, this suggests a shift in the research literature to studies with larger patient cohorts and using robust methods to eliminate selection bias.
 
+::: {#fig-topic-model-unigrams}
 
 ```{r}
 #| label: fig-topic-model-unigrams 
@@ -849,6 +949,9 @@ Topics concerning study terminology was common to both corpuses, however in the 
 knitr::include_graphics("plots/pre-leca-lda-new.png")
 knitr::include_graphics("plots/post-leca-lda-new.png")
 ```
+
+
+:::
 
 ## Study Limitations
 
@@ -870,7 +973,7 @@ I would like to thank my supervisor Emma Rand for her constant support and guida
 
 ```{r}
 #| label: fig-topic-model-bigrams
-#| include: true
+#| include: false
 #| fig-cap: "**Bigram LDA Topic Modelling.** Outputs from the post-lecanemab (after 06/01/2023) corpus model with ten topics. Figures show the top ten most commonly associated bigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added."
 #| fig-subcap: 
 #|  - "Pre-leca"
@@ -887,7 +990,7 @@ top_bigram_terms_post
 
 ```{r}
 #| label: fig-topic-model-trigrams
-#| include: true
+#| include: false
 #| fig-cap: "**Trigram LDA Topic Modelling.** LDA model shows the top ten most commonly associated trigrams in each topic ordered by their per-topic-per-word probability, β, for (A) pre-leca and (B) post-leca corpuses. Topic titles were manually created and added."
 #| fig-subcap: 
 #|  - "Pre-leca"
