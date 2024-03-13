@@ -1,5 +1,9 @@
 ##### This code either does not work in the .qmd file or is not relevant to the report.
 
+# abstract_unigrams_clean <- read_csv("results/abstract_unigrams_clean.csv")
+# abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
+# abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
+
 ## Distribution of search terms
 There were `r nrow(filter(naive_drug_results, naive_drug_results$title %in% abstracts$title))` papers published between `r min(format(as.Date(naive_drug_results$date_published, format = "%Y %b %d"),"%d-%m-%Y"), na.rm = T)` and `r max(format(as.Date(naive_drug_results$date_published, format = "%Y %b %d"),"%d-%m-%Y"), na.rm = T)` that contained the identified terms.
 
@@ -181,7 +185,7 @@ top_terms_post <- tidy_lda_post %>%
   filter(term != "disease" & term != "alzheimers") %>% 
   mutate(topic = case_when(topic == 1 ~ "1: Treatments",
                            topic == 2 ~ "2: Study Terminology",
-                           topic == 3 ~ "3: Health research",
+                           topic == 3 ~ "3: Health Research",
                            topic == 4 ~ "4: Diagnostics",
                            topic == 5 ~ "5: Studies",
                            topic == 6 ~ "6: Neurological Research",
@@ -202,10 +206,18 @@ top_terms_pre <- top_terms_pre %>%
   ggplot(aes(beta, term, fill = as.factor(topic))) +
   geom_col(show.legend = FALSE) +
   scale_y_reordered() +
-  theme(axis.title.x = element_text(size = 12),
-        strip.text = element_text(size = 12),
+  theme(axis.title.x = element_text(size = 20),
+        strip.text = element_text(size = 10),
         axis.text.x = element_text(size = 10),
-        axis.text.y = element_text(size = 10)) +
+        axis.text.y = element_text(size = 10),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size = 1, 
+                                        linetype="solid")) +
   labs(x = expression(beta), y = NULL) +
   facet_wrap(~factor(topic, levels=c("1: Risk Factors",
                                      "2: Neurodegeneration Review",
@@ -218,17 +230,18 @@ top_terms_pre <- top_terms_pre %>%
                                      "9: Diagnostics",
                                      "10: Abnormal Proteins")), 
              ncol = 5,
-             scale = "free") 
-  # scale_fill_manual(values = c("1: Abnormal Proteins" = "brown",
-  #                            "2: Neurodegeneration review" = "purple",
-  #                            "3: Treatments" = "darkgreen",
-  #                            "4: Study Terminology" = "lightgreen",
-  #                            "5: Study Terminology" = "lightgreen",
-  #                            "6: Risk Factors" = "red",
-  #                            "7: Physical Health" = "grey",
-  #                            "8: Diagnosis" = "darkblue",
-  #                            "9: Cellular Pathology" = "yellow",
-  #                            "10: Diagnosis" = "darkblue"))
+             scale = "free") +
+scale_fill_manual(values = c("1: Risk Factors" = "lightblue1",
+                                   "2: Neurodegeneration Review" = "deepskyblue",
+                                   "3: Cellular Pathology" = "cyan2",
+                                   "4: Neurological Disease" = "darkturquoise",
+                                   "5: Study Terminology" = "darkcyan",
+                                   "6: Physical Health" = "cornflowerblue",
+                                   "7: Cognitive Impairment" = "blue",
+                                   "8: Treatments" = "darkblue",
+                                   "9: Diagnostics" = "darkslateblue",
+                                   "10: Abnormal Proteins" = "midnightblue"
+                             ))
 
 top_terms_post <- top_terms_post %>%
   mutate(term = reorder_within(term, beta, topic)) %>%
@@ -240,13 +253,21 @@ top_terms_post <- top_terms_post %>%
   scale_y_reordered() +
   labs(x = expression(beta), y = NULL) +
   theme(axis.title.x = element_text(size = 12),
-        strip.text = element_text(size = 12),
+        strip.text = element_text(size = 10),
         axis.text.x = element_text(size = 10),
-        axis.text.y = element_text(size = 10)) +
+        axis.text.y = element_text(size = 10),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size = 1, 
+                                        linetype="solid")) +
   facet_wrap(~ factor(topic,
                       levels = c("1: Treatments",
                                  "2: Study Terminology",
-                                 "3: Health research",
+                                 "3: Health Research",
                                  "4: Diagnostics",
                                  "5: Studies",
                                  "6: Neurological Research",
@@ -256,20 +277,22 @@ top_terms_post <- top_terms_post %>%
                                  "10: Cellular Pathology"
                       )),                                    
                       ncol = 5, 
-                      scales = "free") 
-  # scale_fill_manual(values = c(
-  #   "1: Cellular Pathology" = "yellow",
-  #   "2: Study Terminology" = "lightgreen",
-  #   "3: Diagnosis" = "darkblue",
-  #   "4: Common AD Abstract Terms" = "orange",
-  #   "5: Risk Factors" = "red",
-  #   "6: Treatments" = "darkgreen",
-  #   "7: Risk Factors" = "red",
-  #   "8: Clinical Trials" = "lightblue",
-  #   "9: Abnormal Proteins" = "brown",
-  #   "10: Neurodegeneration review" = "purple"
-  # ))
-#```
+                      scales = "free") +
+  scale_fill_manual(values = c(
+    "1: Treatments" = "lightblue1",
+    "2: Study Terminology" = "cyan2",
+    "3: Health Research" = "darkturquoise",
+    "4: Diagnostics" = "darkcyan",
+    "5: Studies" = "deepskyblue",
+    "6: Neurological Research" = "cornflowerblue",
+    "7: Abnormal Proteins" = "blue",
+    "8: Genetics" = "darkblue",
+    "9: Clinical Studies" = "darkslateblue",
+    "10: Cellular Pathology" = "midnightblue"
+  ))
+
+```
+
 
 The top 10 terms in each pre- and post- leca corpus are shown in fig-topic-model-pre and fig-topic-model-post respectively.
 

@@ -66,7 +66,7 @@ preprints <- mx_data %>%
   arrange(desc(date)) %>%  # Arrange again to restore the original order if needed
   distinct(abstract, .keep_all = TRUE)
 
-test <- preprints %>% 
+preprints2 <- preprints %>% 
   rename("text" = abstract) %>% 
   mutate(source = "preprint",
          abstract = row_number())

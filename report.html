@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jess Scrimshire">
-<meta name="dcterms.date" content="2024-03-04">
+<meta name="dcterms.date" content="2024-03-13">
 
 <title>Impact of novel Alzheimer’s disease drug discovery on the research field using text mining and topic models</title>
 <style>
@@ -73,7 +73,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#alzheimers-disease" id="toc-alzheimers-disease" class="nav-link" data-scroll-target="#alzheimers-disease">Alzheimer’s Disease</a></li>
   <li><a href="#treatments-for-ad" id="toc-treatments-for-ad" class="nav-link" data-scroll-target="#treatments-for-ad">Treatments for AD</a></li>
-  <li><a href="#topic-modelling-and-text-mining-in-ad-research" id="toc-topic-modelling-and-text-mining-in-ad-research" class="nav-link" data-scroll-target="#topic-modelling-and-text-mining-in-ad-research">Topic Modelling and Text Mining in AD Research</a></li>
+  <li><a href="#text-mining-and-topic-modelling-in-ad-research" id="toc-text-mining-and-topic-modelling-in-ad-research" class="nav-link" data-scroll-target="#text-mining-and-topic-modelling-in-ad-research">Text Mining and Topic Modelling in AD Research</a></li>
   <li><a href="#aims-and-hypotheses" id="toc-aims-and-hypotheses" class="nav-link" data-scroll-target="#aims-and-hypotheses">Aims and Hypotheses</a></li>
   </ul></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
@@ -85,7 +85,7 @@ div.csl-indent {
   <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data Preprocessing</a></li>
   <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data Analysis</a>
   <ul class="collapse">
-  <li><a href="#publication-frequency" id="toc-publication-frequency" class="nav-link" data-scroll-target="#publication-frequency">Publication Frequency</a></li>
+  <li><a href="#metadata-analysis" id="toc-metadata-analysis" class="nav-link" data-scroll-target="#metadata-analysis">Metadata Analysis</a></li>
   <li><a href="#term-frequency" id="toc-term-frequency" class="nav-link" data-scroll-target="#term-frequency">Term Frequency</a></li>
   <li><a href="#topic-modelling" id="toc-topic-modelling" class="nav-link" data-scroll-target="#topic-modelling">Topic Modelling</a></li>
   </ul></li>
@@ -93,17 +93,16 @@ div.csl-indent {
   <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and Discussion</a>
   <ul class="collapse">
   <li><a href="#search-query-refinement-identified-the-term-alzheimer" id="toc-search-query-refinement-identified-the-term-alzheimer" class="nav-link" data-scroll-target="#search-query-refinement-identified-the-term-alzheimer">Search Query Refinement Identified the Term ‘alzheimer’</a></li>
-  <li><a href="#ad-research-publication-are-similar-over-time" id="toc-ad-research-publication-are-similar-over-time" class="nav-link" data-scroll-target="#ad-research-publication-are-similar-over-time">AD Research Publication are Similar Over Time</a></li>
+  <li><a href="#ad-research-publication-frequency-is-not-associated-with-lecanemab-approval" id="toc-ad-research-publication-frequency-is-not-associated-with-lecanemab-approval" class="nav-link" data-scroll-target="#ad-research-publication-frequency-is-not-associated-with-lecanemab-approval">AD Research Publication Frequency is not Associated with Lecanemab Approval</a></li>
   <li><a href="#n-gram-analysis" id="toc-n-gram-analysis" class="nav-link" data-scroll-target="#n-gram-analysis">N-gram Analysis</a></li>
   <li><a href="#topic-modelling-1" id="toc-topic-modelling-1" class="nav-link" data-scroll-target="#topic-modelling-1">Topic Modelling</a>
   <ul class="collapse">
-  <li><a href="#potential-increase-in-late-phase-studies-after-lecanemab-approval." id="toc-potential-increase-in-late-phase-studies-after-lecanemab-approval." class="nav-link" data-scroll-target="#potential-increase-in-late-phase-studies-after-lecanemab-approval.">Potential increase in late-phase studies after lecanemab approval.</a></li>
+  <li><a href="#potential-increase-in-tau-research-after-lecanemab-accelerated-approval." id="toc-potential-increase-in-tau-research-after-lecanemab-accelerated-approval." class="nav-link" data-scroll-target="#potential-increase-in-tau-research-after-lecanemab-accelerated-approval.">Potential increase in tau research after lecanemab accelerated approval.</a></li>
   </ul></li>
-  <li><a href="#study-limitations" id="toc-study-limitations" class="nav-link" data-scroll-target="#study-limitations">Study Limitations</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul></li>
   
-  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
   </ul>
 </nav>
 </div>
@@ -130,7 +129,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 4, 2024</p>
+      <p class="date">March 13, 2024</p>
     </div>
   </div>
   
@@ -142,33 +141,34 @@ div.csl-indent {
 
 <section id="abstract" class="level1">
 <h1>Abstract</h1>
-<p>Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide. Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. Every year thousands of scientific articles are published concerning AD, however it can be time consuming and laborious to disseminate this information into a systematic review whilst highlighting current research. Full abstract text from PubMed for documents containing the MeSH term “Alzheimer’s Disease” were tokenised, cleaned then allocated to either a “pre-leca” or “post-leca” corpus relative to the date of lecanemab accelerated approval, 6th January 2023. Ten-topic latent Diurich Allocation (LDA) models were created for each corpus either using unigrams or bigrams.</p>
+<p>Every year thousands of scientific articles are published concerning the chronic neurodegenerative disease and leading cause of dementia, Alzheimer’s disease (AD). Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. It can be hard highlighting current research in the field which enable treatment breakthroughs as disseminating information into a systematic review can be time consuming and laborious. Using text mining, we found 6744full abstract texts containing the MeSH term “Alzheimer’s Disease” from PubMed and preprint databases bioRxiv and medRxiv published between 01-01-2022 and 30-12-2023. Texts were tokenised and cleaned then allocated to two corpus types, determined based on accelerated approval date for lecanemab, 06-01-2023. Ten-topic latent Diurich Allocation (LDA) models were created for unigrams in each corpus. Despite the</p>
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <section id="alzheimers-disease" class="level2">
 <h2 class="anchored" data-anchor-id="alzheimers-disease">Alzheimer’s Disease</h2>
-<p>Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties <span class="citation" data-cites="noauthor_2023-ek">(<a href="#ref-noauthor_2023-ek" role="doc-biblioref"><strong>noauthor_2023-ek?</strong></a>)</span>. These symptoms usually manifest after the physiological changes in the brain develop, therefore scientific understanding and advances in new treatments is important in understanding AD aetiology.</p>
-<p>Whilst the underlying mechanisms determining the progression of AD are not fully understood, the accumulation of abnormal protein aggregates including, amyloid-beta plaques and neurofibrillary tangles, are frequently found in the brains of patients with AD <span class="citation" data-cites="Villemagne2013-xk">(<a href="#ref-Villemagne2013-xk" role="doc-biblioref">Villemagne et al., 2013</a>)</span> <span class="citation" data-cites="Iaccarino2018-ta">(<a href="#ref-Iaccarino2018-ta" role="doc-biblioref">Iaccarino et al., 2018</a>)</span>. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. Diagnosing AD requires the presence of both amyloid and tau pathologies as well as neuroinflammation, neuronal death and brain atrophy <span class="citation" data-cites="Garcia-Morales2021-zb">(<a href="#ref-Garcia-Morales2021-zb" role="doc-biblioref">Garcı́a-Morales et al., 2021</a>)</span>.</p>
+<p>Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide, and is the most common cause of dementia <span class="citation" data-cites="World_Health_Organization2023-eb">(<a href="#ref-World_Health_Organization2023-eb" role="doc-biblioref">1</a>)</span>. The predominant symptoms of AD usually manifest after the age of 65 ad inclue cognitive impairment, physical and emotional difficulties <span class="citation" data-cites="2023_Alzheimers_disease_facts_and_figures2023-ek">(<a href="#ref-2023_Alzheimers_disease_facts_and_figures2023-ek" role="doc-biblioref">2</a>)</span>. Physiological changes in the brain develop before the onset of symptoms which makes it difficult to find treatments when many patients are diagnosed with AD after irreversible neuronal death and hippocampal damage. AD has multiple risk factors suggesting age, epigentic modifiers, infectious agents, and diet all contribute to the development of AD <span class="citation" data-cites="A_Armstrong2019-go Henderson1988-cr">(<a href="#ref-A_Armstrong2019-go" role="doc-biblioref">3</a>,<a href="#ref-Henderson1988-cr" role="doc-biblioref">4</a>)</span>.</p>
+<p>The mechanisms determing the progression of AD are not fully understood, but the accumulation of abnormal protein aggregates, including amyloid-beta plaques and neurofibrillary tau tangles, are frequently found in the brains of patients with AD <span class="citation" data-cites="Villemagne2013-xk Iaccarino2018-ta">(<a href="#ref-Villemagne2013-xk" role="doc-biblioref">5</a>,<a href="#ref-Iaccarino2018-ta" role="doc-biblioref">6</a>)</span>. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. AD diagnosis requires the presence of both amyloid and tau pathologies, and signs of neuroinflammation, neuronal death and brain atrophy <span class="citation" data-cites="Garcia-Morales2021-zb">(<a href="#ref-Garcia-Morales2021-zb" role="doc-biblioref">7</a>)</span>. Biomarkers of neuroinflammation can be found in cerebrospinal fluid (CSF) and plasma <span class="citation" data-cites="Janeiro2021-sg">(<a href="#ref-Janeiro2021-sg" role="doc-biblioref">8</a>)</span> and brain atrophy can be measured with techniques such as magnetic resonance imaging <span class="citation" data-cites="Odusami2021-pp">(<a href="#ref-Odusami2021-pp" role="doc-biblioref">9</a>)</span>.</p>
 </section>
 <section id="treatments-for-ad" class="level2">
 <h2 class="anchored" data-anchor-id="treatments-for-ad">Treatments for AD</h2>
-<p>Although there are currently no therapies or interventions that can cure AD, several disease-modifying treatments exist that can alter the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. A recent comprehensive review by <span class="citation" data-cites="Huang2023-vq">(<a href="#ref-Huang2023-vq" role="doc-biblioref">Huang et al., 2023</a>)</span>, identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively <span class="citation" data-cites="Gustavsson2023-qr">(<a href="#ref-Gustavsson2023-qr" role="doc-biblioref">Gustavsson et al., 2023</a>)</span>, therefore increasing research focus on these patient populations is imperative to slow the progression of the disease.</p>
-<p>There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab <span class="citation" data-cites="Center_for_Drug_Evaluation2023-gy">(<a href="#ref-Center_for_Drug_Evaluation2023-gy" role="doc-biblioref">Center for Drug Evaluation and Research, 2023</a>)</span>; <span class="citation" data-cites="Office_of_the_Commissioner2023-hu">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023b</a>)</span>. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials <span class="citation" data-cites="Cummings2023-lo">(<a href="#ref-Cummings2023-lo" role="doc-biblioref">Cummings et al., 2023</a>)</span>. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023.</p>
+<p>There are currently no therapies or interventions that can cure AD, but several treatments exist that can modify the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. Acetylcholinesterase inhibitors (AchE) aim to increase the levels of the neurotransmitter acetylcholine which are attenuated during the pathologies of AD and associated with the loss of cholinergic neurons [<span class="citation" data-cites="Colovic2013-it">(<a href="#ref-Colovic2013-it" role="doc-biblioref">10</a>)</span>]. Whilst AchEs provide many benefits to treat the symptoms of AD, they do not delay or stop the progression of the disease and the effects may only last for 12-24 months [<span class="citation" data-cites="Courtney2004-br">(<a href="#ref-Courtney2004-br" role="doc-biblioref">11</a>)</span>]. Mementine is a NMDA receptor antagonist [<span class="citation" data-cites="Rogawski2003-od">(<a href="#ref-Rogawski2003-od" role="doc-biblioref">12</a>)</span>].</p>
+<p>A recent comprehensive review by <span class="citation" data-cites="Huang2023-vq">(<a href="#ref-Huang2023-vq" role="doc-biblioref">13</a>)</span> identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively [<span class="citation" data-cites="Gustavsson2023-qr">(<a href="#ref-Gustavsson2023-qr" role="doc-biblioref">14</a>)</span>], therefore increasing research focus on these patient populations is imperative to slow the progression of the disease.</p>
+<p>Two drugs have recently been granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab <span class="citation" data-cites="Center_for_Drug_Evaluation2023-gy Office_of_the_Commissioner2023-hu">(<a href="#ref-Center_for_Drug_Evaluation2023-gy" role="doc-biblioref">15</a>,<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">16</a>)</span>. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. There are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials <span class="citation" data-cites="Cummings2023-lo">(<a href="#ref-Cummings2023-lo" role="doc-biblioref">17</a>)</span>. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023. We will not analyse historical records, due to the nature of our research focusing on recent AD treatment approvals and their influence on the research field.</p>
 </section>
-<section id="topic-modelling-and-text-mining-in-ad-research" class="level2">
-<h2 class="anchored" data-anchor-id="topic-modelling-and-text-mining-in-ad-research">Topic Modelling and Text Mining in AD Research</h2>
-<p>Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more research literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research field <span class="citation" data-cites="Higgins2019-kn">(<a href="#ref-Higgins2019-kn" role="doc-biblioref">Higgins, 2019</a>)</span>. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words <span class="citation" data-cites="Blei2003-lh">(<a href="#ref-Blei2003-lh" role="doc-biblioref">Blei, Ng and Jordan, 2003</a>)</span>. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.</p>
-<p>In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">Martinelli, 2022</a>)</span>, identifying novel biomarkers <span class="citation" data-cites="Greco2012-pv">(<a href="#ref-Greco2012-pv" role="doc-biblioref">Greco et al., 2012</a>)</span>, and drug repurposing <span class="citation" data-cites="Nian2022-xw">(<a href="#ref-Nian2022-xw" role="doc-biblioref">Nian et al., 2022</a>)</span>. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>.</p>
+<section id="text-mining-and-topic-modelling-in-ad-research" class="level2">
+<h2 class="anchored" data-anchor-id="text-mining-and-topic-modelling-in-ad-research">Text Mining and Topic Modelling in AD Research</h2>
+<p>Thousands of articles are published every year concerning AD, so focusing on early-stage drug discovery could lead to more literature and clinical findings being identified. Systematic reviews and meta-analyses however, are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research literature <span class="citation" data-cites="Higgins2019-kn">(<a href="#ref-Higgins2019-kn" role="doc-biblioref">18</a>)</span>. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words <span class="citation" data-cites="Blei2003-lh">(<a href="#ref-Blei2003-lh" role="doc-biblioref">19</a>)</span>. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.</p>
+<p><em>In silico</em> topic modelling has been used for various applications relating to AD, including describing the research landscape. <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">20</a>)</span>, identifying novel biomarkers <span class="citation" data-cites="Greco2012-pv">(<a href="#ref-Greco2012-pv" role="doc-biblioref">21</a>)</span>, and drug repurposing <span class="citation" data-cites="Nian2022-xw">(<a href="#ref-Nian2022-xw" role="doc-biblioref">22</a>)</span>. <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">20</a>)</span> performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved immunotherapy treatments.</p>
 </section>
 <section id="aims-and-hypotheses" class="level2">
 <h2 class="anchored" data-anchor-id="aims-and-hypotheses">Aims and Hypotheses</h2>
-<p>In this study we aim to comprehensively investigate current research in AD, focusing on the period around the accelerated approval of the AD immunotherapy drug, lecanemab. We hypothesised that major topics in AD research could be categorised into distinct themes by applying LDA topic models to existing literature. Additionally, we hope to determine whether these topics have changed with the emergence of new immunotherapy treatments. This method is justified for the vast quantity of literature being published concerning AD and could be translated into other disease areas to study the impact of novel treatment options. Remaining current with the latest research is crucial for making significant strides in understanding and addressing the complexities of this disease, and finding new ways to treat AD.</p>
+<p>Vast quantities of literature are being published annually concerning AD. In this study we aim to comprehensively characterise AD research through the period that the AD immunotherapy drug, lecanemab, underwent accelerated approval. We hypothesise that new treatments targeting the pathophysiological changes in patients with AD, represent a major paradigm shift in AD research. We propose that LDA topic models can help identify distinct thematic changes in the literature. We aim to understand whther the methods to summarise the latest research are crucial for making significant stides in understanding the complexities of this disease and finding new ways to treat AD. Furthermore, this method could be translated to other neurodegenerative disease and to study the impact of emerging novel treatment options.</p>
 </section>
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
-<p>A full summary of the methodology is provided in <a href="#fig-full-summary">Figure&nbsp;1</a>. All data analysis and visualisations were done in R version 4.3.2 using <em>tidyverse</em> packages <span class="citation" data-cites="Wickham2019-rj">(<a href="#ref-Wickham2019-rj" role="doc-biblioref">Wickham et al., 2019</a>)</span> unless otherwise stated.</p>
+<p>A full summary of the methodology is provided in <a href="#fig-full-summary">Figure&nbsp;1</a>. All data analysis and visualisations were done in R version 4.3.2 using <em>tidyverse</em> packages <span class="citation" data-cites="Wickham2019-rj">(<a href="#ref-Wickham2019-rj" role="doc-biblioref">23</a>)</span> unless otherwise stated.</p>
 <div id="fig-full-summary" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <div class="cell" data-hash="report_cache/html/fig-full-summary_8e4876835ddf74f8e6d32bb01d2e4ecd">
@@ -181,43 +181,39 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;1: <em>Summary of Methods</em></figcaption>
+<figcaption class="figure-caption">Figure&nbsp;1: <strong>Summary of Methods.</strong> Abstracts gathered from PubMed, updated with <em>litsearchr</em> results, or preprint databases were read into R. Meta data analysis was performed then text was tidied and tokenised, then allocated to two corpuses relative to the accelerated approval date of lecanemab. LDA topic modelling and n-gram analysis results were collected then interpreted.</figcaption>
 </figure>
 </div>
 <section id="data-acquisition" class="level2">
 <h2 class="anchored" data-anchor-id="data-acquisition">Data Acquisition</h2>
-<p>Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, and publication date were obtained from the National Center for Biotechnology Information (NCBI) datasbase, PubMed, using the inclusion criteria described in <strong>?@tbl-inclusion-criteria</strong>, and accessed through <em>Rismed</em> <span class="citation" data-cites="Kovalchik2021-xq">(<a href="#ref-Kovalchik2021-xq" role="doc-biblioref">Kovalchik, 2021</a>)</span> on 18th February 2023. The diversity of entries into the PubMed database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.</p>
-<div id="tbl-inclusion-criteria" class="tbl-parent quarto-layout-panel anchored">
-<div class="panel-caption table-caption">
-<p><em>Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database</em>. Adapted from <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">Martinelli, 2022</a>)</span>.</p>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p>Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, and publication date were obtained from the National Center for Biotechnology Information (NCBI) datasbase, PubMed, using the inclusion criteria described in <a href="#tbl-inclusion-criteria">Table&nbsp;1</a>, and accessed through <em>Rismed</em> <span class="citation" data-cites="Kovalchik2021-xq">(<a href="#ref-Kovalchik2021-xq" role="doc-biblioref">24</a>)</span> on 18-02-2024. Results from PubMed were combined with publications from the preprint data sources, bioRxiv and medXriv, using <em>medrxiv</em> <span class="citation" data-cites="medrxivr">(<a href="#ref-medrxivr" role="doc-biblioref"><strong>medrxivr?</strong></a>)</span>. An additional dataset was generated for abstracts containing the associated terminology for the AD drug lecanemab: ‘<em>lecanemab</em>’, ‘<em>leqembi</em>’ ‘<em>BAN2401</em>’, and ‘<em>mAb158</em>’. The diversity of entries into the PubMed database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.</p>
+<div id="tbl-inclusion-criteria" class="anchored">
 <table class="table">
+<caption>Table&nbsp;1: <strong>Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database.</strong> Adapted from <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">20</a>)</span>.</caption>
 <colgroup>
 <col style="width: 37%">
 <col style="width: 62%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Criteria</th>
-<th style="text-align: left;">Filter Applied</th>
+<th>Criteria</th>
+<th>Filter Applied</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">MeSH Term</td>
-<td style="text-align: left;">‘Alzheimer’s Disease’</td>
+<td>MeSH Term</td>
+<td>‘Alzheimer’s Disease’</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Title and/or Abstract Text</td>
-<td style="text-align: left;"><p>‘Alzheimer’s Disease’</p>
+<td>Title and/or Abstract Text</td>
+<td><p>‘Alzheimer’s Disease’</p>
 <p>‘alzheimer’</p>
 <p>‘AD’</p></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Article Type</td>
-<td style="text-align: left;"><p>“Books”</p>
+<td>Article Type</td>
+<td><p>“Books”</p>
 <p>“Case Reports”</p>
 <p>“Clinical Study”</p>
 <p>“Clinical Trial”</p>
@@ -228,53 +224,53 @@ div.csl-indent {
 <p>“Systematic Review”</p></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Publication Date</td>
-<td style="text-align: left;">1st January 2022 to 1st January 2024 inclusive</td>
+<td>Publication Date</td>
+<td>1st January 2022 to 1st January 2024 inclusive</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Language</td>
-<td style="text-align: left;">English</td>
+<td>Language</td>
+<td>English</td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
 <section id="litsearchr" class="level3">
 <h3 class="anchored" data-anchor-id="litsearchr"><em>litsearchR</em></h3>
-<p>To reassure us that the PubMed search query encapsulated all literature, <em>litsearchr</em> package was used to expand the search terms <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span>. Citations from PubMed results using the previous search criteria in <strong>?@tbl-inclusion-criteria</strong> were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>.</p>
+<p>To reassure us that the PubMed search query encapsulated all literature, <em>litsearchr</em> package was used to expand the search terms <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">25</a>)</span>. Citations from PubMed results using the previous search criteria in <a href="#tbl-inclusion-criteria">Table&nbsp;1</a> were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words for keywords and title was set to n = 50 and n = 75, respectively. A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">26</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">27</a>)</span>. The change point method calculated the optimal cutoff positions based on the trend in sharp changes for <em>strength</em>.</p>
 </section>
 </section>
 <section id="data-preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h2>
-<p>Abstracts and their metadata were categorised into <em>“pre-leca”</em> or <em>“post-leca”</em> corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023 <span class="citation" data-cites="Office_of_the_Commissioner2023-hu">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023b</a>)</span>. Full abstract text was tokenised into single words using the <em>unnest_tokens</em> function of the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span>. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span> combined with the personalised words frequent to the unigram analysis, “<em>alzheimer’s</em>”, “<em>ad</em>”, “<em>95</em>”, “<em>ci</em>”, and “<em>including</em>”, were then removed. To prevent the different spellings of the same phrase from being counted multiple times, similar bigrams and trigrams were mapped to the same variable. For example, ‘<em>amyloid β</em>, ‘<em>beta amyloid</em>’, and ‘<em>amyloid aβ</em>’ were all mapped to ‘<em>amyloid beta</em>’, and ‘<em>mild cognitive impairments</em>’ and ‘<em>cognitive impairment mci</em>’ were mapped to ‘<em>mild cognitive impairment</em>’.</p>
-<div class="{fig-preprocess}">
-<div class="cell" data-hash="report_cache/html/fig-preprocess_aedafdf40c1cfa466314ec25d2277150">
+<p>Abstracts and their metadata were categorised into two corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 06-01-2023 <span class="citation" data-cites="Office_of_the_Commissioner2023-hu">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">16</a>)</span>. Full abstract text was tokenised into single words using the <em>unnest_tokens</em> function of the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">28</a>)</span> (<a href="#fig-preprocess-1">Figure&nbsp;2 (a)</a>). The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">28</a>)</span> combined with the personalised words frequent to the unigram analysis, “<em>alzheimer’s</em>” and “<em>ad</em>”, were then removed (<a href="#fig-preprocess-2">Figure&nbsp;2 (b)</a>). To prevent the different spellings of the same phrase from being counted multiple times, similar bigrams and trigrams were mapped to the same variable. For example, ‘<em>amyloid β</em>, ‘<em>beta amyloid</em>’, and ‘<em>amyloid aβ</em>’ were all mapped to ‘<em>amyloid beta</em>’, and ‘<em>mild cognitive impairments</em>’ and ‘<em>cognitive impairment mci</em>’ were mapped to ‘<em>mild cognitive impairment</em>’. Additionally, for bigrams originating from trigrams, mapping to the first two terms was used or mapping to an acronym, for example ‘<em>central nervous</em>’, ‘<em>system cns’</em> were mapped to’<em>cns</em>’.</p>
+<div id="fig-preprocess" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div class="cell" data-layout-align="center" data-hash="report_cache/html/fig-preprocess_39de6480b84073cfff68129962a799e9">
 <div class="cell-output-display">
 <div id="fig-preprocess-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="data/preprocess1.png" class="img-fluid figure-img" width="480"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: <strong>?(caption)</strong></figcaption>
+<p><img src="data/preprocess1.png" class="img-fluid figure-img" data-ref-parent="fig-preprocess" width="480"></p>
+<figcaption class="figure-caption">(a) Unigram Tokenisation.</figcaption>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div id="fig-preprocess-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="data/preprocess2.png" class="img-fluid figure-img" width="480"></p>
-<figcaption class="figure-caption">Figure&nbsp;3: <strong>?(caption)</strong></figcaption>
+<p><img src="data/preprocess2.png" class="img-fluid figure-img" data-ref-parent="fig-preprocess" width="480"></p>
+<figcaption class="figure-caption">(b) Removal of Stop Words.</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Abstract tokenisation into unigrams.</strong> Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">Silge and Robinson, 2016</a>)</span> and personalised words frequent to the unigram analysis, ‘<em>alzheimers</em>’, ‘<em>AD</em>’, ‘<em>95</em>’, ‘<em>ci</em>’, and including. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.</p>
+<figcaption class="figure-caption">Figure&nbsp;2: <strong>Abstract preprocessing into unigrams.</strong> Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the <em>tidytext</em> package <span class="citation" data-cites="Silge2016-jf">(<a href="#ref-Silge2016-jf" role="doc-biblioref">28</a>)</span> and personalised words frequent to the unigram analysis, ‘<em>alzheimers</em>’, and ‘<em>AD</em>’. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.</figcaption>
+</figure>
 </div>
 </section>
 <section id="data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="data-analysis">Data Analysis</h2>
-<section id="publication-frequency" class="level3">
-<h3 class="anchored" data-anchor-id="publication-frequency">Publication Frequency</h3>
-<p>Number of abstracts published per month were visualised as well as the frequency of dates of publications for papers containing the associated terminology for the AD drug lecanemab were also obtained.</p>
+<section id="metadata-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="metadata-analysis">Metadata Analysis</h3>
+<p>The number of relevant abstracts published per month were visualised as well as the frequency of dates of publications for papers containing the associated terminology for the AD drug lecanemab were also obtained.</p>
 </section>
 <section id="term-frequency" class="level3">
 <h3 class="anchored" data-anchor-id="term-frequency">Term Frequency</h3>
@@ -289,17 +285,17 @@ div.csl-indent {
 </section>
 <section id="topic-modelling" class="level3">
 <h3 class="anchored" data-anchor-id="topic-modelling">Topic Modelling</h3>
-<p>A document term matrix (dtm) was constructed for each dataset, indicating each word’s term frequency (tf), which is a measure of how often a word appears in a document. To determine if a statistical model could distinguish between pre-leca and post-leca corpuses, a two-topic Latent Dirich Allocation (LDA) model <span class="citation" data-cites="Blei2003-lh">(<a href="#ref-Blei2003-lh" role="doc-biblioref">Blei, Ng and Jordan, 2003</a>)</span> was applied to the dtm using the <em>topicmodels</em> package <span class="citation" data-cites="Grun2011-do">(<a href="#ref-Grun2011-do" role="doc-biblioref">Grün and Hornik, 2011</a>)</span>. The per-document-per-topic probabilities (γ) was extracted to show the proportion of words generated in each topic and how often these words appear in either the pre-leca or post-leca corpuses.</p>
-<p>Two ten-topic LDA models were also created, one for each of the pre-leca and post-leca text corpuses, to determine the most frequent topics, where an arbitrary topic number (k) of ten was chosen. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most commonly found in each topic were visualised. In each model the abstracts are considered mixtures of topics and each topic is considered a mixture of words. As a lot of the most common words may appear as bigrams or trigrams in the text corpuses, the per-topic-per-bigram and per-topic-per-trigram probabilities with the top 10 most common bigrams and trigrams were also visualised with two ten-topic LDA models for the pre-leca and post-leca text corpuses (<strong>?@fig-topic-models-bigrams</strong> ; <strong>?@fig-topic-models-trigrams</strong>).</p>
+<p>A document term matrix (dtm) was constructed for each dataset, indicating each word’s term frequency (tf), which is a measure of how often a word appears in each abstract To determine if a statistical model could distinguish between the text corpuses surrounding the accelerated approval date of lecanemab, a two-topic Latent Dirich Allocation (LDA) model <span class="citation" data-cites="Blei2003-lh">(<a href="#ref-Blei2003-lh" role="doc-biblioref">19</a>)</span> was applied to the dtm using <em>topicmodels</em> <span class="citation" data-cites="Grun2011-do">(<a href="#ref-Grun2011-do" role="doc-biblioref">29</a>)</span>. The per-document-per-topic probabilities (γ) was extracted to show the proportion of words generated in each topic and how often these words appear in either corpuses.</p>
+<p>Two ten-topic LDA models were also created, one for each of the pre-leca and post-leca text corpuses, to determine the most frequent topics, where an arbitrary topic number (k) of ten was chosen. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most commonly found in each topic were visualised. In each model the abstracts are considered mixtures of topics and each topic is considered a mixture of words. As a lot of the most common words may appear as bigrams or trigrams in the text corpuses, the per-topic-per-bigram and per-topic-per-trigram probabilities with the top 10 most common bigrams and trigrams were also visualised with two ten-topic LDA models for both text corpuses.</p>
 </section>
 </section>
 </section>
 <section id="results-and-discussion" class="level1">
 <h1>Results and Discussion</h1>
-<p>A full summary of the results is found in <a href="#fig-results-summary">Figure&nbsp;4</a>.</p>
+<p>A full summary of the results is found in <a href="#fig-results-summary">Figure&nbsp;3</a>.</p>
 <div id="fig-results-summary" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<div class="cell" data-hash="report_cache/html/fig-results-summary_2a90924c1a889991db6f2ef43a82a337">
+<div class="cell" data-layout-align="centre" data-hash="report_cache/html/fig-results-summary_6e557a8bbcb7b9479634880094319b18">
 <div class="cell-output-display">
 <div id="fig-results-summary" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -309,35 +305,36 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;4: <em>Summary of Methods</em></figcaption>
+<figcaption class="figure-caption">Figure&nbsp;3: <strong>Summary of Results</strong></figcaption>
 </figure>
 </div>
 <section id="search-query-refinement-identified-the-term-alzheimer" class="level2">
 <h2 class="anchored" data-anchor-id="search-query-refinement-identified-the-term-alzheimer">Search Query Refinement Identified the Term ‘alzheimer’</h2>
-<p>Out initial search query was refined using <em>litsearchr</em> <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">Grames et al., 2019</a>)</span> using the 80% cutoffs which determined the most important terms to the articles; all others were discarded (<a href="#fig-ad-search-terms">Figure&nbsp;5</a>). We disregarded ‘<em>alzheimer’s disease</em>’ as this MeSH term was included in the original search query, but we updated the PubMed search query with ‘<em>alzheimer</em>’ (<strong>?@tbl-inclusion-criteria</strong>). We omitted the unigram ‘<em>disease</em>’ as it was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query.</p>
+<p>Out initial search query was refined using <em>litsearchr</em> <span class="citation" data-cites="Grames2019-as">(<a href="#ref-Grames2019-as" role="doc-biblioref">25</a>)</span> to determine the most important terms to the articles ranked by their strength (<a href="#fig-ad-search-terms">Figure&nbsp;4</a>). We disregarded ‘<em>alzheimer’s disease</em>’ as this MeSH term was included in the original search query, but we updated the PubMed search query with ‘<em>alzheimer</em>’ (<a href="#tbl-inclusion-criteria">Table&nbsp;1</a>). We omitted the unigram ‘<em>disease</em>’ as it was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query.</p>
 <div id="fig-ad-search-terms" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-ad-search-terms_76f72a04c043fa62b3c5c8b1104b7967">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-ad-search-terms_5619dec24c29c52553aae6b5dd741625">
 <div class="cell-output-display">
 <div id="fig-ad-search-terms" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
-<p><img src="report_files/figure-html/fig-ad-search-terms-1.png" class="img-fluid figure-img" data-ref-parent="fig-ad-search-terms" width="960"></p>
-<figcaption class="figure-caption">(a) ** Search query refinement using <em>litsearchr</em> identified ‘<em>alzheimer</em>’.** A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded.</figcaption>
+<p><img src="report_files/figure-html/fig-ad-search-terms-1.png" class="img-fluid figure-img" data-ref-parent="fig-ad-search-terms" width="1440"></p>
+<figcaption class="figure-caption">(a)</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;5: ** Search query refinement using <em>litsearchr</em> identified ‘<em>alzheimer</em>’.** A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">Barrat et al., 2004</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">Csardi and Nepusz, 2006</a>)</span>. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;4: <strong>Search query refinement using <em>litsearchr</em> identified ‘<em>alzheimer</em>’.</strong> A matrix of each word in each article was created and the potential search terms were ranked with <em>create_network</em> and <em>strength</em> <span class="citation" data-cites="Barrat2004-hm">(<a href="#ref-Barrat2004-hm" role="doc-biblioref">26</a>)</span> from the <em>igraph</em> package <span class="citation" data-cites="Csardi2006-gb">(<a href="#ref-Csardi2006-gb" role="doc-biblioref">27</a>)</span>. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed lines mark optimal cutoff positions where the trend in strength shows sharp changes.</figcaption>
 </figure>
 </div>
 </section>
-<section id="ad-research-publication-are-similar-over-time" class="level2">
-<h2 class="anchored" data-anchor-id="ad-research-publication-are-similar-over-time">AD Research Publication are Similar Over Time</h2>
-<p>This study found 6744 papers that were published between 2022-01-01 and 2023-12-30 that met the inclusion criteria in <strong>?@tbl-inclusion-criteria</strong>. The distribution of publication frequency did not vary considerably during this period <a href="#fig-publication-date">Figure&nbsp;6</a>. The frequency of publications containing the terms associated with the AD drug lecanemab increased in 2023. This could be attributed to 2023 being the year of the accelerated and traditional approval of lecanemab <span class="citation" data-cites="Office_of_the_Commissioner2023-hu Office_of_the_Commissioner2023-ka">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">Office of the Commissioner, 2023b</a>, <a href="#ref-Office_of_the_Commissioner2023-ka" role="doc-biblioref">2023a</a>)</span>. The overall distribution of dates of publication was similar across the observed time frame for the full abstract texts.</p>
+<section id="ad-research-publication-frequency-is-not-associated-with-lecanemab-approval" class="level2">
+<h2 class="anchored" data-anchor-id="ad-research-publication-frequency-is-not-associated-with-lecanemab-approval">AD Research Publication Frequency is not Associated with Lecanemab Approval</h2>
+<p>This study found 6744 papers that were published between 01-01-2022 and 30-12-2023 that met the inclusion criteria in <a href="#tbl-inclusion-criteria">Table&nbsp;1</a>. We aimed to identify whether there was a change in the Lecanemab received accelerated and traditional approval in 2023 <span class="citation" data-cites="Office_of_the_Commissioner2023-hu Office_of_the_Commissioner2023-ka">(<a href="#ref-Office_of_the_Commissioner2023-hu" role="doc-biblioref">16</a>,<a href="#ref-Office_of_the_Commissioner2023-ka" role="doc-biblioref">30</a>)</span>, however we did not find any variablitiy in the overall frequency of literature published containing the MeSH term ‘<em>Alzheimer’s Disease</em>’ <a href="#fig-publication-date-1">Figure&nbsp;5 (a)</a>. This was surprising as the frequency of publications containing the terms associated with the AD drug lecanemab exponentially increased in 2023 <a href="#fig-publication-date-2">Figure&nbsp;5 (b)</a>.</p>
+<p>What is the increase in 03/2023?</p>
+<p>Write something about how lecanemab is a new drug and the literature is increasing.but too early to notice a increase in literature. Not the only drug. We therefore wanted to investigate whether there was a</p>
 <div id="fig-publication-date" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<div id="fig-publication-date" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-publication-date_3a3413ccfb0c523d9c2273edf753c374">
 <div class="cell-output-display">
 <div id="fig-publication-date-1" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
@@ -354,16 +351,14 @@ div.csl-indent {
 </figure>
 </div>
 </div>
-<figcaption class="figure-caption">(c) <strong>Frequency of lecanemab publications increases in 2023.</strong> Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval.</figcaption>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;5: <strong>Frequency of lecanemab publications increases in 2023.</strong> Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6744) or (B) terms associated with the AD drug lecanemab: ‘<em>lecanemab</em>’, ‘<em>leqembi</em>’, ‘<em>BAN2401</em>’, and ‘<em>mAb158</em>’ (n = 207). Dashed-line represents date of lecanemab accelerated approval, 06-01-2023.</figcaption>
 </figure>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;6: <strong>Frequency of lecanemab publications increases in 2023.</strong> Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval.</figcaption>
-</figure>
-</div>
-<p>The per-document-per-topic probabilities (γ) did not show a difference between the two topics when pre-leca and post-leca documents were identified (<a href="#fig-gamma-lda">Figure&nbsp;7</a>).</p>
+<p>The two topic LDA model did not distinguish a difference in topics in the literature around the accelerated approval of Lecanemab, with no significant difference between the per-document-per-topic probabilities (γ) (<a href="#fig-gamma-lda">Figure&nbsp;6</a>). This suggests that the content of the abstracts did not change significantly from the time before to after the accelerated approval of lecanemab.</p>
 <div id="fig-gamma-lda" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-gamma-lda_cd0c9b320daf9fa52e097e6ac8b97ef0">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-gamma-lda_36de1e1669b88862b1944b13165a6fa0">
 <div class="cell-output-display">
 <div id="fig-gamma-lda" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
@@ -373,17 +368,16 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;7: <em>Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab</em>. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using <em>topicmodels</em> <span class="citation" data-cites="Grun2011-do">(<a href="#ref-Grun2011-do" role="doc-biblioref">Grün and Hornik, 2011</a>)</span>. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, 2023-01-06. n = 6744.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6: <strong>Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab</strong>. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using <em>topicmodels</em> <span class="citation" data-cites="Grun2011-do">(<a href="#ref-Grun2011-do" role="doc-biblioref">29</a>)</span>. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, 06-01-2023. n = 6744.</figcaption>
 </figure>
 </div>
 </section>
 <section id="n-gram-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="n-gram-analysis">N-gram Analysis</h2>
-<p>Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in <a href="#fig-tokenisation">Figure&nbsp;8</a>. ‘<em>Disease</em>’ is the most frequent unigram in both corpuses (<a href="#fig-tokenisation-1">Figure&nbsp;8 (a)</a>). This may be due to being most frequently associated with ‘<em>neurodegenerative disease</em>’, ‘<em>Parkinson’s disease</em>’, and ‘<em>Huntington’s disease</em>’ which are among the most frequent bigrams and trigrams (<a href="#fig-tokenisation-3">Figure&nbsp;8 (c)</a>; <a href="#fig-tokenisation-4">Figure&nbsp;8 (d)</a>).</p>
+<p>Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in <a href="#fig-tokenisation">Figure&nbsp;7</a>. ‘<em>Disease</em>’ is the most frequent unigram in both corpuses (<a href="#fig-tokenisation-1">Figure&nbsp;7 (a)</a>) and is associated with ‘<em>neurodegenerative disease</em>’, ‘<em>Parkinson’s disease</em>’, and ‘<em>Huntington’s disease</em>’ which are among the most frequent bigrams and trigrams (<a href="#fig-tokenisation-2">Figure&nbsp;7 (b)</a>; <a href="#fig-tokenisation-3">Figure&nbsp;7 (c)</a>). No significant difference between the word frequencies over time was observed for the most frequent unigrams shared between the two corpuses (<a href="#fig-tokenisation-4">Figure&nbsp;7 (d)</a>).</p>
 <div id="fig-tokenisation" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<div id="fig-tokenisation" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="cell" data-layout-align="left" data-hash="report_cache/html/fig-tokenisation_b08101287efbd72d77a0bb05e0a21917">
 <div class="cell-output-display">
 <div id="fig-tokenisation-1" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
@@ -396,7 +390,7 @@ div.csl-indent {
 <div id="fig-tokenisation-2" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
 <p><img src="report_files/figure-html/fig-tokenisation-2.png" class="img-fluid figure-img" data-ref-parent="fig-tokenisation" width="1440"></p>
-<figcaption class="figure-caption">(b) Most common words</figcaption>
+<figcaption class="figure-caption">(b) Bigram</figcaption>
 </figure>
 </div>
 </div>
@@ -404,7 +398,7 @@ div.csl-indent {
 <div id="fig-tokenisation-3" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
 <p><img src="report_files/figure-html/fig-tokenisation-3.png" class="img-fluid figure-img" data-ref-parent="fig-tokenisation" width="1440"></p>
-<figcaption class="figure-caption">(c) Bigram</figcaption>
+<figcaption class="figure-caption">(c) Trigram</figcaption>
 </figure>
 </div>
 </div>
@@ -412,56 +406,59 @@ div.csl-indent {
 <div id="fig-tokenisation-4" class="quarto-figure quarto-figure-left anchored">
 <figure class="figure">
 <p><img src="report_files/figure-html/fig-tokenisation-4.png" class="img-fluid figure-img" data-ref-parent="fig-tokenisation" width="1440"></p>
-<figcaption class="figure-caption">(d) Trigram</figcaption>
+<figcaption class="figure-caption">(d) Most common words</figcaption>
 </figure>
 </div>
 </div>
-<figcaption class="figure-caption">(e) <strong>Literature use is similar around the time of lecanemab approval.</strong> Tokenised n-grams split into pre- and post-lecanemab corpuses and ranked by (A) unigram frequency, (C) bigram frequency, and (D) trigram frequency, removing stop-words (n = 7,007). <strong>Word frequency trends are similar for the top 10 most frequent terms.</strong> The focus of AD research has stayed consistent over time. The frequency of a selection of words used over 1000 times in AD abstracts from 01-01-2022 to 10-10-2023 has not changed.</figcaption>
-</figure>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;8: <strong>?(caption)</strong></figcaption>
+<figcaption class="figure-caption">Figure&nbsp;7: <strong>Literature use is similar around the time of lecanemab approval.</strong> Corpus type was determined based on accelerated approval date for lecanemab, 06-01-2023 then tokenised and removal of stop words. The 15 most frequent (A) unigrams, (B) bigrams and (C) trigrams along with (D) the distribution by month of the top 14 shared most frequent unigrams for both corpuses (n = 6744). Dashed-line represents the accelerated approval date of lecanemab, 06-01-2023.</figcaption>
 </figure>
 </div>
 </section>
 <section id="topic-modelling-1" class="level2">
 <h2 class="anchored" data-anchor-id="topic-modelling-1">Topic Modelling</h2>
-<section id="potential-increase-in-late-phase-studies-after-lecanemab-approval." class="level3">
-<h3 class="anchored" data-anchor-id="potential-increase-in-late-phase-studies-after-lecanemab-approval.">Potential increase in late-phase studies after lecanemab approval.</h3>
-<p>The top 10 unigrams in LDA for <strong>pre-leca:</strong> and <strong>post-leca</strong> are shown in <a href="#fig-topic-model-unigrams">Figure&nbsp;9</a>. Topics that occur in both text corpuses are <em>‘Treatments’</em>, <em>‘Abnormal Proteins’</em>, <em>‘Neurodegeneration review’</em>, <em>‘Risk Factor<em>s’, </em>’Study Terminology’</em>, <em>‘Diagnosis’</em>, and <em>‘Cellular Pathology’</em>. Within ‘abnormal proteins’</p>
-<p>Topics concerning study terminology was common to both corpuses, however in the post-leca corpus the unigrams ‘randomised’, ‘trial’ and ‘trials’ were unique and potentially suggests the increase in randomised clinical trials after lecanemab approval. This is consistent with the trends observed in <span class="citation" data-cites="Huang2023-vq">(<a href="#ref-Huang2023-vq" role="doc-biblioref">Huang et al., 2023</a>)</span> which suggest an increase in Phase III clinical trials for anti-amyloid therapies and encompasses the traditonal approval date of lecanemab by the FDA in July 2023 from the Clarity AD clinical trial <span class="citation" data-cites="Office_of_the_Commissioner2023-ka">(<a href="#ref-Office_of_the_Commissioner2023-ka" role="doc-biblioref">Office of the Commissioner, 2023a</a>)</span>. Randomisation of clinical trials usually happens during the later Phase III trials due to earlier phases recruiting smaller numbers of participants. Therefore, this suggests a shift in the research literature to studies with larger patient cohorts and using robust methods to eliminate selection bias.</p>
+<section id="potential-increase-in-tau-research-after-lecanemab-accelerated-approval." class="level3">
+<h3 class="anchored" data-anchor-id="potential-increase-in-tau-research-after-lecanemab-accelerated-approval.">Potential increase in tau research after lecanemab accelerated approval.</h3>
+<p>The topics <em>‘Treatments’</em>, <em>‘AD Diagnosis’</em>, <em>‘Genetic Risk’</em>, <em>‘Molecular Pathology’</em>, ’<em>Study Terminology’</em> and <em>‘Cellular Pathology’</em> were observed in abstracts before and after the accelerated approval of lecanemab <a href="#fig-topic-model-unigrams">Figure&nbsp;8</a>.</p>
+<p>Topics containing study terminology were common to both corpuses, however the unigram ‘<em>placebo</em>’ was unique to the later corpus. This could suggest an increase in the number of randomised clinical trials (RCT) after lecanemab received accelerated approval as these trials usually involve a placebo-control. This is consistent with the trends observed in <span class="citation" data-cites="Huang2023-vq">(<a href="#ref-Huang2023-vq" role="doc-biblioref">13</a>)</span> which suggest an increase in Phase III clinical trials for anti-amyloid therapies and encompasses the traditonal approval date of lecanemab by the FDA in July 2023 from the Clarity AD clinical trial <span class="citation" data-cites="Office_of_the_Commissioner2023-ka">(<a href="#ref-Office_of_the_Commissioner2023-ka" role="doc-biblioref">30</a>)</span>. Placebos are used when there is no known or FDA-approved therapy that can be tolerated by patients, therefore as AD does not have a standard of care treatment to cure the disease, a placebo may be used in RCTs.</p>
 <div id="fig-topic-model-unigrams" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<div id="fig-topic-model-unigrams" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="cell" data-layout-align="center" data-hash="report_cache/html/fig-topic-model-unigrams_51be4ca243e908635abcc4d516b31f37">
 <div class="cell-output-display">
 <div id="fig-topic-model-unigrams-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="plots/pre-leca-lda-new.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
-<figcaption class="figure-caption">(a) Top 10 terms in each LDA topic: Pre-Leca</figcaption>
+<p><img src="plots/pre-leca-lda-blue.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
+<figcaption class="figure-caption">(a) Pre-Lecenamab Accelerated Approval: Top 10 unigrams in each LDA topic</figcaption>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div id="fig-topic-model-unigrams-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="plots/post-leca-lda-new.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
-<figcaption class="figure-caption">(b) Top 10 terms in each LDA topic: Post-Leca</figcaption>
+<p><img src="plots/post-leca-lda-blue2.png" class="img-fluid figure-img" data-ref-parent="fig-topic-model-unigrams" width="1012"></p>
+<figcaption class="figure-caption">(b) Post-Lecanemab Accelerated Approval: Top 10 unigrams in each LDA topic</figcaption>
 </figure>
 </div>
 </div>
-<figcaption class="figure-caption">(c) <strong>Unigram LDA Topic Modelling.</strong> Outputs from the LDA model with ten topics. Figures show the top ten most commonly associated unigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added.</figcaption>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;8: <strong>Unigram LDA Topic Modelling.</strong> Outputs from the ten-topic LDA model for abstracts published (A) before and (B) after the accelerated approval date of lecenamab. The top 10 unigrams per topic are ordered by their per-topic-per-word probability, β. Topic titles were manually created and added. Colours are arbitory and match when the same topic was identified from (A) to (B), else are gray.</figcaption>
 </figure>
 </div>
+<p>We aimed to see whether there had been a change in the terms found in similar topics between the two corpuses. There was an increase in the beta-value for the terms in the ‘<em>Molecular Pathology’</em> topic after the accelerated approval of lecanemab, specifically for the terms:’<em>tau’</em>, ’<em>amyloid’,</em> and <em>‘aβ’.</em> This suggests these unigrams were more associated with topics in the latter corpus.</p>
+<p>The term ‘<em>insulin</em>’ was not found in the later corpus <a href="#fig-topic-model-unigrams-2">Figure&nbsp;8 (b)</a>, however ’<em>type 2 diabetes’</em> was one of the most common trigrams for both corpuses (<a href="#fig-tokenisation-3">Figure&nbsp;7 (c)</a>). AD has been referred to as type 3 diabetes due to the rapid growth of literature concerning brain insulin resistance and experimental evidence has shown insulin sensitiser treatments may help attenuate learning deficits <span class="citation" data-cites="De_la_Monte2008-uy Reger2008-xj Pedersen2006-pl Reger2006-nq">(<a href="#ref-De_la_Monte2008-uy" role="doc-biblioref">31</a>–<a href="#ref-Reger2006-nq" role="doc-biblioref">34</a>)</span>. Many epidemiological studies have suggested T2DM may be increasing the risk of AD, leading to the lower brain insulin levels resulting in decreased clearance of amyloid-beta <span class="citation" data-cites="Gasparini2001-up Ott1999-pv">(<a href="#ref-Gasparini2001-up" role="doc-biblioref">35</a>,<a href="#ref-Ott1999-pv" role="doc-biblioref">36</a>)</span>. Despite this growing area of research, observations between nondemented participants and AD patients with T2DM have not been able to show a significant difference in amyloid accumulation <span class="citation" data-cites="Cholerton2016-iz">(<a href="#ref-Cholerton2016-iz" role="doc-biblioref">37</a>)</span>. Whilst we cannot conclude from our results whether this suggests a shift in research focusing on T2DM and its metabolic link to AD, we have observed that literature around the approval of lecanemab does concern multiple metabolic and immune changes relating to AD.</p>
+<div id="fig-beta-change" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p>Increase in beta values for tau and amyloid</p>
 <figcaption class="figure-caption">Figure&nbsp;9: <strong>?(caption)</strong></figcaption>
 </figure>
 </div>
 </section>
 </section>
-<section id="study-limitations" class="level2">
-<h2 class="anchored" data-anchor-id="study-limitations">Study Limitations</h2>
-<p>Due to our search strategy, a lot of papers contain the MeSH term ‘Alzheimer’s disease’ may have been mentioned as a collective with other neurodegenerative diseases, hence why the unigrams ‘<em>huntington’s disease</em>’, ‘<em>parkinson’s disease</em>’ and ‘<em>amylotropic lateral sclerosis</em>’ are very frequent. We tried to avoid this by filtering the titles and abstracts to also contain the term ‘alzheimer’s disease’, ‘ad’ or ‘alzheimer’.</p>
-<p>One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the time frame used for the analysis not being long enough to account for a change in the research landscape. Previous studies have used a five-year time period to detect topics in AD literature<span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">Martinelli, 2022</a>)</span>, therefore research topics may not be changing in our two-year period.</p>
-<p>Unable to mine keywords included in the full text, so terms only described in the abstract, regardless of whether other phrases are included in the complete article.</p>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<p>Due to our search strategy, a lot of papers contain the MeSH term ‘Alzheimer’s disease’ may have been mentioned as a collective with other neurodegenerative diseases, therefore attributing to the high frequency for the bigrams and trigrams ‘<em>huntington’s disease</em>’, ‘<em>parkinson’s disease</em>’ and ‘<em>amylotropic lateral sclerosis</em>’ (<a href="#fig-tokenisation-2">Figure&nbsp;7 (b)</a> ; <a href="#fig-tokenisation-3">Figure&nbsp;7 (c)</a>). MeSH terms are added manually to articles in PubMed, therefore there could also be a bias when authors add these to their publications. We tried to avoid this by filtering the titles and abstracts to also contain the term ‘<em>alzheimer’s disease</em>’, ‘<em>ad</em>’ or ‘<em>alzheimer</em>’. Similarly when MeSH terms were not available for the bioRxiv and medRxv databases, we used a similar search strategy to filter titles and abstraction to contain the term ‘<em>alzheimer’s disease</em>’ or ‘<em>alzheimer</em>’, or ‘<em>ad</em>’ and ‘<em>alzheimer’s disease</em>’. Whilst this filtering would have biased our dataset as abstracts not containing these search terms were ommitted, we were still able to gain a large dataset of 6744 abstracts to analyse.</p>
+<p>One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the time frame used for the analysis not being long enough to account for a change in the research landscape. Previous studies have used a five-year time period to detect topics in AD literature <span class="citation" data-cites="Martinelli2022-ic">(<a href="#ref-Martinelli2022-ic" role="doc-biblioref">20</a>)</span>, therefore research topics may not be changing in our two-year period. This suggests that the topics in the period after the accelerated approval of lecanemab were not different to the topics in the year before lecanemab was approved. There may be a difference comparing the literature after lecanemab approval and a larger period of time before approval, or if we followed up of the literature for several years after the lecanemab approval.</p>
+<p>We only used abstracts written in English, so we may be missing abstracts that have not been translated from other languages and concern AD.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
@@ -469,77 +466,122 @@ div.csl-indent {
 </section>
 </section>
 
-<section id="appendix" class="level1 unnumbered">
-
-
-</section>
 
 <div id="quarto-appendix" class="default"><section id="acknowledgements" class="level1 appendix"><h2 class="anchored quarto-appendix-heading">Acknowledgements</h2><div class="quarto-appendix-contents">
 
 <p>I would like to thank my supervisor Emma Rand for her constant support and guidance throughout my project. I would also like to dedicate this project to my late granddad Alan Scrimshire who passed away on the 31st March 2023 after fighting a five year battle with Alzheimer’s Disease. I hope this project highlights the complexity of the disease and the vast efforts being undertaken to find a cure.</p>
-</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Appendix</h2><div id="refs" class="references csl-bib-body" role="list">
-<div id="ref-Barrat2004-hm" class="csl-entry" role="listitem">
-Barrat, A., Barthélemy, M., Pastor-Satorras, R. and Vespignani, A. (2004). <span class="nodecoration">The architecture of complex weighted networks</span>. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 101 (11), pp.3747–3752.
+
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-World_Health_Organization2023-eb" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">World Health Organization. Dementia. <a href="https://www.who.int/news-room/fact-sheets/detail/dementia" class="uri">https://www.who.int/news-room/fact-sheets/detail/dementia</a>; 2023. </div>
 </div>
-<div id="ref-Blei2003-lh" class="csl-entry" role="listitem">
-Blei, D. M., Ng, A. Y. and Jordan, M. I. (2003). <span class="nodecoration"><em>Latent dirichlet allocation</em></span>. <a href="https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf?ref=https://githubhelp.com" class="uri">https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf?ref=https://githubhelp.com</a>.
+<div id="ref-2023_Alzheimers_disease_facts_and_figures2023-ek" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">2023 Alzheimer’s disease facts and figures. 2023 alzheimer’s disease facts and figures. Alzheimers Dement. 2023 Apr;19(4):1598–695. </div>
 </div>
-<div id="ref-Center_for_Drug_Evaluation2023-gy" class="csl-entry" role="listitem">
-Center for Drug Evaluation and Research. (2023). <span class="nodecoration"><em><span class="nocase">FDA’s</span> decision to approve new treatment for alzheimer’s disease</em></span>. <a href="https://www.fda.gov/drugs/our-perspective/fdas-decision-approve-new-treatment-alzheimers-disease" class="uri">https://www.fda.gov/drugs/our-perspective/fdas-decision-approve-new-treatment-alzheimers-disease</a>; FDA.
+<div id="ref-A_Armstrong2019-go" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">A Armstrong R. Risk factors for alzheimer’s disease. Folia Neuropathol. 2019;57(2):87–105. </div>
 </div>
-<div id="ref-Csardi2006-gb" class="csl-entry" role="listitem">
-Csardi, G. and Nepusz, T. (2006). <span class="nodecoration"><em>The igraph software package for complex network research</em></span>. Complex Systems, p.1695.
-</div>
-<div id="ref-Cummings2023-lo" class="csl-entry" role="listitem">
-Cummings, J., Zhou, Y., Lee, G., Zhong, K., Fonseca, J. and Cheng, F. (2023). <span class="nodecoration">Alzheimer’s disease drug development pipeline: 2023</span>. <em>Alzheimers. Dement.</em>, 9 (2), p.e12385.
-</div>
-<div id="ref-Garcia-Morales2021-zb" class="csl-entry" role="listitem">
-Garcı́a-Morales, V., González-Acedo, A., Melguizo-Rodrı́guez, L., Pardo-Moreno, T., Costela-Ruiz, V. J., Montiel-Troya, M. and Ramos-Rodrı́guez, J. J. (2021). <span class="nodecoration">Current understanding of the physiopathology, diagnosis and therapeutic approach to alzheimer’s disease</span>. <em>Biomedicines</em>, 9 (12).
-</div>
-<div id="ref-Grames2019-as" class="csl-entry" role="listitem">
-Grames, E. M., Stillman, A. N., Tingley, M. W. and Elphick, C. S. (2019). <span class="nodecoration">An automated approach to identifying search terms for systematic reviews using keyword co‐occurrence networks</span>. <em>Methods Ecol. Evol.</em>, 10 (10), Wiley., pp.1645–1654.
-</div>
-<div id="ref-Greco2012-pv" class="csl-entry" role="listitem">
-Greco, I., Day, N., Riddoch-Contreras, J., Reed, J., Soininen, H., Kłoszewska, I., Tsolaki, M., Vellas, B., Spenger, C., Mecocci, P., Wahlund, L.-O., Simmons, A., Barnes, J. and Lovestone, S. (2012). <span class="nodecoration">Alzheimer’s disease biomarker discovery using in silico literature mining and clinical validation</span>. <em>J. Transl. Med.</em>, 10, p.217.
-</div>
-<div id="ref-Grun2011-do" class="csl-entry" role="listitem">
-Grün, B. and Hornik, K. (2011). <span class="nodecoration">Topicmodels: An <span>R</span> package for fitting topic models</span>. <em>J. Stat. Softw.</em>, 40, pp.1–30.
-</div>
-<div id="ref-Gustavsson2023-qr" class="csl-entry" role="listitem">
-Gustavsson, A., Norton, N., Fast, T., Frölich, L., Georges, J., Holzapfel, D., Kirabali, T., Krolak-Salmon, P., Rossini, P. M., Ferretti, M. T., Lanman, L., Chadha, A. S. and Flier, W. M. van der. (2023). <span class="nodecoration">Global estimates on the number of persons across the alzheimer’s disease continuum</span>. <em>Alzheimers. Dement.</em>, 19 (2), pp.658–670.
-</div>
-<div id="ref-Higgins2019-kn" class="csl-entry" role="listitem">
-Higgins, J. P. T. (2019). <span class="nodecoration"><em>Cochrane handbook for systematic reviews of interventions</em></span>, Wiley cochrane series. 2nd ed. Higgins, J. and Thomas, J. (Eds). Hoboken, NJ : Wiley-Blackwell.
-</div>
-<div id="ref-Huang2023-vq" class="csl-entry" role="listitem">
-Huang, L.-K., Kuan, Y.-C., Lin, H.-W. and Hu, C.-J. (2023). <span class="nodecoration">Clinical trials of new drugs for alzheimer disease: A 2020–2023 update</span>. <em>J. Biomed. Sci.</em>, 30 (1), p.83.
-</div>
-<div id="ref-Iaccarino2018-ta" class="csl-entry" role="listitem">
-Iaccarino, L., Tammewar, G., Ayakta, N., Baker, S. L., Bejanin, A., Boxer, A. L., Gorno-Tempini, M. L., Janabi, M., Kramer, J. H., Lazaris, A., Lockhart, S. N., Miller, B. L., Miller, Z. A., O’Neil, J. P., Ossenkoppele, R., Rosen, H. J., Schonhaut, D. R., Jagust, W. J. and Rabinovici, G. D. (2018). <span class="nodecoration">Local and distant relationships between amyloid, tau and neurodegeneration in alzheimer’s disease</span>. <em>Neuroimage Clin</em>, 17, pp.452–464.
-</div>
-<div id="ref-Kovalchik2021-xq" class="csl-entry" role="listitem">
-Kovalchik, S. (2021). <span class="nodecoration"><em><span>RISmed</span>: Download content from <span>NCBI</span> databases</em></span>.
-</div>
-<div id="ref-Martinelli2022-ic" class="csl-entry" role="listitem">
-Martinelli, D. D. (2022). <span class="nodecoration">Evolution of alzheimer’s disease research from a health-tech perspective: Insights from text mining</span>. <em>International Journal of Information Management Data Insights</em>, 2 (2), p.100089.
-</div>
-<div id="ref-Nian2022-xw" class="csl-entry" role="listitem">
-Nian, Y., Hu, X., Zhang, R., Feng, J., Du, J., Li, F., Bu, L., Zhang, Y., Chen, Y. and Tao, C. (2022). <span class="nodecoration">Mining on alzheimer’s diseases related knowledge graph to identity potential <span class="nocase">AD-related</span> semantic triples for drug repurposing</span>. <em>BMC Bioinformatics</em>, 23 (Suppl 6), p.407.
-</div>
-<div id="ref-Office_of_the_Commissioner2023-ka" class="csl-entry" role="listitem">
-Office of the Commissioner. (2023a). <span class="nodecoration"><em><span>FDA</span> converts novel alzheimer’s disease treatment to traditional approval</em></span>. <a href="https://www.fda.gov/news-events/press-announcements/fda-converts-novel-alzheimers-disease-treatment-traditional-approval" class="uri">https://www.fda.gov/news-events/press-announcements/fda-converts-novel-alzheimers-disease-treatment-traditional-approval</a>; FDA.
-</div>
-<div id="ref-Office_of_the_Commissioner2023-hu" class="csl-entry" role="listitem">
-Office of the Commissioner. (2023b). <span class="nodecoration"><em><span>FDA</span> grants accelerated approval for alzheimer’s disease treatment</em></span>. <a href="https://www.fda.gov/news-events/press-announcements/fda-grants-accelerated-approval-alzheimers-disease-treatment" class="uri">https://www.fda.gov/news-events/press-announcements/fda-grants-accelerated-approval-alzheimers-disease-treatment</a>; FDA.
-</div>
-<div id="ref-Silge2016-jf" class="csl-entry" role="listitem">
-Silge, J. and Robinson, D. (2016). <span class="nodecoration"><em>Tidytext: Text mining and analysis using tidy data principles in <span>R</span></em></span>. 1.
+<div id="ref-Henderson1988-cr" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Henderson AS. The risk factors for alzheimer’s disease: A review and a hypothesis. Acta Psychiatr Scand. 1988 Sep;78(3):257–75. </div>
 </div>
 <div id="ref-Villemagne2013-xk" class="csl-entry" role="listitem">
-Villemagne, V. L., Burnham, S., Bourgeat, P., Brown, B., Ellis, K. A., Salvado, O., Szoeke, C., Macaulay, S. L., Martins, R., Maruff, P., Ames, D., Rowe, C. C., Masters, C. L. and Australian Imaging Biomarkers and Lifestyle (AIBL) Research Group. (2013). <span class="nodecoration">Amyloid <span class="math inline">\(\beta\)</span> deposition, neurodegeneration, and cognitive decline in sporadic alzheimer’s disease: A prospective cohort study</span>. <em>Lancet Neurol.</em>, 12 (4), pp.357–367.
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Villemagne VL, Burnham S, Bourgeat P, Brown B, Ellis KA, Salvado O, Szoeke C, Macaulay SL, Martins R, Maruff P, Ames D, Rowe CC, Masters CL, Australian Imaging Biomarkers and Lifestyle (AIBL) Research Group. Amyloid <span class="math inline">\(\beta\)</span> deposition, neurodegeneration, and cognitive decline in sporadic alzheimer’s disease: A prospective cohort study. Lancet Neurol. 2013 Apr;12(4):357–67. </div>
+</div>
+<div id="ref-Iaccarino2018-ta" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Iaccarino L, Tammewar G, Ayakta N, Baker SL, Bejanin A, Boxer AL, Gorno-Tempini ML, Janabi M, Kramer JH, Lazaris A, Lockhart SN, Miller BL, Miller ZA, O’Neil JP, Ossenkoppele R, Rosen HJ, Schonhaut DR, Jagust WJ, Rabinovici GD. Local and distant relationships between amyloid, tau and neurodegeneration in alzheimer’s disease. Neuroimage Clin. 2018;17:452–64. </div>
+</div>
+<div id="ref-Garcia-Morales2021-zb" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Garcı́a-Morales V, González-Acedo A, Melguizo-Rodrı́guez L, Pardo-Moreno T, Costela-Ruiz VJ, Montiel-Troya M, Ramos-Rodrı́guez JJ. Current understanding of the physiopathology, diagnosis and therapeutic approach to alzheimer’s disease. Biomedicines. 2021 Dec;9(12). </div>
+</div>
+<div id="ref-Janeiro2021-sg" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Janeiro MH, Ardanaz CG, Sola-Sevilla N, Dong J, Cortés-Erice M, Solas M, Puerta E, Ramı́rez MJ. Biomarcadores en la enfermedad de alzheimer. Advances in Laboratory Medicine / Avances en Medicina de Laboratorio. 2021 Mar;2(1):39–50. </div>
+</div>
+<div id="ref-Odusami2021-pp" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Odusami M, Maskeliūnas R, Damaševičius R, Krilavičius T. Analysis of features of alzheimer’s disease: Detection of early stage from functional brain changes in magnetic resonance images using a finetuned <span>ResNet18</span> network. Diagnostics (Basel). 2021 Jun;11(6). </div>
+</div>
+<div id="ref-Colovic2013-it" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Colović MB, Krstić DZ, Lazarević-Pašti TD, Bondžić AM, Vasić VM. Acetylcholinesterase inhibitors: Pharmacology and toxicology. Curr Neuropharmacol. 2013 May;11(3):315–35. </div>
+</div>
+<div id="ref-Courtney2004-br" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Courtney C, Farrell D, Gray R, Hills R, Lynch L, Sellwood E, Edwards S, Hardyman W, Raftery J, Crome P, Lendon C, Shaw H, Bentham P, AD2000 Collaborative Group. Long-term donepezil treatment in 565 patients with alzheimer’s disease (<span>AD2000)</span>: Randomised double-blind trial. Lancet. 2004 Jun;363(9427):2105–15. </div>
+</div>
+<div id="ref-Rogawski2003-od" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Rogawski MA, Wenk GL. The neuropharmacological basis for the use of memantine in the treatment of alzheimer’s disease. CNS Drug Rev. 2003 Sep;9(3):275–308. </div>
+</div>
+<div id="ref-Huang2023-vq" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Huang L-K, Kuan Y-C, Lin H-W, Hu C-J. Clinical trials of new drugs for alzheimer disease: A 2020–2023 update. J Biomed Sci. 2023 Oct;30(1):83. </div>
+</div>
+<div id="ref-Gustavsson2023-qr" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Gustavsson A, Norton N, Fast T, Frölich L, Georges J, Holzapfel D, Kirabali T, Krolak-Salmon P, Rossini PM, Ferretti MT, Lanman L, Chadha AS, Flier WM van der. Global estimates on the number of persons across the alzheimer’s disease continuum. Alzheimers Dement. 2023 Feb;19(2):658–70. </div>
+</div>
+<div id="ref-Center_for_Drug_Evaluation2023-gy" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Center for Drug Evaluation, Research. <span class="nocase">FDA’s</span> decision to approve new treatment for alzheimer’s disease. <a href="https://www.fda.gov/drugs/our-perspective/fdas-decision-approve-new-treatment-alzheimers-disease" class="uri">https://www.fda.gov/drugs/our-perspective/fdas-decision-approve-new-treatment-alzheimers-disease</a>; FDA; 2023. </div>
+</div>
+<div id="ref-Office_of_the_Commissioner2023-hu" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Office of the Commissioner. <span>FDA</span> grants accelerated approval for alzheimer’s disease treatment. <a href="https://www.fda.gov/news-events/press-announcements/fda-grants-accelerated-approval-alzheimers-disease-treatment" class="uri">https://www.fda.gov/news-events/press-announcements/fda-grants-accelerated-approval-alzheimers-disease-treatment</a>; FDA; 2023. </div>
+</div>
+<div id="ref-Cummings2023-lo" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Cummings J, Zhou Y, Lee G, Zhong K, Fonseca J, Cheng F. Alzheimer’s disease drug development pipeline: 2023. Alzheimers Dement. 2023 May;9(2):e12385. </div>
+</div>
+<div id="ref-Higgins2019-kn" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Higgins JPT. Cochrane handbook for systematic reviews of interventions. 2nd ed. Higgins J, Thomas J, editors. Hoboken, NJ: Wiley-Blackwell; 2019. (Wiley cochrane series). </div>
+</div>
+<div id="ref-Blei2003-lh" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Blei DM, Ng AY, Jordan MI. Latent dirichlet allocation. <a href="https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf?ref=https://githubhelp.com" class="uri">https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf?ref=https://githubhelp.com</a>; 2003. </div>
+</div>
+<div id="ref-Martinelli2022-ic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Martinelli DD. Evolution of alzheimer’s disease research from a health-tech perspective: Insights from text mining. International Journal of Information Management Data Insights. 2022 Nov;2(2):100089. </div>
+</div>
+<div id="ref-Greco2012-pv" class="csl-entry" role="listitem">
+<div class="csl-left-margin">21. </div><div class="csl-right-inline">Greco I, Day N, Riddoch-Contreras J, Reed J, Soininen H, Kłoszewska I, Tsolaki M, Vellas B, Spenger C, Mecocci P, Wahlund L-O, Simmons A, Barnes J, Lovestone S. Alzheimer’s disease biomarker discovery using in silico literature mining and clinical validation. J Transl Med. 2012 Oct;10:217. </div>
+</div>
+<div id="ref-Nian2022-xw" class="csl-entry" role="listitem">
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Nian Y, Hu X, Zhang R, Feng J, Du J, Li F, Bu L, Zhang Y, Chen Y, Tao C. Mining on alzheimer’s diseases related knowledge graph to identity potential <span class="nocase">AD-related</span> semantic triples for drug repurposing. BMC Bioinformatics. 2022 Sep;23(Suppl 6):407. </div>
 </div>
 <div id="ref-Wickham2019-rj" class="csl-entry" role="listitem">
-Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., Takahashi, K., Vaughan, D., Wilke, C., Woo, K. and Yutani, H. (2019). <span class="nodecoration"><em>Welcome to the <span></span>tidyverse<span></span></em></span>. 4, p.1686.
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H. Welcome to the <span></span>tidyverse<span></span>. 2019;4:1686. </div>
+</div>
+<div id="ref-Kovalchik2021-xq" class="csl-entry" role="listitem">
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Kovalchik S. <span>RISmed</span>: Download content from <span>NCBI</span> databases. 2021; </div>
+</div>
+<div id="ref-Grames2019-as" class="csl-entry" role="listitem">
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">Grames EM, Stillman AN, Tingley MW, Elphick CS. An automated approach to identifying search terms for systematic reviews using keyword co‐occurrence networks. Methods Ecol Evol. 2019 Oct;10(10):1645–54. </div>
+</div>
+<div id="ref-Barrat2004-hm" class="csl-entry" role="listitem">
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Barrat A, Barthélemy M, Pastor-Satorras R, Vespignani A. The architecture of complex weighted networks. Proc Natl Acad Sci U S A. 2004 Mar;101(11):3747–52. </div>
+</div>
+<div id="ref-Csardi2006-gb" class="csl-entry" role="listitem">
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Csardi G, Nepusz T. The igraph software package for complex network research. 2006;Complex Systems:1695. </div>
+</div>
+<div id="ref-Silge2016-jf" class="csl-entry" role="listitem">
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Silge J, Robinson D. Tidytext: Text mining and analysis using tidy data principles in <span>R</span>. 2016;1. </div>
+</div>
+<div id="ref-Grun2011-do" class="csl-entry" role="listitem">
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Grün B, Hornik K. Topicmodels: An <span>R</span> package for fitting topic models. J Stat Softw. 2011 May;40:1–30. </div>
+</div>
+<div id="ref-Office_of_the_Commissioner2023-ka" class="csl-entry" role="listitem">
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">Office of the Commissioner. <span>FDA</span> converts novel alzheimer’s disease treatment to traditional approval. <a href="https://www.fda.gov/news-events/press-announcements/fda-converts-novel-alzheimers-disease-treatment-traditional-approval" class="uri">https://www.fda.gov/news-events/press-announcements/fda-converts-novel-alzheimers-disease-treatment-traditional-approval</a>; FDA; 2023. </div>
+</div>
+<div id="ref-De_la_Monte2008-uy" class="csl-entry" role="listitem">
+<div class="csl-left-margin">31. </div><div class="csl-right-inline">Monte SM de la, Wands JR. Alzheimer’s disease is type 3 diabetes-evidence reviewed. J Diabetes Sci Technol. 2008 Nov;2(6):1101–13. </div>
+</div>
+<div id="ref-Reger2008-xj" class="csl-entry" role="listitem">
+<div class="csl-left-margin">32. </div><div class="csl-right-inline">Reger MA, Watson GS, Green PS, Wilkinson CW, Baker LD, Cholerton B, Fishel MA, Plymate SR, Breitner JCS, DeGroodt W, Mehta P, Craft S. Intranasal insulin improves cognition and modulates beta-amyloid in early <span>AD</span>. Neurology. 2008 Feb;70(6):440–8. </div>
+</div>
+<div id="ref-Pedersen2006-pl" class="csl-entry" role="listitem">
+<div class="csl-left-margin">33. </div><div class="csl-right-inline">Pedersen WA, McMillan PJ, Kulstad JJ, Leverenz JB, Craft S, Haynatzki GR. Rosiglitazone attenuates learning and memory deficits in Tg2576 alzheimer mice. Exp Neurol. 2006 Jun;199(2):265–73. </div>
+</div>
+<div id="ref-Reger2006-nq" class="csl-entry" role="listitem">
+<div class="csl-left-margin">34. </div><div class="csl-right-inline">Reger MA, Watson GS, Frey WH 2nd, Baker LD, Cholerton B, Keeling ML, Belongia DA, Fishel MA, Plymate SR, Schellenberg GD, Cherrier MM, Craft S. Effects of intranasal insulin on cognition in memory-impaired older adults: Modulation by <span>APOE</span> genotype. Neurobiol Aging. 2006 Mar;27(3):451–8. </div>
+</div>
+<div id="ref-Gasparini2001-up" class="csl-entry" role="listitem">
+<div class="csl-left-margin">35. </div><div class="csl-right-inline">Gasparini L, Gouras GK, Wang R, Gross RS, Beal MF, Greengard P, Xu H. Stimulation of beta-amyloid precursor protein trafficking by insulin reduces intraneuronal beta-amyloid and requires mitogen-activated protein kinase signaling. J Neurosci. 2001 Apr;21(8):2561–70. </div>
+</div>
+<div id="ref-Ott1999-pv" class="csl-entry" role="listitem">
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Ott A, Stolk RP, Harskamp F van, Pols HA, Hofman A, Breteler MM. Diabetes mellitus and the risk of dementia: The rotterdam study. Neurology. 1999 Dec;53(9):1937–42. </div>
+</div>
+<div id="ref-Cholerton2016-iz" class="csl-entry" role="listitem">
+<div class="csl-left-margin">37. </div><div class="csl-right-inline">Cholerton B, Baker LD, Montine TJ, Craft S. Type 2 diabetes, cognition, and dementia in older adults: Toward a precision health approach. Diabetes Spectr. 2016 Nov;29(4):210–9. </div>
 </div>
 </div></section></div></main>
 <!-- /main column -->

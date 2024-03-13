@@ -17,12 +17,8 @@ format:
 toc: true
 toc-location: left
 bibliography: references.bib
-csl: university-of-york-harvard-environment.csl
+csl: university-of-york-vancouver.csl
 ---
-
-# Abstract
-
-Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide. Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. Every year thousands of scientific articles are published concerning AD, however it can be time consuming and laborious to disseminate this information into a systematic review whilst highlighting current research. Full abstract text from PubMed for documents containing the MeSH term “Alzheimer’s Disease” were tokenised, cleaned then allocated to either a “pre-leca” or “post-leca” corpus relative to the date of lecanemab accelerated approval, 6th January 2023. Ten-topic latent Diurich Allocation (LDA) models were created for each corpus either using unigrams or bigrams.
 
 ```{r}
 #| label: packages
@@ -35,44 +31,46 @@ source("scripts/00_setting_up.R")
 #| label: data
 #| include: false
 load("updated_project.RData")
-# abstract_unigrams_clean <- read_csv("results/abstract_unigrams_clean.csv")
-# abstract_trigrams <- read_csv("results/abstract_trigrams.csv")
-# abstract_bigrams <- read_csv("results/abstract_bigrams.csv")
 
 abstract_n <- abstract_unigrams_clean %>%
   distinct(title) %>% count() %>% pull(n)
 ```
 
+# Abstract
+
+Every year thousands of scientific articles are published concerning the chronic neurodegenerative disease and leading cause of dementia, Alzheimer’s disease (AD). Currently there are no treatments that cure AD, however recently the anti-amyloid immunotherapy lecanemab has been granted accelerated approval by the FDA. It can be hard highlighting current research in the field which enable treatment breakthroughs as disseminating information into a systematic review can be time consuming and laborious. Using text mining, we found `r abstract_n`full abstract texts containing the MeSH term “Alzheimer’s Disease” from PubMed and preprint databases bioRxiv and medRxiv published between `r format(min(abstract_unigrams_clean$date), "%d-%m-%Y")` and `r format(max(abstract_unigrams_clean$date), "%d-%m-%Y")`. Texts were tokenised and cleaned then allocated to two corpus types, determined based on accelerated approval date for lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. Ten-topic latent Diurich Allocation (LDA) models were created for unigrams in each corpus. Despite the
+
 # Introduction
 
 ## Alzheimer's Disease
 
-Alzheimer’s disease (AD) is a chronic neurodegenerative disease and the most common cause of dementia. Affecting over 55 million people worldwide, the predominant symptoms of AD usually manifest after the age of 65 and include cognitive impairment, as well as physical and emotional difficulties [@noauthor_2023-ek]. These symptoms usually manifest after the physiological changes in the brain develop, therefore scientific understanding and advances in new treatments is important in understanding AD aetiology.
+Alzheimer’s disease (AD) is a chronic neurodegenerative disease affecting over 55 million people worldwide, and is the most common cause of dementia [@World_Health_Organization2023-eb]. The predominant symptoms of AD usually manifest after the age of 65 ad inclue cognitive impairment, physical and emotional difficulties [@2023_Alzheimers_disease_facts_and_figures2023-ek]. Physiological changes in the brain develop before the onset of symptoms which makes it difficult to find treatments when many patients are diagnosed with AD after irreversible neuronal death and hippocampal damage. AD has multiple risk factors suggesting age, epigentic modifiers, infectious agents, and diet all contribute to the development of AD [@A_Armstrong2019-go; @Henderson1988-cr].
 
-Whilst the underlying mechanisms determining the progression of AD are not fully understood, the accumulation of abnormal protein aggregates including, amyloid-beta plaques and neurofibrillary tangles, are frequently found in the brains of patients with AD [@Villemagne2013-xk] [@Iaccarino2018-ta]. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. Diagnosing AD requires the presence of both amyloid and tau pathologies as well as neuroinflammation, neuronal death and brain atrophy [@Garcia-Morales2021-zb].
+The mechanisms determing the progression of AD are not fully understood, but the accumulation of abnormal protein aggregates, including amyloid-beta plaques and neurofibrillary tau tangles, are frequently found in the brains of patients with AD [@Villemagne2013-xk; @Iaccarino2018-ta]. This leads to disruptions in neuronal signalling pathways and can result in brain atrophy. AD diagnosis requires the presence of both amyloid and tau pathologies, and signs of neuroinflammation, neuronal death and brain atrophy [@Garcia-Morales2021-zb]. Biomarkers of neuroinflammation can be found in cerebrospinal fluid (CSF) and plasma [@Janeiro2021-sg] and brain atrophy can be measured with techniques such as magnetic resonance imaging [@Odusami2021-pp].
 
 ## Treatments for AD
 
-Although there are currently no therapies or interventions that can cure AD, several disease-modifying treatments exist that can alter the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. A recent comprehensive review by [@Huang2023-vq], identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively [@Gustavsson2023-qr], therefore increasing research focus on these patient populations is imperative to slow the progression of the disease.
+There are currently no therapies or interventions that can cure AD, but several treatments exist that can modify the course of the disease, alleviate symptoms, and enhance the overall quality of life for patients. Acetylcholinesterase inhibitors (AchE) aim to increase the levels of the neurotransmitter acetylcholine which are attenuated during the pathologies of AD and associated with the loss of cholinergic neurons \[@Colovic2013-it\]. Whilst AchEs provide many benefits to treat the symptoms of AD, they do not delay or stop the progression of the disease and the effects may only last for 12-24 months \[@Courtney2004-br\]. Mementine is a NMDA receptor antagonist \[@Rogawski2003-od\].
 
-There have recently been two drugs granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab [@Center_for_Drug_Evaluation2023-gy]; [@Office_of_the_Commissioner2023-hu]. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. Furthermore, there are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials [@Cummings2023-lo]. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023.
+A recent comprehensive review by @Huang2023-vq identified a shift in clinical trial research, which highlighted more Phase I studies being conducted and more Phase III trials involving anti-amyloid therapies. These trials are involving more patients with early onset AD and mild cognitive impairment (MCI) to help develop preventative therapies. Global estimates for people living with preclinical AD or positive for AD pathology biomarkers were 69 and 315 million, respectively \[@Gustavsson2023-qr\], therefore increasing research focus on these patient populations is imperative to slow the progression of the disease.
 
-## Topic Modelling and Text Mining in AD Research
+Two drugs have recently been granted approval by the United States Food and Drug Administration (US FDA) which target the pathophysiologies of AD; aducanumab and lecanemab [@Center_for_Drug_Evaluation2023-gy; @Office_of_the_Commissioner2023-hu]. These treatments are human monoclonal immunotherapies which aim to target and reduce the beta-amyloid protein aggregates in the brain by binding to its various forms in the amyloid-beta pathway. There are four more anti-amyloid monoclonal antibody treatments which have undergone or are currently in Phase III clinical trials [@Cummings2023-lo]. For this study, we will focus on lecanemab, the most recent AD treatment to undergo accelerated approval by the FDA, which was fully approved for treatment in early AD on the 6th July 2023. We will not analyse historical records, due to the nature of our research focusing on recent AD treatment approvals and their influence on the research field.
 
-Given the consistent publication of thousands of articles every year concerning AD, focusing on early-stage drug discovery could lead to more research literature and clinical findings being published. Systematic reviews and meta-analyses are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research field [@Higgins2019-kn]. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words [@Blei2003-lh]. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.
+## Text Mining and Topic Modelling in AD Research
 
-In silico topic modelling has been used for various applications relating to AD, including describing the research landscape. [@Martinelli2022-ic], identifying novel biomarkers [@Greco2012-pv], and drug repurposing [@Nian2022-xw]. Martinelli performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved immunotherapy treatments. To increase the findability and reduce bias when selecting articles, the litsearchr package will help identify the most important terms which we will reference our search terms against [@Grames2019-as].
+Thousands of articles are published every year concerning AD, so focusing on early-stage drug discovery could lead to more literature and clinical findings being identified. Systematic reviews and meta-analyses however, are time consuming and labour intensive, and pose a significant challenge to updating the current understandings in the research literature [@Higgins2019-kn]. Topic modelling, a prominent text mining technique, can find patterns and relationships within natural language data, and could provide an automated and unbiased overview of research text. The most common topic modelling method is Latent Dirichlet Allocation (LDA) which assumes, for unstructured text data like research publication, that each document is made up of a number of topics and that each topic is made up of a collection of words [@Blei2003-lh]. Each LDA topic is represented as a probability of words within a topic and a probability of topics within each document, which each follow a Dirichlet distribution.
+
+*In silico* topic modelling has been used for various applications relating to AD, including describing the research landscape. [@Martinelli2022-ic], identifying novel biomarkers [@Greco2012-pv], and drug repurposing [@Nian2022-xw]. @Martinelli2022-ic performed a nine-topic LDA model and identified five mechanistic themes, one topic relating to AD diagnosis and three concerning treatments. To the best of my knowledge, no studies have explored the change to the AD research landscape with the emergence of newly approved immunotherapy treatments.
 
 ## Aims and Hypotheses
 
-In this study we aim to comprehensively investigate current research in AD, focusing on the period around the accelerated approval of the AD immunotherapy drug, lecanemab. We hypothesised that major topics in AD research could be categorised into distinct themes by applying LDA topic models to existing literature. Additionally, we hope to determine whether these topics have changed with the emergence of new immunotherapy treatments. This method is justified for the vast quantity of literature being published concerning AD and could be translated into other disease areas to study the impact of novel treatment options. Remaining current with the latest research is crucial for making significant strides in understanding and addressing the complexities of this disease, and finding new ways to treat AD.
+Vast quantities of literature are being published annually concerning AD. In this study we aim to comprehensively characterise AD research through the period that the AD immunotherapy drug, lecanemab, underwent accelerated approval. We hypothesise that new treatments targeting the pathophysiological changes in patients with AD, represent a major paradigm shift in AD research. We propose that LDA topic models can help identify distinct thematic changes in the literature. We aim to understand whther the methods to summarise the latest research are crucial for making significant stides in understanding the complexities of this disease and finding new ways to treat AD. Furthermore, this method could be translated to other neurodegenerative disease and to study the impact of emerging novel treatment options.
 
 # Methods
 
 A full summary of the methodology is provided in @fig-full-summary. All data analysis and visualisations were done in R version 4.3.2 using *tidyverse* packages [@Wickham2019-rj] unless otherwise stated.
 
 ::: {#fig-full-summary}
-
 ```{r}
 #| label: fig-full-summary
 
@@ -80,15 +78,12 @@ knitr::include_graphics("data/methodsummary.png")
 
 ```
 
-*Summary of Methods* 
-
+**Summary of Methods.** Abstracts gathered from PubMed, updated with *litsearchr* results, or preprint databases were read into R. Meta data analysis was performed then text was tidied and tokenised, then allocated to two corpuses relative to the accelerated approval date of lecanemab. LDA topic modelling and n-gram analysis results were collected then interpreted.
 :::
 
 ## Data Acquisition
 
-Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, and publication date were obtained from the National Center for Biotechnology Information (NCBI) datasbase, PubMed, using the inclusion criteria described in @tbl-inclusion-criteria, and accessed through *Rismed* [@Kovalchik2021-xq] on 18th February 2023. The diversity of entries into the PubMed database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.
-
-::: {#tbl-inclusion-criteria}
+Due to accessing constraints, abstracts represent the only document content for this study. Titles, full abstract text, and publication date were obtained from the National Center for Biotechnology Information (NCBI) datasbase, PubMed, using the inclusion criteria described in @tbl-inclusion-criteria, and accessed through *Rismed* [@Kovalchik2021-xq] on 18-02-2024. Results from PubMed were combined with publications from the preprint data sources, bioRxiv and medXriv, using *medrxiv* @medrxivr. An additional dataset was generated for abstracts containing the associated terminology for the AD drug lecanemab: '*lecanemab*', '*leqembi*' '*BAN2401*', and '*mAb158*'. The diversity of entries into the PubMed database ensures that the contents are representative and studies are reliable as they are obtained from multiple sources. Entries are assigned Medical Subject Headings (MeSH) which identify health-related terms within each document, therefore classifying articles according to their subject nature which reduces potential interpretive bias.
 
 +----------------------------+------------------------------------------------+
 | Criteria                   | Filter Applied                                 |
@@ -124,14 +119,11 @@ Due to accessing constraints, abstracts represent the only document content for 
 | Language                   | English                                        |
 +----------------------------+------------------------------------------------+
 
-*Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database*. Adapted from [@Martinelli2022-ic].
-
-
-:::
+: **Inclusion criteria used to query and identify all relevant terms concerning AD in the PubMed database.** Adapted from @Martinelli2022-ic. {#tbl-inclusion-criteria}
 
 ### *litsearchR*
 
-To reassure us that the PubMed search query encapsulated all literature, *litsearchr* package was used to expand the search terms [@Grames2019-as]. Citations from PubMed results using the previous search criteria in @tbl-inclusion-criteria were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words was set as n = 50 for keywords and n = 75 for the title. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb].
+To reassure us that the PubMed search query encapsulated all literature, *litsearchr* package was used to expand the search terms [@Grames2019-as]. Citations from PubMed results using the previous search criteria in @tbl-inclusion-criteria were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed, as previously described, and the minimum frequency of words for keywords and title was set to n = 50 and n = 75, respectively. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The change point method calculated the optimal cutoff positions based on the trend in sharp changes for *strength*.
 
 ```{r}
 #| label: search-terms
@@ -212,7 +204,7 @@ cutoff_cum <- find_cutoff(g,
 # Add to figure
 cutoff_fig +
   geom_hline(yintercept = cutoff_cum, 
-             linetype = "dashed")
+             linetype = "solid")
 
 # Add cutoffs for changes
 cutoff_change <- find_cutoff(g, 
@@ -223,20 +215,24 @@ cutoff_change <- find_cutoff(g,
 
 ## Data Preprocessing
 
-Abstracts and their metadata were categorised into *“pre-leca”* or *“post-leca”* corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, 6th January 2023 [@Office_of_the_Commissioner2023-hu]. Full abstract text was tokenised into single words using the *unnest_tokens* function of the *tidytext* package [@Silge2016-jf]. The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the *tidytext* package [@Silge2016-jf] combined with the personalised words frequent to the unigram analysis, "*alzheimer's*", "*ad*", "*95*", "*ci*", and "*including*", were then removed. To prevent the different spellings of the same phrase from being counted multiple times, similar bigrams and trigrams were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’ were all mapped to ‘*amyloid beta*’, and '*mild cognitive impairments*' and '*cognitive impairment mci*' were mapped to ‘*mild cognitive impairment*’.
+Abstracts and their metadata were categorised into two corpuses based on their publication date relative to the date of lecanemab’s accelerated early approval, `r format(as.Date(leca_approv), "%d-%m-%Y")` [@Office_of_the_Commissioner2023-hu]. Full abstract text was tokenised into single words using the *unnest_tokens* function of the *tidytext* package [@Silge2016-jf] (@fig-preprocess-1). The same function was used for tokenising to bigrams and trigrams, using n = 2 and n = 3 respectively. Stop words from the *tidytext* package [@Silge2016-jf] combined with the personalised words frequent to the unigram analysis, "*alzheimer's*" and "*ad*", were then removed (@fig-preprocess-2). To prevent the different spellings of the same phrase from being counted multiple times, similar bigrams and trigrams were mapped to the same variable. For example, ‘*amyloid β*, ‘*beta amyloid*’, and ‘*amyloid aβ*’ were all mapped to ‘*amyloid beta*’, and '*mild cognitive impairments*' and '*cognitive impairment mci*' were mapped to ‘*mild cognitive impairment*’. Additionally, for bigrams originating from trigrams, mapping to the first two terms was used or mapping to an acronym, for example '*central nervous*', '*system cns'* were mapped to '*cns*'.
 
-::: {fig-preprocess}
-
+::: {#fig-preprocess}
 ```{r}
 #| label: fig-preprocess
+#| include: true
+#| fig-subcap: 
+#|  - "Unigram Tokenisation."
+#|  - "Removal of Stop Words."
+#| fig-width: 20
+#| fig-height: 15 
+#| fig-align: center
 
 knitr::include_graphics("data/preprocess1.png")
 knitr::include_graphics("data/preprocess2.png")
 ```
 
-**Abstract tokenisation into unigrams.** Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the *tidytext* package [@Silge2016-jf] and personalised words frequent to the unigram analysis, '*alzheimers*', '*AD*', '*95*', '*ci*', and including. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.
-
-
+**Abstract preprocessing into unigrams.** Schematic of an abstract being (A) tokenised into single-word tokens followed by (B) removal of stop words obtained from the *tidytext* package [@Silge2016-jf] and personalised words frequent to the unigram analysis, '*alzheimers*', and '*AD*'. Tokenisation and data cleaning of bigrams and trigrams followed the same methods, not shown.
 :::
 
 ```{r}
@@ -282,7 +278,7 @@ bigrams_united <- bigrams_united %>%
                                   "\\b(2 diabetes)\\b|\\b(diabetes t2d)\\b|\\b(type 2)\\b",
                                   "diabetes t2d"),
          bigram = str_replace_all(bigram,
-                                  "\\b(amyotrophic lateral)\\b|\\b(lateral sclerosis)\\b|\\b(disease amyotrophic)\\b",
+                                  "\\b(amyotrophic lateral)\\b|\\b(lateral sclerosis)\\b|\\b(disease amyotrophic)\\b|\\b(sclerosis als)\\b",
                                   "als"),
          bigram = str_replace_all(bigram,
                                    "\\b(α syn|α synuclein|alpha synuclein|alpha synucleinuclein)\\b",
@@ -372,9 +368,9 @@ trigram_counts <- trigrams_united %>%
 
 ## Data Analysis
 
-### Publication Frequency
+### Metadata Analysis
 
-Number of abstracts published per month were visualised as well as the frequency of dates of publications for papers containing the associated terminology for the AD drug lecanemab were also obtained.
+The number of relevant abstracts published per month were visualised as well as the frequency of dates of publications for papers containing the associated terminology for the AD drug lecanemab were also obtained.
 
 ### Term Frequency
 
@@ -392,7 +388,7 @@ The distribution of terms used over 1000 times from the unigram analysis was vis
 
 ## Create Generalised linear model
 
-top_words <- c("disease", "brain", "studies", "diseases", "review", "cognitive", "dementia", "neurodegenerative", "clinical", "patients", "treatment", "tau", "amyloid")
+top_words <- c("disease", "brain", "studies", "diseases", "review", "cognitive", "dementia", "neurodegenerative", "clinical", "patients", "treatment", "tau", "amyloid", "risk")
 
 # Get word frequency per month
 glm_abstracts <- abstract_unigrams_clean %>%  
@@ -406,15 +402,15 @@ glm_abstracts <- abstract_unigrams_clean %>%
   ungroup() 
 
 # Generalised linear model
-glm <- glm( freq ~ date + word, data = glm_abstracts, family = "poisson" )
+glm <- glm(freq ~ date + word, data = glm_abstracts, family = "poisson" )
 summary(glm)
 ```
 
 ### Topic Modelling
 
-A document term matrix (dtm) was constructed for each dataset, indicating each word’s term frequency (tf), which is a measure of how often a word appears in a document. To determine if a statistical model could distinguish between pre-leca and post-leca corpuses, a two-topic Latent Dirich Allocation (LDA) model [@Blei2003-lh] was applied to the dtm using the *topicmodels* package [@Grun2011-do]. The per-document-per-topic probabilities (γ) was extracted to show the proportion of words generated in each topic and how often these words appear in either the pre-leca or post-leca corpuses.
+A document term matrix (dtm) was constructed for each dataset, indicating each word’s term frequency (tf), which is a measure of how often a word appears in each abstract To determine if a statistical model could distinguish between the text corpuses surrounding the accelerated approval date of lecanemab, a two-topic Latent Dirich Allocation (LDA) model [@Blei2003-lh] was applied to the dtm using *topicmodels* [@Grun2011-do]. The per-document-per-topic probabilities (γ) was extracted to show the proportion of words generated in each topic and how often these words appear in either corpuses.
 
-Two ten-topic LDA models were also created, one for each of the pre-leca and post-leca text corpuses, to determine the most frequent topics, where an arbitrary topic number (k) of ten was chosen. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most commonly found in each topic were visualised. In each model the abstracts are considered mixtures of topics and each topic is considered a mixture of words. As a lot of the most common words may appear as bigrams or trigrams in the text corpuses, the per-topic-per-bigram and per-topic-per-trigram probabilities with the top 10 most common bigrams and trigrams were also visualised with two ten-topic LDA models for the pre-leca and post-leca text corpuses (@fig-topic-models-bigrams ; @fig-topic-models-trigrams).
+Two ten-topic LDA models were also created, one for each of the pre-leca and post-leca text corpuses, to determine the most frequent topics, where an arbitrary topic number (k) of ten was chosen. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most commonly found in each topic were visualised. In each model the abstracts are considered mixtures of topics and each topic is considered a mixture of words. As a lot of the most common words may appear as bigrams or trigrams in the text corpuses, the per-topic-per-bigram and per-topic-per-trigram probabilities with the top 10 most common bigrams and trigrams were also visualised with two ten-topic LDA models for both text corpuses.
 
 ```{r}
 #| label: Gamma LDA Topic Modelling
@@ -648,52 +644,65 @@ top_trigram_terms_post <- top_trigram_terms_post %>%
 A full summary of the results is found in @fig-results-summary.
 
 ::: {#fig-results-summary}
-
 ```{r}
 #| label: fig-results-summary
+#| include: true
+#| fig-width: 20
+#| fig-height: 10
+#| fig-align: centre
 
 knitr::include_graphics("data/resultsummary.png")
 
 ```
 
-*Summary of Methods* 
-
+**Summary of Results**
 :::
 
 ## Search Query Refinement Identified the Term 'alzheimer'
 
-Out initial search query was refined using *litsearchr* [@Grames2019-as] using the 80% cutoffs which determined the most important terms to the articles; all others were discarded (@fig-ad-search-terms). We disregarded '*alzheimer's disease*' as this MeSH term was included in the original search query, but we updated the PubMed search query with '*alzheimer*' (@tbl-inclusion-criteria). We omitted the unigram '*disease*' as it was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query.
+Out initial search query was refined using *litsearchr* [@Grames2019-as] to determine the most important terms to the articles ranked by their strength (@fig-ad-search-terms). We disregarded '*alzheimer's disease*' as this MeSH term was included in the original search query, but we updated the PubMed search query with '*alzheimer*' (@tbl-inclusion-criteria). We omitted the unigram '*disease*' as it was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query.
 
 ::: {#fig-ad-search-terms}
-
 ```{r}
 #| label: fig-ad-search-terms
 #| include: true
-#| fig-cap: "** Search query refinement using *litsearchr* identified '*alzheimer*'.** A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded."
-#| fig-width: 10
-#| fig-height: 7
+#| fig-width: 15
+#| fig-height: 10
 #| fig-align: left
 
 cutoff_fig +
   geom_hline(yintercept = cutoff_change, 
              linetype="dashed") +
-  theme_classic()
+  xlab("Rank") +
+  ylab("Strength") +
+  theme(legend.position = "none",
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
+        axis.text.x = element_text(size = 15),
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black",
+                                 size = 1)
+        )
 
 ```
 
-** Search query refinement using *litsearchr* identified '*alzheimer*'.** A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed line marks 80% cutoff, and all terms below were discarded.
+**Search query refinement using *litsearchr* identified '*alzheimer*'.** A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed lines mark optimal cutoff positions where the trend in strength shows sharp changes.
 :::
 
-## AD Research Publication are Similar Over Time
+## AD Research Publication Frequency is not Associated with Lecanemab Approval
 
-This study found `r abstract_n` papers that were published between `r min(abstract_unigrams_clean$date)` and `r max(abstract_unigrams_clean$date)` that met the inclusion criteria in @tbl-inclusion-criteria. The distribution of publication frequency did not vary considerably during this period @fig-publication-date. The frequency of publications containing the terms associated with the AD drug lecanemab increased in 2023. This could be attributed to 2023 being the year of the accelerated and traditional approval of lecanemab [@Office_of_the_Commissioner2023-hu; @Office_of_the_Commissioner2023-ka]. The overall distribution of dates of publication was similar across the observed time frame for the full abstract texts.
+This study found `r abstract_n` papers that were published between `r format(min(abstract_unigrams_clean$date), "%d-%m-%Y")` and `r format(max(abstract_unigrams_clean$date), "%d-%m-%Y")` that met the inclusion criteria in @tbl-inclusion-criteria. We aimed to identify whether there was a change in the Lecanemab received accelerated and traditional approval in 2023 [@Office_of_the_Commissioner2023-hu; @Office_of_the_Commissioner2023-ka], however we did not find any variablitiy in the overall frequency of literature published containing the MeSH term '*Alzheimer's Disease*' @fig-publication-date-1. This was surprising as the frequency of publications containing the terms associated with the AD drug lecanemab exponentially increased in 2023 @fig-publication-date-2.
+
+What is the increase in 03/2023?
+
+Write something about how lecanemab is a new drug and the literature is increasing.but too early to notice a increase in literature. Not the only drug. We therefore wanted to investigate whether there was a
 
 ::: {#fig-publication-date}
-
 ```{r}
 #| label: fig-publication-date
 #| include: true
-#| fig-cap: "**Frequency of lecanemab publications increases in 2023.** Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval."
 #| fig-subcap: 
 #|  - "All Abstracts"
 #|  - "Lecanemab Abstracts"
@@ -706,17 +715,21 @@ abstract_unigrams_clean %>%
   geom_histogram(bins = 100) +
   xlab("Date of Publication") +
   ylab("Number of Abstracts") +
-  scale_x_date(date_breaks = "4 month", 
-               date_labels = "%m/%Y") +
+  scale_x_date(date_breaks = "4 months", 
+               date_labels = "%d/%m/%Y") +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, 
                                    vjust = 0.5, 
                                    hjust = 0.5,
                                    size = 15),
-        axis.title.x = element_text(size = 25),
-        axis.title.y = element_text(size = 25),
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
         strip.text = element_text(size = 20),
-        axis.text.y = element_text(size = 15))  +
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black",
+                                 size = 1))  +
   geom_vline(xintercept = as.numeric(as.Date("2023-01-06")), 
              linetype = "dashed", 
              color = "red", 
@@ -736,24 +749,27 @@ naive_drug_results %>%
                                    vjust = 0.5, 
                                    hjust = 0.5,
                                    size = 15),
-        axis.title.x = element_text(size = 25),
-        axis.title.y = element_text(size = 25),
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20),
         strip.text = element_text(size = 20),
-        axis.text.y = element_text(size = 15)) +
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black",
+                                 size = 1)
+        ) +
   geom_vline(xintercept = as.numeric(as.Date("2023-01-06")), 
              linetype = "dashed", 
              color = "red", 
              linewidth = 1)
 ```
-**Frequency of lecanemab publications increases in 2023.** Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = 6,167) or (B) terms associated with the AD drug lecanemab: ‘lecanemab’, ‘leqembi’, ‘BAN2401’, and ‘mAb158’ (n = 207). Line represents date of lecanemab accelerated approval.
 
-
+**Frequency of lecanemab publications increases in 2023.** Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = `r abstract_n`) or (B) terms associated with the AD drug lecanemab: ‘*lecanemab*’, ‘*leqembi*’, ‘*BAN2401*’, and ‘*mAb158*’ (n = 207). Dashed-line represents date of lecanemab accelerated approval, `r format(as.Date(leca_approv), "%d-%m-%Y")`.
 :::
 
-The per-document-per-topic probabilities (γ) did not show a difference between the two topics when pre-leca and post-leca documents were identified (@fig-gamma-lda).
+The two topic LDA model did not distinguish a difference in topics in the literature around the accelerated approval of Lecanemab, with no significant difference between the per-document-per-topic probabilities (γ) (@fig-gamma-lda). This suggests that the content of the abstracts did not change significantly from the time before to after the accelerated approval of lecanemab.
 
 ::: {#fig-gamma-lda}
-
 ```{r}
 #| label: fig-gamma-lda
 #| fig-width: 15
@@ -787,33 +803,29 @@ abstract_gamm %>%
                                         size=1, 
                                         linetype="solid")
      ) +
-  scale_fill_manual(values = c("gray", "black"),
+  scale_fill_manual(values = c("darkgray", "black"),
                     name = "Corpus Type",
                     limits = c("pre-leca", "post-leca"),
                     labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")) +
   scale_x_discrete(limits = c("pre-leca", "post-leca")) 
 ```
-  
-*Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab*. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using *topicmodels* [@Grun2011-do]. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, `r as.Date(leca_approv)`. n = `r abstract_n`.
 
+**Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab**. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using *topicmodels* [@Grun2011-do]. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. n = `r abstract_n`.
 :::
 
 ## N-gram Analysis
 
-Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in @fig-tokenisation. '*Disease*' is the most frequent unigram in both corpuses (@fig-tokenisation-1). This may be due to being most frequently associated with '*neurodegenerative disease*', '*Parkinson's disease*', and '*Huntington's disease*' which are among the most frequent bigrams and trigrams (@fig-tokenisation-3; @fig-tokenisation-4).
-
+Despite the full abstract dataset not significantly splitting into two distinct topics, we aimed to suggest this was because the language was very similar between the two corpses. We therefore aimed to explore the most common n-grams frequencies. The 15 most frequent unigrams, bigrams and trigrams along with the distribution by month of the top 14 shared most frequent unigrams for both corpuses are shown in @fig-tokenisation. '*Disease*' is the most frequent unigram in both corpuses (@fig-tokenisation-1) and is associated with '*neurodegenerative disease*', '*Parkinson's disease*', and '*Huntington's disease*' which are among the most frequent bigrams and trigrams (@fig-tokenisation-2; @fig-tokenisation-3). No significant difference between the word frequencies over time was observed for the most frequent unigrams shared between the two corpuses (@fig-tokenisation-4).
 
 ::: {#fig-tokenisation}
-
 ```{r}
 #| label: fig-tokenisation
 #| include: true
-#| fig-cap: "**Literature use is similar around the time of lecanemab approval.** Tokenised n-grams split into pre- and post-lecanemab corpuses and ranked by (A) unigram frequency, (C) bigram frequency, and (D) trigram frequency, removing stop-words (n = 7,007). **Word frequency trends are similar for the top 10 most frequent terms.** The focus of AD research has stayed consistent over time. The frequency of a selection of words used over 1000 times in AD abstracts from 01-01-2022 to 10-10-2023 has not changed."
 #| fig-subcap: 
 #|  - "Unigram"
-#|  - "Most common words"
 #|  - "Bigram"
 #|  - "Trigram"
+#|  - "Most common words"
 #| fig-width: 15
 #| fig-height: 10
 #| fig-align: left
@@ -846,25 +858,6 @@ abstract_unigrams_clean %>%
               scale = "free") +
   scale_fill_manual(values = c("black", "darkgrey"))
 
-glm %>% ggplot(aes(x = date, y = freq)) +
-  geom_line(aes(color = word)) +
-  ylab("Frequency") +
-  xlab("Date") +
-  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
-  theme(axis.title.x = element_text(size = 20),
-        axis.title.y = element_text(size = 20),
-        strip.text = element_text(size = 20),
-        axis.text.x = element_text(size = 15),
-        axis.text.y = element_text(size = 15),
-        axis.ticks = element_line(size = 1),
-        panel.background = element_blank(),
-        legend.position = "right",
-        axis.line = element_line(colour = "black",
-                                 size = 1)
-) +
-  scale_color_manual(values = c("#56B4E9", "darkblue", "red", "darkgreen", "orange", "black", "purple", "brown", "pink", "grey", "lightblue", "lightgreen", "lightpink", "lightgrey"),
-                     name = "Unigram")
-
 bigram_counts %>% 
   filter(bigram != "alzheimers disease") %>% 
   group_by(type) %>%
@@ -891,7 +884,7 @@ bigram_counts %>%
                      levels=c('pre-leca','post-leca'), 
                      labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
               scale = "free") +
-  scale_fill_manual(values = c("darkgrey", "black")) 
+  scale_fill_manual(values = c("black", "darkgrey"))
 
 trigram_counts %>%
   group_by(type) %>%
@@ -918,48 +911,190 @@ trigram_counts %>%
                      levels=c('pre-leca','post-leca'), 
                      labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
               scale = "free") +
-  scale_fill_manual(values = c("darkgrey", "black"))
+  scale_fill_manual(values = c("black", "darkgrey"))
 
+glm_abstracts %>% ggplot(aes(x = date, y = freq)) +
+  geom_line(aes(color = word),
+            linewidth = 1) +
+  ylab("Word Frequency") +
+  xlab("Month of Publication") +
+  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
+  theme(axis.text.x = element_text(angle = 45, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5,
+                                   size = 15),
+        axis.title.y = element_text(size = 20),
+        axis.title.x = element_text(size = 20),
+        strip.text = element_text(size = 20),
+        axis.text.y = element_text(size = 15),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        legend.position = "right",
+        axis.line = element_line(colour = "black",
+                                 size = 1)
+) +
+  scale_color_manual(values = c("lightblue1", "cyan2", "darkgreen", "darkcyan", "deepskyblue", "cornflowerblue", "blue", "darkblue", "darkmagenta", "midnightblue", "purple", "plum1", "green", "purple4"),
+                     name = "Unigram") +
+    geom_vline(xintercept = as.numeric(as.Date("2023-01-06")), 
+             linetype = "dashed", 
+             color = "red", 
+             linewidth = 1) 
+  
 ```
 
-
+**Literature use is similar around the time of lecanemab approval.** Corpus type was determined based on accelerated approval date for lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")` then tokenised and removal of stop words. The 15 most frequent (A) unigrams, (B) bigrams and (C) trigrams along with (D) the distribution by month of the top 14 shared most frequent unigrams for both corpuses (n = `r abstract_n`). Dashed-line represents the accelerated approval date of lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`.
 :::
 
 ## Topic Modelling
 
-### Potential increase in late-phase studies after lecanemab approval.
+### Potential increase in tau research after lecanemab accelerated approval.
 
-The top 10 unigrams in LDA for **pre-leca:** and **post-leca** are shown in @fig-topic-model-unigrams. Topics that occur in both text corpuses are *'Treatments'*, *'Abnormal Proteins'*, *'Neurodegeneration review'*, *'Risk Factor*s', *'Study Terminology'*, *'Diagnosis'*, and *'Cellular Pathology'*. Within 'abnormal proteins'
+The topics *'Treatments'*, *'AD Diagnosis'*, *'Genetic Risk'*, *'Molecular Pathology'*, '*Study Terminology'* and *'Cellular Pathology'* were observed in abstracts before and after the accelerated approval of lecanemab @fig-topic-model-unigrams.
 
-Topics concerning study terminology was common to both corpuses, however in the post-leca corpus the unigrams 'randomised', 'trial' and 'trials' were unique and potentially suggests the increase in randomised clinical trials after lecanemab approval. This is consistent with the trends observed in [@Huang2023-vq] which suggest an increase in Phase III clinical trials for anti-amyloid therapies and encompasses the traditonal approval date of lecanemab by the FDA in July 2023 from the Clarity AD clinical trial [@Office_of_the_Commissioner2023-ka]. Randomisation of clinical trials usually happens during the later Phase III trials due to earlier phases recruiting smaller numbers of participants. Therefore, this suggests a shift in the research literature to studies with larger patient cohorts and using robust methods to eliminate selection bias.
+Topics containing study terminology were common to both corpuses, however the unigram '*placebo*' was unique to the later corpus. This could suggest an increase in the number of randomised clinical trials (RCT) after lecanemab received accelerated approval as these trials usually involve a placebo-control. This is consistent with the trends observed in [@Huang2023-vq] which suggest an increase in Phase III clinical trials for anti-amyloid therapies and encompasses the traditonal approval date of lecanemab by the FDA in July 2023 from the Clarity AD clinical trial [@Office_of_the_Commissioner2023-ka]. Placebos are used when there is no known or FDA-approved therapy that can be tolerated by patients, therefore as AD does not have a standard of care treatment to cure the disease, a placebo may be used in RCTs.
 
 ::: {#fig-topic-model-unigrams}
-
 ```{r}
 #| label: fig-topic-model-unigrams 
 #| include: true 
-#| fig-cap: "**Unigram LDA Topic Modelling.** Outputs from the LDA model with ten topics. Figures show the top ten most commonly associated unigrams in each topic ordered by their per-topic-per-word probability, β. Topic titles were manually created and added." 
 #| fig-subcap: 
-#|   - "Top 10 terms in each LDA topic: Pre-Leca" 
-#|   - "Top 10 terms in each LDA topic: Post-Leca" 
+#|   - "Pre-Lecenamab Accelerated Approval: Top 10 unigrams in each LDA topic" 
+#|   - "Post-Lecanemab Accelerated Approval: Top 10 unigrams in each LDA topic" 
 #| fig-width: 20
 #| fig-height: 15 
 #| fig-align: center
 
-knitr::include_graphics("plots/pre-leca-lda-new.png")
-knitr::include_graphics("plots/post-leca-lda-new.png")
+knitr::include_graphics("plots/pre-leca-lda-blue.png")
+knitr::include_graphics("plots/post-leca-lda-blue2.png")
 ```
 
-
+**Unigram LDA Topic Modelling.** Outputs from the ten-topic LDA model for abstracts published (A) before and (B) after the accelerated approval date of lecenamab. The top 10 unigrams per topic are ordered by their per-topic-per-word probability, β. Topic titles were manually created and added. Colours are arbitory and match when the same topic was identified from (A) to (B), else are gray.
 :::
 
-## Study Limitations
+We aimed to see whether there had been a change in the terms found in similar topics between the two corpuses. There was an increase in the beta-value for the terms in the '*Molecular Pathology'* topic after the accelerated approval of lecanemab, specifically for the terms: '*tau'*, '*amyloid',* and *'aβ'.* This suggests these unigrams were more associated with topics in the latter corpus.
 
-Due to our search strategy, a lot of papers contain the MeSH term 'Alzheimer's disease' may have been mentioned as a collective with other neurodegenerative diseases, hence why the unigrams '*huntington’s disease*', '*parkinson’s disease*' and '*amylotropic lateral sclerosis*' are very frequent. We tried to avoid this by filtering the titles and abstracts to also contain the term 'alzheimer's disease', 'ad' or 'alzheimer'.
+The term '*insulin*' was not found in the later corpus @fig-topic-model-unigrams-2, however '*type 2 diabetes'* was one of the most common trigrams for both corpuses (@fig-tokenisation-3). AD has been referred to as type 3 diabetes due to the rapid growth of literature concerning brain insulin resistance and experimental evidence has shown insulin sensitiser treatments may help attenuate learning deficits [@De_la_Monte2008-uy; @Reger2008-xj; @Pedersen2006-pl; @Reger2006-nq]. Many epidemiological studies have suggested T2DM may be increasing the risk of AD, leading to the lower brain insulin levels resulting in decreased clearance of amyloid-beta [@Gasparini2001-up; @Ott1999-pv]. Despite this growing area of research, observations between nondemented participants and AD patients with T2DM have not been able to show a significant difference in amyloid accumulation [@Cholerton2016-iz]. Whilst we cannot conclude from our results whether this suggests a shift in research focusing on T2DM and its metabolic link to AD, we have observed that literature around the approval of lecanemab does concern multiple metabolic and immune changes relating to AD.
 
-One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the time frame used for the analysis not being long enough to account for a change in the research landscape. Previous studies have used a five-year time period to detect topics in AD literature[@Martinelli2022-ic], therefore research topics may not be changing in our two-year period.
+::: {#fig-beta-change}
+```{r}
+#| label: fig-beta-change
+#| include: false
+#| cache: true 
+#| fig-width: 20
+#| fig-height: 15 
+#| fig-align: center
 
-Unable to mine keywords included in the full text, so terms only described in the abstract, regardless of whether other phrases are included in the complete article.
+word_count_pre <- abstract_unigrams_clean %>%
+  filter(type == "pre-leca") %>% 
+  count(word, abstract, sort = TRUE) %>% 
+  ungroup()
+
+word_count_post <- abstract_unigrams_clean %>%
+  filter(type == "post-leca") %>% 
+  count(word, abstract, sort = TRUE) %>% 
+  ungroup()
+
+# Cast the word counts into a document term matrix
+abstract_dtm_pre <- word_count_pre %>%
+  cast_dtm(abstract, word, n) 
+
+abstract_dtm_post <- word_count_post %>%
+  cast_dtm(abstract, word, n)
+
+# Running the LDA model
+abstract_lda_pre <- LDA(abstract_dtm_pre, k = 10, control = list(seed = 1234))
+
+abstract_lda_post <- LDA(abstract_dtm_post, k = 10, control = list(seed = 1234))
+
+tidy_lda_pre <- tidy(abstract_lda_pre,
+                     matrix = "beta") %>% 
+  mutate(type = "pre_leca")
+tidy_lda_post <- tidy(abstract_lda_post,
+                      matrix = "beta") %>% 
+  mutate(type = "post_leca")
+
+top_terms_pre_topics <- tidy_lda_pre %>%
+  filter(term != "disease" & term != "alzheimers") %>% 
+  mutate(topic = case_when(topic == 1 ~ "Genetic Risk",
+                           topic == 2 ~ "Drug Discovery",
+                           topic == 3 ~ "Cellular Pathology",
+                           topic == 4 ~ "Neurodegeneration",
+                           topic == 5 ~ "Study Terminology",
+                           topic == 6 ~ "Physical Health",
+                           topic == 7 ~ "Brain Function",
+                           topic == 8 ~ "Treatments",
+                           topic == 9 ~ "AD Diagnosis",
+                           topic == 10 ~ "Molecular Pathology")) %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_terms_post_topics <- tidy_lda_post %>%
+  filter(term != "disease" & term != "alzheimers") %>% 
+  mutate(topic = case_when(topic == 1 ~ "Treatments",
+                           topic == 2 ~ "Epidemiology",
+                           topic == 3 ~ "Research",
+                           topic == 4 ~ "AD Diagnosis",
+                           topic == 5 ~ "Publications",
+                           topic == 6 ~ "Research",
+                           topic == 7 ~ "Molecular Pathology",
+                           topic == 8 ~ "Genetic Risk",
+                           topic == 9 ~ "Clinical Studies",
+                           topic == 10 ~ "Cellular Pathology")) %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_terms_post_topics %>% 
+  rename(beta_post = beta) %>%
+  left_join(top_terms_pre_topics %>% 
+              rename(beta_pre = beta), by = c("term", "topic")) %>%
+  mutate(beta_change = beta_post - beta_pre) %>% 
+  filter(!is.na(beta_change)) %>%
+  ggplot(aes(x = reorder(term, beta_change), y = beta_change, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ factor(topic,
+                      levels = c("AD Diagnosis",
+                                 "Cellular Pathology",
+                                 "Genetic Risk",
+                                 "Molecular Pathology",
+                                 "Treatments"
+                      )),                                    
+                      ncol = 3, 
+                      scales = "free") +
+  scale_fill_manual(values = c("AD Diagnosis" ="purple", 
+                               "Cellular Pathology" = "cyan2",
+                               "Genetic Risk" = "darkmagenta", 
+                               "Molecular Pathology" = "lightblue1", 
+                               "Treatments" = "darkblue"
+                               )) +
+   theme(axis.title.x = element_text(size = 20),
+        strip.text = element_text(size = 12),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size = 1, 
+                                        linetype="solid")) 
+  
+```
+
+Increase in beta values for tau and amyloid
+:::
+
+## Limitations
+
+Due to our search strategy, a lot of papers contain the MeSH term 'Alzheimer's disease' may have been mentioned as a collective with other neurodegenerative diseases, therefore attributing to the high frequency for the bigrams and trigrams '*huntington’s disease*', '*parkinson’s disease*' and '*amylotropic lateral sclerosis*' (@fig-tokenisation-2 ; @fig-tokenisation-3). MeSH terms are added manually to articles in PubMed, therefore there could also be a bias when authors add these to their publications. We tried to avoid this by filtering the titles and abstracts to also contain the term '*alzheimer's disease*', '*ad*' or '*alzheimer*'. Similarly when MeSH terms were not available for the bioRxiv and medRxv databases, we used a similar search strategy to filter titles and abstraction to contain the term '*alzheimer's disease*' or '*alzheimer*', or '*ad*' and '*alzheimer's disease*'. Whilst this filtering would have biased our dataset as abstracts not containing these search terms were ommitted, we were still able to gain a large dataset of `r abstract_n` abstracts to analyse.
+
+One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the time frame used for the analysis not being long enough to account for a change in the research landscape. Previous studies have used a five-year time period to detect topics in AD literature [@Martinelli2022-ic], therefore research topics may not be changing in our two-year period. This suggests that the topics in the period after the accelerated approval of lecanemab were not different to the topics in the year before lecanemab was approved. There may be a difference comparing the literature after lecanemab approval and a larger period of time before approval, or if we followed up of the literature for several years after the lecanemab approval.
+
+We only used abstracts written in English, so we may be missing abstracts that have not been translated from other languages and concern AD.
 
 ## Conclusion
 
@@ -968,8 +1103,6 @@ The results of this study suggest that the introduction of lecanemab has not had
 # Acknowledgements {.appendix}
 
 I would like to thank my supervisor Emma Rand for her constant support and guidance throughout my project. I would also like to dedicate this project to my late granddad Alan Scrimshire who passed away on the 31st March 2023 after fighting a five year battle with Alzheimer’s Disease. I hope this project highlights the complexity of the disease and the vast efforts being undertaken to find a cure.
-
-# Appendix
 
 ```{r}
 #| label: fig-topic-model-bigrams
