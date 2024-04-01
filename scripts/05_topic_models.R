@@ -187,3 +187,187 @@ ggplot(bigram_lda_gamma, aes(gamma)) +
   labs(title = "Distribution of probabilities for all topics",
        y = "Number of documents", x = expression(gamma))
 
+{r}
+#| label: LDA Topic Model Bigrams
+#| include: false
+#| cache: true
+
+# Cast the bigram counts into a document term matrix
+bigram_dtm_pre <- bigrams_united %>%
+  filter(type == "pre-leca") %>% 
+  count(abstract, bigram) %>% 
+  cast_dtm(abstract, bigram, n) 
+
+bigram_dtm_post <- bigrams_united %>%
+  filter(type == "post-leca") %>% 
+  count(abstract, bigram) %>% 
+  cast_dtm(abstract, bigram, n)
+
+bigram_lda_pre <- LDA(bigram_dtm_pre, k = 10, control = list(seed = 1234))
+# A LDA_VEM topic model with 10 topics
+bigram_lda_post <- LDA(bigram_dtm_post, k = 10, control = list(seed = 1234))
+# A LDA_VEM topic model with 10 topics.
+
+# Interpret the model
+tidy_bigram_lda_pre <- tidy(bigram_lda_pre, 
+                            matrix = "beta")
+
+tidy_bigram_lda_post <- tidy(bigram_lda_post,
+                             matrix = "beta")
+
+# Top 10 terms per topic
+#   Not including 'neurodegenerative diseases', parkinson\'s disease' and 'cognitive impairment' as these were common to all bar one topics
+
+top_bigram_terms_pre <- tidy_bigram_lda_pre %>%
+  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease", "amyloid beta")) %>%
+  # mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+  #                          topic == 2 ~ "Protein",
+  #                          topic == 3 ~ "Something else1",
+  #                          topic == 4 ~ "Something else2",
+  #                          topic == 5 ~ "Something else3",
+  #                          topic == 6 ~ "Something else4",
+  #                          topic == 7 ~ "Something else5",
+  #                          topic == 8 ~ "Something else6",
+  #                          topic == 9 ~ "Something other",
+  #                          topic == 10 ~ "Something else7")) %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_bigram_terms_post <- tidy_bigram_lda_post %>%
+  filter(!term %in% c("neurodegenerative disease", "parkinson\'s disease")) %>%
+  # mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+  #                          topic == 2 ~ "Protein",
+  #                          topic == 3 ~ "Something else1",
+  #                          topic == 4 ~ "Something else2",
+  #                          topic == 5 ~ "Something else3",
+  #                          topic == 6 ~ "Something else4",
+  #                          topic == 7 ~ "Something else5",
+  #                          topic == 8 ~ "Something else6",
+  #                          topic == 9 ~ "Something other",
+  #                          topic == 10 ~ "Something else7")) %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+# Visualise
+top_bigram_terms_pre <- top_bigram_terms_pre %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 bigrams in each LDA topic: Pre-leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+
+
+top_bigram_terms_post <- top_bigram_terms_post %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  labs(title = "Top 10 bigrams in each LDA topic: Post-leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+
+{r}
+#| label: LDA Topic Model Trigrams
+#| include: false
+#| cache: true
+
+# Cast the bigram counts into a document term matrix
+trigram_dtm_pre <- trigrams_united %>%
+  filter(type == "pre-leca") %>% 
+  count(abstract, trigram) %>% 
+  cast_dtm(abstract, trigram, n) 
+
+trigram_dtm_post <- trigrams_united %>%
+  filter(type == "post-leca") %>% 
+  count(abstract, trigram) %>% 
+  cast_dtm(abstract, trigram, n)
+
+trigram_lda_pre <- LDA(trigram_dtm_pre, k = 10, control = list(seed = 1234))
+# A LDA_VEM topic model with 10 topics
+trigram_lda_post <- LDA(trigram_dtm_post, k = 10, control = list(seed = 1234))
+# A LDA_VEM topic model with 10 topics.
+
+# Interpret the model
+tidy_trigram_lda_pre <- tidy(trigram_lda_pre, 
+                             matrix = "beta")
+
+tidy_trigram_lda_post <- tidy(trigram_lda_post,
+                              matrix = "beta")
+
+# Top 10 terms per topic
+#   Not including 'neurodegenerative diseases', parkinson\'s disease' and 'cognitive impairment' as these were common to all bar one topics
+
+top_trigram_terms_pre <- tidy_trigram_lda_pre %>%
+  filter(!term %in% c("central nervous system", "parkinson's disease pd", "blood-brain barrier")) %>%
+  # mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+  #                        topic == 2 ~ "Protein",
+  #                        topic == 3 ~ "Something else1",
+  #                        topic == 4 ~ "Something else2",
+  #                        topic == 5 ~ "Something else3",
+  #                        topic == 6 ~ "Something else4",
+  #                        topic == 7 ~ "Something else5",
+  #                        topic == 8 ~ "Something else6",
+  #                        topic == 9 ~ "Something other",
+  #                        topic == 10 ~ "Something else7")) %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_trigram_terms_post <- tidy_trigram_lda_post %>% 
+  filter(!term %in% c("central nervous system", "parkinson's disease pd")) %>%
+  # mutate(topic = case_when(topic == 1 ~ "Mechanisms",
+  #                          topic == 2 ~ "Protein",
+  #                          topic == 3 ~ "Something else1",
+  #                          topic == 4 ~ "Something else2",
+  #                          topic == 5 ~ "Something else3",
+  #                          topic == 6 ~ "Something else4",
+  #                          topic == 7 ~ "Something else5",
+  #                          topic == 8 ~ "Something else6",
+  #                          topic == 9 ~ "Something other",
+  #                          topic == 10 ~ "Something else7")) %>% 
+  group_by(topic) %>%
+  slice_max(beta, n = 10, with_ties = FALSE) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+
+# Visualise
+top_trigram_terms_pre <- top_trigram_terms_pre %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  theme(axis.text.y = element_text(size = 8)) +
+  labs(title = "Top 10 trigrams in each LDA topic: Pre-leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
+
+
+top_trigram_terms_post <- top_trigram_terms_post %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  group_by(topic, term) %>%    
+  arrange(desc(beta)) %>%  
+  ungroup() %>%
+  ggplot(aes(beta, term, fill = as.factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  scale_y_reordered() +
+  theme(axis.text.y = element_text(size = 8)) +
+  labs(title = "Top 10 trigrams in each LDA topic: Post-leca",
+       x = expression(beta), y = NULL) +
+  facet_wrap(~ topic, ncol = 4, scales = "free")
