@@ -137,7 +137,7 @@ Due to accessing constraints, abstracts represent the only document content for 
 
 ### *litsearchR*
 
-To reassure us that the PubMed search query encapsulated all literature, *litsearchr* was used to expand the search terms [@Grames2019-as]. Citations from the PubMed results, using the previous search criteria in @tbl-inclusion-criteria, were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words, containing very frequent terms that provide no significant information, such as 'the', 'and' or 'a', were removed. The minimum frequency of words for keywords and title was then set to n = 50 and n = 75, respectively. A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The change point method calculated the optimal cutoff positions based on the trend in sharp changes for *strength*.
+To reassure us that the PubMed search query encapsulated all literature, we used *litsearchr* to automate identifying search terms and reduce bias in the initial keyword selection by using co-occurrence networks [@Grames2019-as]. Citations from the PubMed results, using the previous search criteria in @tbl-inclusion-criteria, were read into R. The combined unique keyword and titles, as not all articles have keywords, for each result were collected. To ensure only the most relevant terms were searched, stop words were removed as these contained very frequent terms that provided no significant information, such as 'the', 'and' or 'a'. The minimum frequency of words for keywords and title was then set to n = 50 and n = 75, respectively. A document-frequency matrix of each search term in each article was created and computed into a co-occurrence network using *create_network* [@Barrat2004-hm]. The potential search terms were ranked using *strength* [@Csardi2006-gb] and the change point method calculated the optimal cutoff positions where the strength of the next strongest term was greater than the previous one.
 
 ```{r}
 #| label: search-terms
@@ -146,8 +146,6 @@ To reassure us that the PubMed search query encapsulated all literature, *litsea
 
 naive_results <- import_results(file="data/pubmed-alzheimerd-set.nbib")
 naive_drug_results <- import_results(file="data/pubmed-lecanemabO-set.nbib")
-
-nrow(naive_results)
 
 keywords <- extract_terms(keywords=naive_results[, "keywords"], 
                           method="tagged", 
@@ -206,19 +204,19 @@ cutoff_fig <- ggplot(term_strengths, aes(x=rank,
                                          label=term)) +
   geom_line() +
   geom_point() +
-  geom_text(data=filter(term_strengths, rank>5), hjust="right", nudge_y=20, check_overlap=TRUE)
+  geom_text(data=filter(term_strengths, rank>5), hjust="right", nudge_y= 20, nudge_x = -5, check_overlap=TRUE)
 
 cutoff_fig
 
-# Find 80% cutoff
-cutoff_cum <- find_cutoff(g, 
-                          method="cumulative", 
-                          percent=0.8)
-
-# Add to figure
-cutoff_fig +
-  geom_hline(yintercept = cutoff_cum, 
-             linetype = "solid")
+# # Find 80% cutoff
+# cutoff_cum <- find_cutoff(g, 
+#                           method="cumulative", 
+#                           percent=0.8)
+# 
+# # Add to figure
+# cutoff_fig +
+#   geom_hline(yintercept = cutoff_cum, 
+#              linetype = "solid")
 
 # Add cutoffs for changes
 cutoff_change <- find_cutoff(g, 
@@ -459,7 +457,7 @@ summary(glm)
 
 A document term matrix (dtm) was constructed for each dataset, indicating each word’s term frequency (tf), which is a measure of how often a word appears in each abstract. To determine if a statistical model could distinguish between the text corpuses surrounding the accelerated approval date of lecanemab, a two-topic Latent Dirich Allocation (LDA) model [@Blei2003-lh] was applied to the dtm using *topicmodels* [@Grun2011-do]. The per-document-per-topic probabilities (γ) was extracted to show the proportion of words generated in each topic and how often these words appear in either corpuses.
 
-Two ten-topic LDA models were also created, one for each text corpuses, to determine the most frequent topics, where an arbitrary topic number (k) of ten was chosen. In each model the abstracts were considered mixtures of topics and each topic was considered a mixture of words. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most common words found in each topic were visualised. Topic titles were manually created and validated by a neuroscience expert.
+Two ten-topic LDA models were also created, one for each text corpuses, to determine the most frequent topics. In each model the abstracts were considered mixtures of topics and each topic was considered a mixture of words. The per-topic-per-word probabilities (β) were extracted and the top 10 terms most common words found in each topic were visualised. Topic titles were manually created and validated by a neuroscience expert.
 
 ```{r}
 #| label: Gamma LDA Topic Modelling
@@ -548,11 +546,13 @@ cutoff_fig +
         panel.background = element_blank(),
         axis.line = element_line(colour = "black",
                                  size = 1)
-        )
+        ) +
+  scale_y_continuous(limits = c(0, 000),
+                     expand = c(0,0))
 
 ```
 
-**Search query refinement using *litsearchr* identified '*alzheimer*'.** A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content. The dashed lines mark optimal cutoff positions where the trend in strength shows sharp changes.
+**Search query refinement using *litsearchr* identified '*alzheimer*'.** A matrix of each word in each article was created and the potential search terms were ranked with *create_network* and *strength* [@Barrat2004-hm] from the *igraph* package [@Csardi2006-gb]. The dashed lines mark the optimal cutoff positions where the strength of the next strongest term was greater than the previous one. The top keywords and words from the titles of AD papers, with minimum frequencies of n = 50 and n = 75, respectively, were ranked by their importance to article content then the top terms were considered to refine the original search query, adapted from Martinelli [@Martinelli2022-ic].
 :::
 
 ## Increased lecanemab publication frequency did not impact AD research topics
@@ -847,8 +847,8 @@ The rare dominantly inherited AD (DIAD) is caused by mutations in the amyloid pr
 #| fig-subcap: 
 #|   - "Pre-Lecenamab Accelerated Approval: Top 10 unigrams in each LDA topic" 
 #|   - "Post-Lecanemab Accelerated Approval: Top 10 unigrams in each LDA topic" 
-#| fig-width: 20
-#| fig-height: 15 
+##| fig-width: 20
+##| fig-height: 15
 #| fig-align: center
 
 knitr::include_graphics("plots/pre-leca-lda-updated-blue2.png")
