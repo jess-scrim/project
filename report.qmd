@@ -818,6 +818,7 @@ glm_abstracts %>% ggplot(aes(x = date, y = freq)) +
         axis.ticks = element_line(size = 1),
         panel.background = element_blank(),
         legend.position = "right",
+        legend.text = element_text(size = 11),
         axis.line = element_line(colour = "black",
                                  size = 1)
 ) +
