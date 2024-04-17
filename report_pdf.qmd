@@ -661,8 +661,8 @@ abstract_unigrams_clean %>%
   ungroup() %>% 
   ggplot(aes(reorder_within(word, n, type), n, fill = type)) +
   geom_col() +
-  labs(y = NULL) +
-  xlab("Count") +
+  labs(x = NULL) +
+  ylab("Count") +
   theme(
     # axis.title.x = element_text(size = 20),
     #     axis.title.y = element_text(size = 20),
@@ -684,7 +684,7 @@ abstract_unigrams_clean %>%
               scale = "free") +
   scale_fill_manual(values = c("black", "darkgrey")) +
   scale_x_reordered() +
-  coord_flip()
+  coord_flip() 
 
 ```
 
@@ -701,8 +701,8 @@ bigram_counts %>%
   slice_head(n = 15) %>% 
   ggplot(aes(reorder_within(bigram, n, type), n, fill = type)) +
   geom_col() +
-  labs(y = NULL) +
-  xlab("Count") +
+  labs(x = NULL) +
+  ylab("Count") +
   theme(
     # axis.title.x = element_text(size = 20),
     #     axis.title.y = element_text(size = 20),
@@ -777,8 +777,8 @@ trigram_counts %>%
   slice_head(n = 15) %>%
   ggplot(aes(reorder_within(trigram, n, type), n, fill = type)) +
   geom_col() +
-  labs(y = NULL) +
-  xlab("Count") +
+  labs(x = NULL) +
+  ylab("Count") +
   theme(
 # axis.title.x = element_text(size = 20),
 #         axis.title.y = element_text(size = 20),
