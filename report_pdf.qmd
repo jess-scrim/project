@@ -17,6 +17,7 @@ format:
     fig-pos: 'H'
     papersize: A4
     mainfont: Arial
+    linestretch: 1.5
     geometry:
       - top=20mm
       - left=25mm
