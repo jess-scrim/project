@@ -493,7 +493,7 @@ The final dataset contained `r abstract_n` abstracts that were published between
 
 Our initial search query was refined using *litsearchr* [@Grames2019-as] to determine the most important terms to the articles ranked by their strength ([@fig-ad-search-terms]). We disregarded '*alzheimer's disease*' as this MeSH term was included in the original search query, but we updated the PubMed search query with '*alzheimer*' ([@tbl-inclusion-criteria]). We omitted the unigram '*disease*' as this term was too broad and may have encapsulated articles concerning other irrelevant neurodegenerative diseases into our query. We included English articles only, which are estimated to be about 75% of the scientific literature [@Montgomery2013-sz].
 
-Due to our search strategy, a lot of papers containing the MeSH term 'Alzheimer's disease' may have been mentioned as a collective with other neurodegenerative diseases. MeSH terms are added manually to articles in PubMed, therefore there could be an interpretive bias when authors add these to their publications. We tried to avoid this by filtering the titles and abstracts of PubMed articles to also contain the term '*alzheimer's disease*', '*ad*' or '*alzheimer*'. Similarly when MeSH terms were not available for the bioRxiv and medRxv databases, we used a similar search strategy to filter titles and abstract text to contain the term '*alzheimer's disease*' or '*alzheimer*', or '*ad*' and '*alzheimer's disease*'. This filtering may have biased our dataset as abstracts not containing these search terms were omitted despite the full article text potentially concerning AD, however abstract text has previously been used to identify themese in AD literature [@Guan2019-pz]. We would, however, suggest that further studies use full article text to help validate our findings.
+Due to our search strategy, a lot of papers containing the MeSH term 'Alzheimer's disease' may have been mentioned as a collective with other neurodegenerative diseases. MeSH terms are added manually to articles in PubMed, therefore there could be an interpretive bias when authors add these to their publications. We tried to avoid this by filtering the titles and abstracts of PubMed articles to also contain the term '*alzheimer's disease*', '*ad*' or '*alzheimer*' ([@fig-results-summary]). Similarly when MeSH terms were not available for the bioRxiv and medRxv databases, we used a similar search strategy to filter titles and abstract text to contain the term '*alzheimer's disease*' or '*alzheimer*', or '*ad*' and '*alzheimer's disease*'. This filtering may have biased our dataset as abstracts not containing these search terms were omitted despite the full article text potentially concerning AD, however abstract text has previously successfully been used to identify themes in AD literature [@Guan2019-pz]. We would, however, suggest that further studies use full article text to help validate our findings.
 
 ::: {#fig-ad-search-terms}
 ```{r}
@@ -522,7 +522,7 @@ cutoff_fig +
 
 ## Increased lecanemab publication frequency did not impact AD research topics
 
-Lecanemab received accelerated and traditional approval in 2023 [@Office_of_the_Commissioner2023-hu; @Office_of_the_Commissioner2023-ka], however we did not find any variability in the overall frequency of literature published containing the MeSH term '*Alzheimer's Disease*', with 3,468 abstracts published before and 3,276 abstracts published after the accelerated approval of lecanemab ([@fig-results-summary; @fig-abstract-date]). Despite the frequency of publications containing the terms associated with the AD drug lecanemab exponentially increasing in 2023 ([@fig-leca-date]), there was no significant difference between the per-document-per-topic probabilities (γ) for the two-topic LDA models ([@fig-gamma-lda]). This suggests that the increase in abstracts concerning lecanemab did not separate the literature into two distinct topics based on differing themes.
+Lecanemab received accelerated and traditional approval in 2023 [@Office_of_the_Commissioner2023-hu; @Office_of_the_Commissioner2023-ka], however we did not find any variability in the overall frequency of literature published containing the MeSH term '*Alzheimer's Disease*', with 3,468 abstracts published before and 3,276 abstracts published after the accelerated approval of lecanemab ([@fig-results-summary; @fig-abstract-date]). Despite the frequency of publications containing the terms associated with the AD drug lecanemab exponentially increasing in 2023 ([@fig-leca-date]), there was no significant difference between the per-document-per-topic probabilities (γ) for the two-topic LDA models ([@fig-gamma-lda]). This suggests that the increase in abstracts concerning lecanemab did not separate the literature into two distinct topics based on differing themes. 
 
 ::: {#fig-publication-date}
 ```{r}
@@ -602,45 +602,10 @@ naive_drug_results %>%
 **Increase in lecanemab publications does not change AD publication frequency.** Distribution of articles published over time containing (A) the MeSH term ‘Alzheimer’s Disease’ in the title and/or abstract (n = `r abstract_n`) or (B) terms associated with the AD drug lecanemab: ‘*lecanemab*’, ‘*leqembi*’, ‘*BAN2401*’, and ‘*mAb158*’ (n = `r leca_n`). Black long-dashed line represented the start of our observation period. Red dashed-line represents date of lecanemab accelerated approval, `r format(as.Date(leca_approv), "%d-%m-%Y")`.
 :::
 
-One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the two-year time period being too short to account for a change in the research landscape, as previous studies have used a five-year or ten-year time period to characterise topics in AD literature [@Martinelli2022-ic: @Guan2019-pz]. Whilst no studies have compared LDA topics in two time periods, changes in AD research may take multiple years to manifest. Further research should explore a larger time period after the accelerated approval of lecanemab to conclude whether a change in the research literature can be found using topic models.
+One reason for there not being any statistical significance between the per-document-per-topic probabilities could be due to the two-year time period being too short to account for a change in the research landscape. Previous studies have used a five-year or ten-year time period to characterise topics in AD literature [@Martinelli2022-ic: @Guan2019-pz]. Whilst no studies have compared LDA topics in two time periods, changes in AD research may take multiple years to manifest. Further research should explore a larger time period after the accelerated approval of lecanemab to conclude whether a change in the research literature can be found using topic models.
 
 ::: {#fig-gamma-lda}
 ```{r}
-
-abstract_gamm %>% 
-  distinct(document, gamma, topic, date, type) %>%
-  ggplot() +
-  geom_boxplot(aes(x = type, y = gamma, fill = type),
-               alpha = 3)  +
-  facet_wrap(~ topic,
-             strip.position = "bottom") +
-  labs(y = expression(gamma)) +
-  xlab("Topic") +
-  theme(
-    # axis.title.x = element_text(size = 20),
-    #     axis.title.y = element_text(size = 20),
-    #     strip.text = element_text(size = 20),
-    #     strip.text.x = element_text(size = 15),
-        axis.text.x = element_blank(),
-       # axis.text.y = element_text(size = 15),
-        legend.position = "right",
-       # legend.title = element_text(size = 20),
-      #  legend.text = element_text(size = 15),
-        panel.background = element_blank(),
-        axis.line = element_line(colour = "black",
-                                 size = 1),
-        axis.ticks = element_blank(),
-        strip.background = element_rect(color="black", 
-                                        fill="white", 
-                                        size=1, 
-                                        linetype="solid")
-     ) +
-  scale_fill_manual(values = c("darkgray", "black"),
-                    name = "Corpus Type",
-                    limits = c("pre-leca", "post-leca"),
-                    labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")) +
-  scale_x_discrete(limits = c("pre-leca", "post-leca")) 
-
 abstract_gamm %>% 
   distinct(document, gamma, topic, date, type) %>%
   ggplot() +
@@ -679,11 +644,11 @@ abstract_gamm %>%
 **Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab**. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using *topicmodels* [@Grun2011-do]. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. n = `r abstract_n`.
 :::
 
-## "Neurodegeneration" and "cognitive impairment" are associated with AD research
+## Topics concerning "neurodegenerative diseases" and "cognitive impairment" are common before and after lecanemab approval
 
 Despite the full abstract dataset not significantly splitting into two distinct topics, we suggested this was because the language was very similar between the two corpses. We therefore explored the most common n-grams frequencies. Fourteen of the fifteen most frequent unigrams were shared between the two corpuses ([@fig-unigram]), however there were no significant differences between the unigram frequencies between the two time periods ([@fig-glm]). Similarly, fourteen of the fifteen most frequent bigrams and trigrams were shared between the two corpuses ([@fig-bigram; @fig-trigram]). This suggested that the word usage has remained consistent and indicated that the introduction of a novel anti-amyloid therapy may not have changed the research landscape. We used LDA topic modelling to see whether the terms may be distributed differently in different topics in each corpus. Identifying ten topics per corpus and the top ten keywords per topic, we found topics concerning neurodegeneration, study terminology or related to AD pathology were shared by the two corpuses ([@fig-topic-model-unigrams]).
 
-::: {#fig-tokenisation layout="[50, 50], [50,50]"}
+::: {#fig-tokenisation layout="[[100, 100], [60, 40]]"}
 ```{r}
 #| label: fig-unigram 
 #| fig-subcap:
@@ -698,11 +663,11 @@ abstract_unigrams_clean %>%
   labs(x = NULL) +
   ylab("Count") +
   theme(
-    # axis.title.x = element_text(size = 20),
-    #     axis.title.y = element_text(size = 20),
-    #     strip.text = element_text(size = 20),
-    #     axis.text.x = element_text(size = 15),
-    #     axis.text.y = element_text(size = 15),
+    axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10),
+        strip.text = element_text(size = 10),
+        axis.text.x = element_text(size = 10, angle = 45, vjust = 0.5, hjust = 0.5),
+        axis.text.y = element_text(size = 10),
         axis.ticks = element_line(size = 1),
         panel.background = element_blank(),
         legend.position = "none",
@@ -711,7 +676,8 @@ abstract_unigrams_clean %>%
         strip.background = element_rect(color="black", 
                                         fill="white", 
                                         size=1, 
-                                        linetype="solid")) +
+                                        linetype="solid")
+        ) +
   facet_wrap(~factor(type, 
                      levels=c('pre-leca','post-leca'), 
                      labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
@@ -720,6 +686,41 @@ abstract_unigrams_clean %>%
   scale_x_reordered() +
   coord_flip() 
 
+```
+```{r}
+#| label: fig-glm
+#| fig-subcap:
+#|  - "Frequency of Most Common Unigrams"
+
+glm_abstracts %>% ggplot(aes(x = date, y = freq)) +
+  geom_line(aes(color = word),
+            linewidth = 0.5) +
+  ylab("Word Frequency") +
+  xlab("Month of Publication") +
+  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
+  theme(axis.text.x = element_text(angle = 45, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+    axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10),
+        strip.text = element_text(size = 10),
+        axis.text.y = element_text(size = 10),
+        axis.ticks = element_line(size = 1),
+        legend.key = element_rect(fill = "transparent"),
+        panel.background = element_blank(),
+        legend.position = "top",
+        legend.text = element_text(lineheight = .8, size = 10), 
+        legend.key.height = unit(1, "cm"),
+        axis.line = element_line(colour = "black",
+                                 size = 1)
+) +
+  guides(color=guide_legend(nrow=4, byrow=TRUE)) +
+  scale_color_manual(values = c("lightblue1", "cyan2", "darkgreen", "darkcyan", "deepskyblue", "cornflowerblue", "blue", "darkblue", "darkmagenta", "midnightblue", "purple", "plum1", "green", "purple4"),
+                     name = "Unigram") +
+    geom_vline(xintercept = as.numeric(as.Date("2023-01-06")), 
+             linetype = "dashed", 
+             color = "red", 
+             linewidth = 1) 
 ```
 
 ```{r}
@@ -737,11 +738,11 @@ bigram_counts %>%
   labs(x = NULL) +
   ylab("Count") +
   theme(
-    # axis.title.x = element_text(size = 20),
-    #     axis.title.y = element_text(size = 20),
-    #     strip.text = element_text(size = 20),
-    #     axis.text.x = element_text(size = 15),
-    #     axis.text.y = element_text(size = 15),
+    axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10),
+        strip.text = element_text(size = 10),
+        axis.text.x = element_text(size = 10, angle = 45, vjust = 0.5, hjust = 0.5),
+        axis.text.y = element_text(size = 10),
         axis.ticks = element_line(size = 1),
          panel.background = element_blank(),
         legend.position = "none",
@@ -750,9 +751,7 @@ bigram_counts %>%
         strip.background = element_rect(color="black", 
                                         fill="white", 
                                         size=1, 
-                                        linetype="solid"),
-        # y-axis rotate 45 degrees
-        axis.text.x = element_text(angle = 45, hjust = 1)
+                                        linetype="solid")
         ) +
   facet_wrap(~factor(type, 
                      levels=c('pre-leca','post-leca'), 
@@ -762,42 +761,6 @@ bigram_counts %>%
   scale_x_reordered() +
   coord_flip()
 
-```
-
-```{r}
-#| label: fig-glm
-#| fig-subcap:
-#|  - "Frequency of Most Common Unigrams"
-
-glm_abstracts %>% ggplot(aes(x = date, y = freq)) +
-  geom_line(aes(color = word),
-            linewidth = 0.5) +
-  ylab("Word Frequency") +
-  xlab("Month of Publication") +
-  scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
-  theme(axis.text.x = element_text(angle = 45, 
-                                   vjust = 0.5, 
-                                   hjust = 0.5,
-                                  # size = 15
-                                   ),
-        # axis.title.y = element_text(size = 20),
-        # axis.title.x = element_text(size = 20),
-        # strip.text = element_text(size = 20),
-        # axis.text.y = element_text(size = 15),
-        axis.ticks = element_line(size = 1),
-        legend.key = element_rect(fill = "transparent"),
-       # legend.text = element_text(size = 5),
-        panel.background = element_blank(),
-        legend.position = "top",
-        axis.line = element_line(colour = "black",
-                                 size = 1)
-) +
-  scale_color_manual(values = c("lightblue1", "cyan2", "darkgreen", "darkcyan", "deepskyblue", "cornflowerblue", "blue", "darkblue", "darkmagenta", "midnightblue", "purple", "plum1", "green", "purple4"),
-                     name = "Unigram") +
-    geom_vline(xintercept = as.numeric(as.Date("2023-01-06")), 
-             linetype = "dashed", 
-             color = "red", 
-             linewidth = 1) 
 ```
 
 ```{r}
@@ -813,11 +776,11 @@ trigram_counts %>%
   labs(x = NULL) +
   ylab("Count") +
   theme(
-# axis.title.x = element_text(size = 20),
-#         axis.title.y = element_text(size = 20),
-#         strip.text = element_text(size = 20),
-#         axis.text.x = element_text(size = 15),
-#         axis.text.y = element_text(size = 15),
+    axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10),
+        strip.text = element_text(size = 10),
+        axis.text.x = element_text(size = 10, angle = 45, vjust = 0.5, hjust = 0.5),
+        axis.text.y = element_text(size = 10),
         axis.ticks = element_line(size = 1),
         panel.background = element_blank(),
         legend.position = "none",
