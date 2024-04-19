@@ -640,6 +640,40 @@ abstract_gamm %>%
                     limits = c("pre-leca", "post-leca"),
                     labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")) +
   scale_x_discrete(limits = c("pre-leca", "post-leca")) 
+
+abstract_gamm %>% 
+  distinct(document, gamma, topic, date, type) %>%
+  ggplot() +
+  geom_boxplot(aes(x = type, y = gamma, fill = type),
+               alpha = 3)  +
+  facet_wrap(~ topic,
+             strip.position = "bottom") +
+  labs(y = expression(gamma)) +
+  xlab("Topic") +
+  theme(
+    # axis.title.x = element_text(size = 20),
+    #     axis.title.y = element_text(size = 20),
+    #     strip.text = element_text(size = 20),
+    #     strip.text.x = element_text(size = 15),
+        axis.text.x = element_blank(),
+       # axis.text.y = element_text(size = 15),
+        legend.position = "right",
+       # legend.title = element_text(size = 20),
+      #  legend.text = element_text(size = 15),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        axis.ticks = element_blank(),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")
+     ) +
+  scale_fill_manual(values = c("darkgray", "black"),
+                    name = "Corpus Type",
+                    limits = c("pre-leca", "post-leca"),
+                    labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")) +
+  scale_x_discrete(limits = c("pre-leca", "post-leca")) 
 ```
 
 **Two topic LDA model does not distinguish change in literature around accelerated approval date of Lecanemab**. A document term matrix (dtm) was constructed for the unigram dataset and a two topic LDA model was applied to the dtm using *topicmodels* [@Grun2011-do]. Boxplots show first and third quartiles, median and outlier per-document-per-topic probabilities, γ. Corpus type was determined based on accelerated approval date for lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. n = `r abstract_n`.
@@ -649,11 +683,11 @@ abstract_gamm %>%
 
 Despite the full abstract dataset not significantly splitting into two distinct topics, we suggested this was because the language was very similar between the two corpses. We therefore explored the most common n-grams frequencies. Fourteen of the fifteen most frequent unigrams were shared between the two corpuses ([@fig-unigram]), however there were no significant differences between the unigram frequencies between the two time periods ([@fig-glm]). Similarly, fourteen of the fifteen most frequent bigrams and trigrams were shared between the two corpuses ([@fig-bigram; @fig-trigram]). This suggested that the word usage has remained consistent and indicated that the introduction of a novel anti-amyloid therapy may not have changed the research landscape. We used LDA topic modelling to see whether the terms may be distributed differently in different topics in each corpus. Identifying ten topics per corpus and the top ten keywords per topic, we found topics concerning neurodegeneration, study terminology or related to AD pathology were shared by the two corpuses ([@fig-topic-model-unigrams]).
 
-::: {#fig-tokenisation layout="[60, 60], [40,40]"}
+::: {#fig-tokenisation layout="[50, 50], [50,50]"}
 ```{r}
 #| label: fig-unigram 
 #| fig-subcap:
-#|  - "Frequency of Unigram"
+#|  - "Unigram"
 abstract_unigrams_clean %>% 
   group_by(type) %>%
   count(word, sort = TRUE) %>%
@@ -688,11 +722,10 @@ abstract_unigrams_clean %>%
 
 ```
 
-
 ```{r}
 #| label: fig-bigram
 #| fig-subcap:
-#|  - "Frequency of Bigram"
+#|  - "Bigram"
 
 
 bigram_counts %>% 
@@ -734,7 +767,7 @@ bigram_counts %>%
 ```{r}
 #| label: fig-glm
 #| fig-subcap:
-#|  - "Frequency of Top Unigrams Over Time"
+#|  - "Frequency of Most Common Unigrams"
 
 glm_abstracts %>% ggplot(aes(x = date, y = freq)) +
   geom_line(aes(color = word),
@@ -770,7 +803,7 @@ glm_abstracts %>% ggplot(aes(x = date, y = freq)) +
 ```{r}
 #| label: fig-trigram
 #| fig-subcap:
-#|  - "Frequency of Trigram"
+#|  - "Trigram"
 
 trigram_counts %>%
   group_by(type) %>%
@@ -816,7 +849,7 @@ Genetic risk as well as other AD-related risk factors were common to LDA topics 
 
 The rare dominantly inherited AD (DIAD) is caused by mutations in the amyloid precursor protein (APP) gene and genes for the presenilin 1 and presenilin 2 proteins [@Bekris2010-rf]. We only found '*amyloid precursor protein*' referenced in the n-gram analysis, however the gene '*APOE*' occurred in LDA topics in both corpuses ([@fig-trigram; @fig-topic-model-unigrams]). Apolipoprotein E (APOE) is the most significant risk gene for late-onset AD and associated with age-related cognitive decline [@Poirier1993-bf; @Corder1993-mh].
 
-::: {#fig-topic-model-unigrams layout-ncol=1}
+::: {#fig-topic-model-unigrams layout="[50],[50]"}
 ![*Pre-Lecenamab Accelerated Approval: Top 10 unigrams in each LDA topic*](plots/pre-leca-lda-updated-blue2.png){#fig-pre-leca-lda}
 
 ![*Post-Lecenamab Accelerated Approval: Top 10 unigrams in each LDA topic*](plots/post-leca-lda-updated-blue2.png){#fig-post-leca-lda}

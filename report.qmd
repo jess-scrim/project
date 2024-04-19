@@ -693,7 +693,7 @@ abstract_gamm %>%
 
 Despite the full abstract dataset not significantly splitting into two distinct topics, we suggested this was because the language was very similar between the two corpses. We therefore explored the most common n-grams frequencies. Fourteen of the fifteen most frequent unigrams were shared between the two corpuses ([@fig-tokenisation-1]), however there were no significant differences between the unigram frequencies between the two time periods ([@fig-tokenisation-4]). Similarly, fourteen of the fifteen most frequent bigrams and trigrams were shared between the two corpuses ([@fig-tokenisation-2; @fig-tokenisation-3]). This suggested that the word usage has remained consistent and indicated that the introduction of a novel anti-amyloid therapy may not have changed the research landscape. We used LDA topic modelling to see whether the terms may be distributed differently in different topics in each corpus. Identifying ten topics per corpus and the top ten keywords per topic, we found topics concerning neurodegeneration, study terminology or related to AD pathology were shared by the two corpuses ([@fig-topic-model-unigrams]).
 
-::: {#fig-tokenisation layout-ncol=1}
+::: {#fig-tokenisation }
 ```{r}
 #| label: fig-tokenisation
 #| include: true
