@@ -12,6 +12,174 @@
   | Results & Discussion | 1779                     |
   | Abstract             | 169                      |
 
+  
+  ::: {#fig-tokenisation layout="[[50,50],[50],[50]]"}
+    ```{r}
+    #| label: fig-unigram 
+    #| height: 4in
+    #| width: 3in
+    #| fig-subcap:
+    #|  - "Unigram"
+    abstract_unigrams_clean %>% 
+      group_by(type) %>%
+      count(word, sort = TRUE) %>%
+      slice_head(n = 15) %>%
+      ungroup() %>% 
+      ggplot(aes(reorder_within(word, n, type), n, fill = type)) +
+      geom_col() +
+      labs(x = NULL) +
+      ylab("Count") +
+      theme(
+        axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10),
+        strip.text = element_text(size = 10),
+        axis.text.x = element_text(size = 10, angle = 45, vjust = 0.5, hjust = 0.5),
+        axis.text.y = element_text(size = 10),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        legend.position = "none",
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")
+      ) +
+      facet_wrap(~factor(type, 
+                         levels=c('pre-leca','post-leca'), 
+                         labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
+                 scale = "free") +
+      scale_fill_manual(values = c("black", "darkgrey")) +
+      scale_x_reordered() +
+      coord_flip() 
+    
+    ```
+    
+    ```{r}
+    #| label: fig-glm
+    #| height: 4in
+    #| width: 3.5in
+    #| fig-subcap:
+    #|  - "Frequency of Most Common Unigrams"
+    
+    glm_abstracts %>%  
+      ggplot(aes(x = date, y = freq)) +
+      geom_line(aes(color = word),
+                linewidth = 0.5) +
+      ylab("Word Frequency") +
+      xlab("Month of Publication") +
+      scale_x_date(date_breaks = "6 months", date_labels = "%m/%Y") +
+      theme(axis.text.x = element_text(angle = 45, 
+                                       vjust = 0.5, 
+                                       hjust = 0.5),
+            # axis.title.x = element_text(size = 10),
+            # axis.title.y = element_text(size = 10),
+            # strip.text = element_text(size = 10),
+            # axis.text.y = element_text(size = 10),
+            axis.ticks = element_line(size = 1),
+            legend.key = element_rect(fill = "transparent"),
+            panel.background = element_blank(),
+            legend.position = "top",
+            legend.text = element_text(lineheight = .2, size = 10), 
+            legend.key.height = unit(1, "cm"),
+            axis.line = element_line(colour = "black",
+                                     size = 1)
+      ) +
+      guides(color=guide_legend(nrow=3, byrow=TRUE)) +
+      scale_color_manual(values = c("lightblue1", "cyan2", "darkgreen", "darkcyan", "deepskyblue", "cornflowerblue", "blue", "darkblue", "darkmagenta", "midnightblue", "purple", "plum1", "green", "purple4"),
+                         name = "Unigram") +
+      geom_vline(xintercept = as.numeric(as.Date("2023-01-06")), 
+                 linetype = "dashed", 
+                 color = "red", 
+                 linewidth = 1) 
+    ```
+    
+    ```{r}
+    #| label: fig-bigram
+    #| height: 4in
+    #| width: 3in
+    #| fig-subcap:
+    #|  - "Bigram"
+    
+    
+    bigram_counts %>% 
+      filter(bigram != "alzheimers disease" & bigram != "95 ci") %>% 
+      group_by(type) %>%
+      slice_head(n = 15) %>% 
+      ggplot(aes(reorder_within(bigram, n, type), n, fill = type)) +
+      geom_col() +
+      labs(x = NULL) +
+      ylab("Count") +
+      theme(
+        axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10),
+        strip.text = element_text(size = 10),
+        axis.text.x = element_text(size = 10, angle = 45, vjust = 0.5, hjust = 0.5),
+        axis.text.y = element_text(size = 10),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        legend.position = "none",
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")
+      ) +
+      facet_wrap(~factor(type, 
+                         levels=c('pre-leca','post-leca'), 
+                         labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
+                 scale = "free") +
+      scale_fill_manual(values = c("black", "darkgrey")) +
+      scale_x_reordered() +
+      coord_flip()
+    
+    ```
+    
+    ```{r}
+    #| label: fig-trigram
+    #| height: 4in
+    #| width: 3in
+    #| fig-subcap:
+    #|  - "Trigram"
+    
+    trigram_counts %>%
+      group_by(type) %>%
+      slice_head(n = 15) %>%
+      ggplot(aes(reorder_within(trigram, n, type), n, fill = type)) +
+      geom_col() +
+      labs(x = NULL) +
+      ylab("Count") +
+      theme(
+        axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 10),
+        strip.text = element_text(size = 10),
+        axis.text.x = element_text(size = 10, angle = 45, vjust = 0.5, hjust = 0.5),
+        axis.text.y = element_text(size = 10),
+        axis.ticks = element_line(size = 1),
+        panel.background = element_blank(),
+        legend.position = "none",
+        axis.line = element_line(colour = "black",
+                                 size = 1),
+        strip.background = element_rect(color="black", 
+                                        fill="white", 
+                                        size=1, 
+                                        linetype="solid")) +
+      facet_wrap(~factor(type, 
+                         levels=c('pre-leca','post-leca'), 
+                         labels = c("Pre-Lecanemab\n Accelerated Approval", "Post-Lecanemab\n Accelerated Approval")), 
+                 scale = "free") +
+      scale_fill_manual(values = c("black", "darkgrey"))+
+      scale_x_reordered() +
+      coord_flip()
+    
+    ```
+    
+    
+    **Literature use before and after the accelerated approval of lecanemab.** Abstract text for `r abstract_n` abstracts was tokenised and stop words were removed. Corpus type was determined based on the accelerated approval date for lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. The 15 most frequent (a) unigrams, (c) bigrams and (d) trigrams along with (b) the distribution by month of the top 14 shared most frequent unigrams for both corpuses. Dashed-line represents the accelerated approval date of lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. ns p >0.05, Generalised Linear Model.
+    :::  
+  
+  
 ## Distribution of search terms
 There were `r nrow(filter(naive_drug_results, naive_drug_results$title %in% abstracts$title))` papers published between `r min(format(as.Date(naive_drug_results$date_published, format = "%Y %b %d"),"%d-%m-%Y"), na.rm = T)` and `r max(format(as.Date(naive_drug_results$date_published, format = "%Y %b %d"),"%d-%m-%Y"), na.rm = T)` that contained the identified terms.
 

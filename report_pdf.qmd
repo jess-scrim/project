@@ -47,8 +47,10 @@ leca_n <- naive_drug_results %>%
   distinct(title) %>% count() %>% pull(n)
 ```
 
-::: {fig-uniofyork}
-![](data/uniofyork.png){height="2.5in"}
+::: {layout-ncol=1}
+![](plots/forgetmenot.jpeg){fig-align="center" width="0.45in"}
+
+![](data/uniofyork.png){fig-align="center" height="2in"}
 :::
 
 # Abstract (210 words)
