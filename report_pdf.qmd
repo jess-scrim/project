@@ -55,7 +55,7 @@ leca_n <- naive_drug_results %>%
 
 # Abstract (210 words)
 
-Every year thousands of scientific articles are published concerning the chronic neurodegenerative disorder and leading cause of dementia, Alzheimer’s disease (AD). Systematic reviews for AD research are labour intensive, and limit the timely dissemination of information. *In silico* machine learning methods for text analysis are unbiased and have previously been used to comprehensively describe the AD research landscape. Currently there are no treatments that cure AD, however, the second anti-amyloid disease-modifying immunotherapy, lecanemab, was granted accelerated approval by the FDA on `r format(as.Date(leca_approv), "%d-%m-%Y")`. To determine whether the accelerated approval of lecanemab represented a major paradigm shift in AD research, full abstract text from PubMed and preprint databases, for 3,468 and 3,276 abstracts, from the one-year periods before and after, respectively, were analysed using n-gram frequency analysis and latent Dirichet allocation (LDA) topic modelling. The number of publications concerning lecanemab increased in 2023, however the language use remained similar. Two ten-topic LDA models were compared and research themes mentioning genetic risk, study terminology, cellular and molecular pathologies, AD diagnosis and treatments were consistently reported. The per-topic-per-word probabilities for '*tau*' and '*placebo*' increased in the latter LDA model, however, a longer follow up period will be necessary to validate whether AD research is shifting towards new therapeutic targets and advances in later phase clinical trials.
+Every year thousands of scientific articles are published concerning the chronic neurodegenerative disorder and leading cause of dementia, Alzheimer’s disease (AD). Systematic reviews for AD research are labour intensive, and limit the timely dissemination of information. *In silico* machine learning methods for text analysis are unbiased and have previously been used to comprehensively describe the AD research landscape. Currently there are no treatments that cure AD, however, the second anti-amyloid disease-modifying immunotherapy, lecanemab, was granted accelerated approval by the FDA on `r format(as.Date(leca_approv), "%d-%m-%Y")`. To determine whether the accelerated approval of lecanemab represented a major paradigm shift in AD research, full abstract text from PubMed and preprint databases, for 3,468 and 3,276 abstracts, from the one-year periods before and after, respectively, were analysed using n-gram frequency analysis and latent Dirichet allocation (LDA) topic modelling. The number of publications concerning lecanemab increased in 2023, however the language use remained similar, with neurodegenerative diseases being commonly discussed with AD. Comparing two ten-topic LDA models, research themes surrounding lecanemab's approval concerned *study terminology* and *treatments* and the per-topic-per-word probabilities for '*tau*' and '*placebo*' increased in the latter LDA model. A longer follow up period will be necessary to validate whether AD research is shifting towards new therapeutic targets and advances in later phase clinical trials, however this has increased the efficiency of disseminating large quantities of text data in the AD literature.
 
 {{< pagebreak >}}
 
@@ -694,9 +694,9 @@ Abnormal protein aggregates are common to many of the age-related neurodegenerat
 
 ![*Frequency of Most Common Unigrams*](plots/unigram_glm.png){#fig-glm fig-align="right" width="3.5in"}
 
-![*Bigram*](plots/bigram_freq.png){#fig-bigram fig-align="center" width="5.33in"}
+![*Bigram*](plots/bigram_freq.png){#fig-bigram fig-align="center" width="4.98in"}
 
-![*Trigram*](plots/trigram_freq.png){#fig-trigram fig-align="center" width="5.33in"}
+![*Trigram*](plots/trigram_freq.png){#fig-trigram fig-align="center" width="4.98in"}
 
 **Literature use before and after the accelerated approval of lecanemab.** Abstract text for `r abstract_n` abstracts was tokenised and stop words were removed. Corpus type was determined based on the accelerated approval date for lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. Frequency analysis identified the (a) 15 most common unigrams, and (b) their distribution by month of the top 14 shared most frequent unigrams for both corpuses. Dashed-line represents the accelerated approval date of lecanemab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. ns p \>0.05, generalised linear model. The frequency of the 15 most common (c) bigrams and (d) trigrams after mapping was also reported, as many unigrams appeared in pairs or triplets of words.
 :::
@@ -725,7 +725,7 @@ In conclusion, we conducted text analysis to compare the AD research themes befo
 **LDA topic models concern neurodegeneration, study terminology and pathology surrounding lecanemab accelarated approval.** Outputs from the ten-topic LDA model for abstracts published (a) before and (b) after the accelerated approval date of lecenamab, `r format(as.Date(leca_approv), "%d-%m-%Y")`. The top 10 unigrams per topic are ordered by their per-topic-per-word probability, β. Topic titles were manually created and validated with a neuroscience expert. Topic colours matched when the same topic was identified in (a) then (b).
 :::
 
-Word Count: 3974
+Word Count: 3901
 
 # Acknowledgements {.appendix}
 
