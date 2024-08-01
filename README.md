@@ -2,6 +2,6 @@
 
 Full text articles can be found here:
 
-- [Quarto Doc](https://js3192.github.io/project/report.html)
+- [Quarto Doc](https://jess-scrim.github.io/project/report.html)
 
-- [PDF Doc](https://js3192.github.io/project/report_pdf.pdf)
+- [PDF Doc](https://jess-scrim.github.io/project/report_pdf.pdf)
